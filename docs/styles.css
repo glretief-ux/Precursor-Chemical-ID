@@ -5,14 +5,6 @@
   --ok:#067647; --ok-bg:#d3f8df; --warn:#93370d; --warn-bg:#fef0c7; --bad:#b42318; --bad-bg:#fee4e2;
   --radius:14px;
 }
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#0e1116; --card:#171b22; --ink:#e8ecf2; --muted:#9aa4b2; --line:#2a313c;
-    --brand:#0b2745; --accent:#58a6ff;
-    --t1:#ffb4ab; --t1-bg:#4a1d19; --t2:#ffd48a; --t2-bg:#47320c; --ns:#9ecbff; --ns-bg:#14304f;
-    --ok:#7ee2a8; --ok-bg:#0f3a25; --warn:#ffd48a; --warn-bg:#47320c; --bad:#ffb4ab; --bad-bg:#4a1d19;
-  }
-}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Verdana,Geneva,"DejaVu Sans",sans-serif}
@@ -101,11 +93,6 @@ button.primary{background:var(--brand)}
 .res-head h2{color:var(--brand);font-size:1.02rem}
 .badge{border-radius:5px}
 th{letter-spacing:.04em;text-transform:uppercase;font-size:.72rem}
-@media (prefers-color-scheme: dark){
-  .brand{background:#fff}
-  label,.card h3,.res-head h2{color:#9ecbff}
-  button.primary{background:var(--accent)}
-}
 
 /* controls & permits */
 .flow{list-style:none;margin:0 0 12px;padding:0}
@@ -116,4 +103,22 @@ th{letter-spacing:.04em;text-transform:uppercase;font-size:.72rem}
 .fbody p{margin:.3em 0}
 .doc{font-size:.85rem;color:var(--muted)}
 .plain-table td:first-child{white-space:nowrap}
-@media (prefers-color-scheme: dark){.fbody h4{color:#9ecbff}.step{background:var(--accent)}}
+
+/* ---- white page, blue bars, white writing ---- */
+:root{color-scheme:light;--bg:#ffffff;--card:#ffffff;--line:#d3dcea;--brand:#1a56a0;--accent:#1a56a0;--ink:#16202e}
+body{background:#fff}
+.bar{background:#1a56a0;background-image:none}
+.bar,.bar h1,.bar .sub,.bar .tabs button{color:#fff}
+.bar .tabs button{opacity:.85}
+.bar .tabs button[aria-selected="true"]{opacity:1;border-bottom-color:#fff}
+.brand{background:#fff;border-bottom:3px solid #1a56a0}
+.brand-txt{color:#1a56a0}
+input,select{background:#fff;border:1px solid #b9c7dc}
+.card{box-shadow:0 1px 4px rgba(26,86,160,.10)}
+button.primary{background:#1a56a0;color:#fff}
+button.secondary{color:#1a56a0;border-color:#1a56a0}
+th{background:#1a56a0;color:#fff}
+.step{background:#1a56a0;color:#fff}
+.chip{background:#eef3fa;border-color:#c5d4ea;color:#1a56a0}
+label,.card h3,.res-head h2,.fbody h4{color:#1a56a0}
+tr.click:hover td{background:#eef3fa}
