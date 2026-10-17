@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Precursor Chemical ID – Law Enforcement Reference</title>
+<meta name="description" content="Identify drug precursors and chemicals used in illicit drug manufacture by CAS number, UN number, HS code or name, and check a chemical sticker's manufacturer.">
+<style>
+:root{
+  --bg:#f5f6f8; --card:#ffffff; --ink:#14181f; --muted:#5a6472; --line:#dde1e7;
+  --brand:#14365d; --brand-ink:#ffffff; --accent:#1f6feb;
+  --t1:#b42318; --t1-bg:#fee4e2; --t2:#b54708; --t2-bg:#fef0c7; --ns:#175cd3; --ns-bg:#d1e9ff;
+  --ok:#067647; --ok-bg:#d3f8df; --warn:#93370d; --warn-bg:#fef0c7; --bad:#b42318; --bad-bg:#fee4e2;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0e1116; --card:#171b22; --ink:#e8ecf2; --muted:#9aa4b2; --line:#2a313c;
+    --brand:#0b2745; --accent:#58a6ff;
+    --t1:#ffb4ab; --t1-bg:#4a1d19; --t2:#ffd48a; --t2-bg:#47320c; --ns:#9ecbff; --ns-bg:#14304f;
+    --ok:#7ee2a8; --ok-bg:#0f3a25; --warn:#ffd48a; --warn-bg:#47320c; --bad:#ffb4ab; --bad-bg:#4a1d19;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.top{background:var(--brand);color:var(--brand-ink);padding:max(12px,env(safe-area-inset-top)) 0 0;position:sticky;top:0;z-index:5;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+.top h1{font-size:1.25rem;margin:8px 0 2px;letter-spacing:.2px}
+.top .sub{margin:0 0 8px;font-size:.85rem;opacity:.9}
+.tabs{display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:0}
+.tabs button{flex:0 0 auto;background:transparent;border:0;color:inherit;padding:10px 14px;font-size:.95rem;cursor:pointer;border-bottom:3px solid transparent;opacity:.8}
+.tabs button[aria-selected="true"]{opacity:1;border-bottom-color:#fff;font-weight:600}
+main{padding-top:14px;padding-bottom:30px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:0 0 12px}
+.card h3{margin:.2em 0 .5em;font-size:1.05rem}
+label{display:block;font-weight:600;font-size:.88rem;margin:10px 0 4px}
+.hint{font-weight:400;color:var(--muted);font-size:.8rem}
+.hint2{color:var(--muted);font-size:.85rem;margin:.2em 0 .6em}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;min-height:44px}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:520px){.row{grid-template-columns:1fr}}
+button.primary,button.secondary{font:inherit;border-radius:10px;padding:11px 16px;min-height:44px;cursor:pointer;margin-top:12px}
+button.primary{background:var(--accent);color:#fff;border:0;font-weight:600}
+button.secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chip{background:var(--bg);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:5px 11px;font-size:.82rem;cursor:pointer}
+.chip.drug{cursor:default;background:transparent}
+.count{color:var(--muted);font-size:.85rem;margin:6px 4px}
+.lead{margin:.2em 0}
+.res{padding:0;overflow:hidden}
+.res-head{padding:12px 16px 4px}
+.res-head h2{font-size:1.08rem;margin:0 0 6px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:3px 9px;font-size:.8rem;font-weight:600;border:1px solid transparent;font-variant-numeric:tabular-nums}
+.b-t1{background:var(--t1-bg);color:var(--t1)}
+.b-t2{background:var(--t2-bg);color:var(--t2)}
+.b-ns{background:var(--ns-bg);color:var(--ns)}
+.b-id{background:var(--bg);border-color:var(--line);color:var(--ink)}
+.b-id small{color:var(--muted);font-weight:500}
+.copy{background:none;border:0;color:var(--accent);cursor:pointer;font-size:.78rem;padding:0 0 0 2px}
+.res-body{padding:4px 16px 12px}
+dl{margin:.4em 0;display:grid;grid-template-columns:110px 1fr;gap:4px 10px}
+dt{color:var(--muted);font-size:.85rem}
+dd{margin:0}
+@media (max-width:520px){dl{grid-template-columns:1fr}dt{margin-top:6px}}
+.verdict{margin:0;padding:10px 16px;border-top:1px solid var(--line);font-size:.92rem}
+.v-ok{background:var(--ok-bg);color:var(--ok)}
+.v-warn{background:var(--warn-bg);color:var(--warn)}
+.v-bad{background:var(--bad-bg);color:var(--bad)}
+.v-info{background:var(--bg);color:var(--muted)}
+.verdict b{display:block}
+.checks{list-style:none;margin:0;padding:0}
+.checks li{display:flex;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line)}
+.checks li:last-child{border-bottom:0}
+.ic{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.ic.ok{background:var(--ok-bg);color:var(--ok)}
+.ic.warn{background:var(--warn-bg);color:var(--warn)}
+.ic.bad{background:var(--bad-bg);color:var(--bad)}
+.ic.info{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.plain{padding-left:1.1em;margin:.3em 0}
+.plain li{margin:.35em 0}
+.table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--bg);position:sticky;top:0;font-size:.8rem;color:var(--muted)}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.click{cursor:pointer}
+tr.click:hover td{background:var(--bg)}
+a{color:var(--accent)}
+.foot{color:var(--muted);font-size:.78rem;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+.small{font-size:.85rem;color:var(--muted)}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Precursor Chemical ID</h1>
+    <p class="sub">Identify a chemical by <b>CAS</b>, <b>UN number</b>, <b>HS code</b> or <b>name</b> — and check the <b>company on the sticker</b>.</p>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">Search</button>
+      <button role="tab" id="tab-label" aria-selected="false" aria-controls="panel-label">Label check</button>
+      <button role="tab" id="tab-browse" aria-selected="false" aria-controls="panel-browse">Browse all</button>
+      <button role="tab" id="tab-about" aria-selected="false" aria-controls="panel-about">About &amp; sources</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- SEARCH -->
+  <section id="panel-search" role="tabpanel" aria-labelledby="tab-search">
+    <div class="card form">
+      <label for="q">Chemical <span class="hint">name, synonym, CAS (108-24-7), UN (UN1715 / 1715), HS (2915.24)</span></label>
+      <input id="q" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. acetic anhydride · 103-79-7 · UN1090 · P2P · pseudoephedrine">
+
+      <label for="company">Company on the sticker <span class="hint">optional – checks whether this company is known to produce/supply the chemical</span></label>
+      <input id="company" type="search" autocomplete="off" spellcheck="false" placeholder="e.g. INEOS · Sigma-Aldrich · Malladi">
+
+      <div class="row">
+        <div>
+          <label for="f-regime">Control status</label>
+          <select id="f-regime">
+            <option value="">All</option>
+            <option value="T1">INCB Table I</option>
+            <option value="T2">INCB Table II</option>
+            <option value="NS">Not scheduled (monitored)</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-drug">Used for making</label>
+          <select id="f-drug"><option value="">Any drug</option></select>
+        </div>
+      </div>
+      <div class="chips" id="examples" aria-label="Examples"></div>
+    </div>
+    <p id="count" class="count" aria-live="polite"></p>
+    <div id="results"></div>
+  </section>
+
+  <!-- LABEL CHECK -->
+  <section id="panel-label" role="tabpanel" aria-labelledby="tab-label" hidden>
+    <div class="card form">
+      <p class="lead">Enter whatever is printed on the container label. The tool cross-checks the details against each other and against the database.</p>
+      <label for="l-name">Product name on label</label>
+      <input id="l-name" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. Acetone">
+      <div class="row">
+        <div>
+          <label for="l-cas">CAS number</label>
+          <input id="l-cas" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="67-64-1">
+        </div>
+        <div>
+          <label for="l-un">UN number</label>
+          <input id="l-un" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="UN1090">
+        </div>
+      </div>
+      <label for="l-company">Manufacturer / company on label</label>
+      <input id="l-company" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. INEOS Phenol">
+      <button id="l-run" class="primary" type="button">Check label</button>
+    </div>
+    <div id="l-result"></div>
+    <div class="card">
+      <h3>Field checklist for suspicious labels</h3>
+      <ul class="plain">
+        <li>Does the hazard class / pictogram match the chemical (e.g. flammable for solvents, corrosive for acids)?</li>
+        <li>Is the CAS check digit valid, and does the CAS match the product name on the same label?</li>
+        <li>Does the company address, telephone and website exist and match the stated country of origin?</li>
+        <li>Lot/batch number, date and purity present? Printed professionally or stuck-on / hand-written?</li>
+        <li>Does the declared goods description and HS code on the shipping documents match the label?</li>
+        <li>Is the quantity or purity unusual for the declared use (e.g. drums of a reagent-grade lab chemical)?</li>
+        <li>For scheduled chemicals: ask for the import/export authorisation and end-user declaration.</li>
+        <li><b>A label is never proof of contents</b> – confirm with a field test or laboratory analysis and secure samples under chain of custody.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BROWSE -->
+  <section id="panel-browse" role="tabpanel" aria-labelledby="tab-browse" hidden>
+    <div class="card form">
+      <div class="row">
+        <div>
+          <label for="b-filter">Filter list</label>
+          <input id="b-filter" type="search" autocomplete="off" placeholder="type to filter…">
+        </div>
+        <div>
+          <label for="b-regime">Control status</label>
+          <select id="b-regime">
+            <option value="">All</option>
+            <option value="T1">INCB Table I</option>
+            <option value="T2">INCB Table II</option>
+            <option value="NS">Not scheduled</option>
+          </select>
+        </div>
+      </div>
+      <button id="b-csv" class="secondary" type="button">Download CSV</button>
+    </div>
+    <p id="b-count" class="count"></p>
+    <div class="table-wrap">
+      <table id="b-table">
+        <thead><tr><th>Chemical</th><th>CAS</th><th>UN</th><th>HS</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="panel-about" role="tabpanel" aria-labelledby="tab-about" hidden>
+    <div class="card">
+      <h3>What this is</h3>
+      <p>A quick-reference tool for officers (customs, police, forensic and regulatory staff) to identify drug precursors and other chemicals frequently used in illicit drug manufacture, and to sanity-check what is printed on a container sticker.</p>
+      <p><b>Scheduled chemicals:</b> every substance in Tables I and II of the 1988 UN Convention as listed in the <a href="https://www.incb.org/incb/en/precursors/red-list.html" target="_blank" rel="noopener">INCB Red List</a> (23rd edition, July 2025), with CAS, HS code and – where one exists – UN transport number.</p>
+      <p><b>Non-scheduled chemicals:</b> substances widely reported as substitutes or reagents in clandestine laboratories (e.g. red phosphorus, iodine, benzyl cyanide, GBL, common solvents). The INCB's full limited International Special Surveillance List (ISSL) is restricted to governments and is <u>not</u> reproduced here.</p>
+      <p id="meta"></p>
+    </div>
+    <div class="card">
+      <h3>Limits you must know about</h3>
+      <ul class="plain">
+        <li>Salts, isomers and preparations of Table I/II substances are controlled but have <b>different CAS numbers</b>. A CAS that is not listed may still be a controlled salt – check <i>other CAS</i> and the INCB conversion table.</li>
+        <li>Many entries have <b>no dedicated UN number</b> because they are not dangerous goods in transport; a missing UN is not suspicious by itself.</li>
+        <li>The company list is <b>small, indicative and not exhaustive</b>. "Not in database" does not mean "fake", and "known producer" does not mean the product is genuine – counterfeit and re-labelled containers exist.</li>
+        <li>Legal status differs by country. Check national law (and regional rules, e.g. EU Regulations 273/2004 and 111/2005) before acting.</li>
+        <li>This is a reference aid, not legal advice, and no substitute for forensic identification.</li>
+      </ul>
+    </div>
+    <div class="card form">
+      <h3>My companies (saved on this device only)</h3>
+      <p class="hint2">Add producers/suppliers you have verified yourself. They are stored in this browser and used in the sticker check. Use <b>Export</b> to share them via a pull request.</p>
+      <label for="u-name">Company name</label>
+      <input id="u-name" type="text" autocomplete="off" placeholder="e.g. Example Chemicals Ltd">
+      <div class="row">
+        <div>
+          <label for="u-type">Type</label>
+          <select id="u-type"><option>producer</option><option>supplier</option><option>distributor</option></select>
+        </div>
+        <div>
+          <label for="u-country">Country</label>
+          <input id="u-country" type="text" autocomplete="off" placeholder="e.g. Belgium">
+        </div>
+      </div>
+      <label for="u-cas">CAS numbers they produce/supply <span class="hint">comma-separated</span></label>
+      <input id="u-cas" type="text" autocomplete="off" placeholder="67-64-1, 108-88-3">
+      <div class="btnrow">
+        <button id="u-add" class="primary" type="button">Add company</button>
+        <button id="u-export" class="secondary" type="button">Export JSON</button>
+      </div>
+      <p id="u-msg" class="hint2" aria-live="polite"></p>
+      <ul id="u-list" class="plain"></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  Reference aid only – verify by laboratory analysis and national law. Data: INCB Red List (public) and public-domain chemical identifiers.
+</footer>
+
+<script>
+window.CHEMICALS=[{"id": "acetic-anhydride", "name": "Acetic anhydride", "cas": "108-24-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Ethanoic anhydride", "Acetyl oxide", "Acetic oxide", "Acetyl acetate", "Anhydride acétique", "Anhídrido acético"], "un": ["UN1715"], "adr": "8 (3)", "hs": "2915.24", "category": "Precursor / reagent", "drugs": ["Heroin", "Methaqualone", "Amphetamine-type (via P2P)"], "role": "Acetylating agent; also used to convert phenylacetic acid to P2P.", "legit": "Cellulose acetate, aspirin/paracetamol, dyes, plastics, flavours.", "appearance": "Colourless, mobile liquid with a sharp vinegar-like smell; fumes in moist air.", "notes": "Most trafficked heroin precursor. Often declared as 'acetic acid anhydride' or mislabelled."}, {"id": "n-acetylanthranilic-acid", "name": "N-Acetylanthranilic acid", "cas": "89-52-1", "regime": "INCB Table I (1988 Convention)", "synonyms": ["2-Acetamidobenzoic acid", "N-AAA", "2-Acetylaminobenzoic acid", "Acide N-acétylanthranilique"], "hs": "2924.23", "category": "Precursor", "drugs": ["Methaqualone", "Mecloqualone"], "role": "Direct precursor for quinazolinone sedatives.", "legit": "Dye and pharmaceutical intermediate (limited).", "appearance": "White to off-white crystalline powder."}, {"id": "anpp", "name": "4-Anilino-N-phenethylpiperidine (ANPP)", "cas": "21409-26-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["4-ANPP", "Despropionyl fentanyl", "N-Phenyl-1-(2-phenylethyl)piperidin-4-amine", "USP Fentanyl Related Compound E"], "hs": "2933.36", "added": "2017", "category": "Precursor", "drugs": ["Fentanyl and analogues"], "role": "Late-stage precursor of fentanyl; also a fentanyl impurity/metabolite marker.", "legit": "Analytical reference standard; very limited legitimate trade.", "appearance": "White to off-white solid."}, {"id": "1-boc-4-piperidone", "name": "tert-Butyl 4-oxopiperidine-1-carboxylate (1-boc-4-piperidone)", "cas": "79099-07-3", "regime": "INCB Table I (1988 Convention)", "synonyms": ["N-Boc-4-piperidone", "1-Boc-4-piperidone", "N-(tert-butoxycarbonyl)-4-piperidone"], "hs": "2933.39", "added": "3 Dec 2024", "category": "Precursor", "drugs": ["Fentanyl and analogues"], "role": "Protected piperidone building block used upstream of fentanyl precursors.", "legit": "Pharmaceutical intermediate (many legitimate drug syntheses).", "appearance": "White to off-white crystalline solid."}, {"id": "1-boc-4-ap", "name": "tert-Butyl 4-(phenylamino)piperidine-1-carboxylate (1-boc-4-AP)", "cas": "125541-22-2", "regime": "INCB Table I (1988 Convention)", "synonyms": ["1-Boc-4-AP", "N-Boc-4-AP", "4-ANBocP", "1-Boc-4-anilinopiperidine", "Boc-4-AP"], "hs": "2933.34", "added": "23 Nov 2022", "category": "Precursor", "drugs": ["Fentanyl and analogues"], "role": "Protected 4-AP; precursor of fentanyl-type opioids.", "legit": "Limited research/pharmaceutical intermediate use.", "appearance": "White to off-white solid."}, {"id": "ephedrine", "name": "Ephedrine", "cas": "299-42-3", "regime": "INCB Table I (1988 Convention)", "synonyms": ["l-Ephedrine", "(-)-Ephedrine", "Efedrina", "Ephédrine", "Racephedrine (racemic)"], "other_cas": [{"cas": "50-98-6", "form": "Ephedrine hydrochloride"}, {"cas": "134-72-5", "form": "Ephedrine sulfate"}], "hs": "2939.41", "hs_other": "Preparations: retail 3004.41, bulk 3003.41", "category": "Precursor", "drugs": ["Methamphetamine", "Methcathinone"], "role": "Direct precursor; salts and pharmaceutical preparations are also controlled.", "legit": "Decongestant / bronchodilator medicines, hypotension treatment.", "appearance": "White crystalline powder or colourless crystals (base or salts).", "notes": "Salts have different CAS numbers; a non-listed CAS may still be a controlled salt. Check conversion factors (HCl ≈ 82% base)."}, {"id": "ergometrine", "name": "Ergometrine", "cas": "60-79-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Ergonovine", "Ergobasine", "Ergometrina", "Ergométrine"], "other_cas": [{"cas": "129-51-1", "form": "Ergometrine maleate"}], "hs": "2939.61", "category": "Precursor", "drugs": ["LSD"], "role": "Ergot alkaloid that can be converted to lysergic acid.", "legit": "Obstetric medicine (postpartum haemorrhage).", "appearance": "White to slightly yellow crystalline powder; light sensitive."}, {"id": "ergotamine", "name": "Ergotamine", "cas": "113-15-5", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Ergotamina", "Ergotamine tartrate (salt)"], "other_cas": [{"cas": "379-79-3", "form": "Ergotamine tartrate"}], "hs": "2939.62", "category": "Precursor", "drugs": ["LSD"], "role": "Ergot alkaloid that can be converted to lysergic acid.", "legit": "Migraine medicines.", "appearance": "White to yellowish crystalline powder; light sensitive."}, {"id": "isosafrole", "name": "Isosafrole", "cas": "120-58-1", "regime": "INCB Table I (1988 Convention)", "synonyms": ["5-(1-Propenyl)-1,3-benzodioxole", "1,2-(Methylenedioxy)-4-propenylbenzene", "Isosafrol"], "hs": "2932.91", "category": "Precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Precursor converted to MDP2P.", "legit": "Fragrance and flavour intermediate; insecticide synergists.", "appearance": "Colourless to pale-yellow oily liquid with anise-like odour."}, {"id": "lysergic-acid", "name": "Lysergic acid", "cas": "82-58-6", "regime": "INCB Table I (1988 Convention)", "synonyms": ["D-Lysergic acid", "9,10-Didehydro-6-methylergoline-8β-carboxylic acid", "Acide lysergique"], "hs": "2939.63", "category": "Precursor", "drugs": ["LSD"], "role": "Direct precursor of LSD.", "legit": "Essentially none outside research.", "appearance": "White to off-white crystalline solid."}, {"id": "3-4-mdp-2-p-methyl-glycidate", "name": "3,4-MDP-2-P methyl glycidate (methyl ester)", "cas": "13605-48-6", "regime": "INCB Table I (1988 Convention)", "synonyms": ["PMK glycidate", "PMK methyl glycidate", "MMDMG", "IPK-1", "3,4-MDP-2-P methyl glycidic acid, methyl ester"], "hs": "2932.99", "added": "19 Nov 2019", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "appearance": "Off-white / pale solid or oil."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid", "name": "3,4-MDP-2-P methyl glycidic acid", "cas": "2167189-50-4", "regime": "INCB Table I (1988 Convention)", "synonyms": ["PMK glycidic acid", "PMK glycidic acid (salts: IPK-2 = sodium salt)"], "hs": "2932.99", "added": "19 Nov 2019", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "appearance": "White to off-white solid.", "notes": "Salts (e.g. sodium salt) are controlled with different CAS numbers."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid-ethyl-ester", "name": "3,4-MDP-2-P methyl glycidic acid, ethyl ester", "cas": "28578-16-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["PMK ethyl glycidate", "PMK glycidate (ethyl)", "Ethyl 3-(1,3-benzodioxol-5-yl)-2-methyloxirane-2-carboxylate", "NSC 195099"], "hs": "2932.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "appearance": "Pale solid or oil."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid-propyl-ester", "name": "3,4-MDP-2-P methyl glycidic acid, propyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2932.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2932.99 'group' code."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid-isopropyl-ester", "name": "3,4-MDP-2-P methyl glycidic acid, isopropyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2932.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2932.99 'group' code."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid-butyl-ester", "name": "3,4-MDP-2-P methyl glycidic acid, butyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2932.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2932.99 'group' code."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid-isobutyl-ester", "name": "3,4-MDP-2-P methyl glycidic acid, isobutyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2932.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2932.99 'group' code."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid-sec-butyl-ester", "name": "3,4-MDP-2-P methyl glycidic acid, sec-butyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2932.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2932.99 'group' code."}, {"id": "3-4-mdp-2-p-methyl-glycidic-acid-tert-butyl-ester", "name": "3,4-MDP-2-P methyl glycidic acid, tert-butyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2932.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Designer pre-precursor that yields MDP2P (PMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2932.99 'group' code."}, {"id": "mdp2p", "name": "3,4-Methylenedioxyphenyl-2-propanone (3,4-MDP-2-P)", "cas": "4676-39-5", "regime": "INCB Table I (1988 Convention)", "synonyms": ["MDP2P", "PMK", "Piperonyl methyl ketone", "1-(1,3-Benzodioxol-5-yl)propan-2-one", "3,4-Methylenedioxyphenylacetone"], "hs": "2932.92", "category": "Precursor", "drugs": ["MDMA (ecstasy)", "MDA", "MDEA"], "role": "Direct precursor of MDMA-type drugs.", "legit": "Limited fragrance/pharmaceutical intermediate use.", "appearance": "Pale yellow to amber oily liquid."}, {"id": "mapa", "name": "Methyl alpha-phenylacetoacetate (MAPA)", "cas": "16648-44-5", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Methyl 3-oxo-2-phenylbutanoate", "Methyl 2-phenylacetoacetate", "alfa-Fenilacetoacetato de metilo"], "hs": "2918.30", "added": "3 Nov 2020", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P.", "legit": "Very limited.", "appearance": "Colourless to pale-yellow liquid."}, {"id": "norephedrine", "name": "Norephedrine (phenylpropanolamine)", "cas": "14838-15-4", "regime": "INCB Table I (1988 Convention)", "synonyms": ["PPA", "Phenylpropanolamine", "Phenylpropanolaminum", "1-Phenyl-2-amino-1-propanol", "Norefedrina"], "other_cas": [{"cas": "154-41-6", "form": "Norephedrine / phenylpropanolamine hydrochloride"}], "hs": "2939.44", "hs_other": "Preparations: retail 3004.43, bulk 3003.43", "category": "Precursor", "drugs": ["Amphetamine", "Methcathinone-type"], "role": "Direct precursor of amphetamine.", "legit": "Formerly decongestant / appetite suppressant; now limited (veterinary).", "appearance": "White crystalline powder."}, {"id": "norfentanyl", "name": "Norfentanyl", "cas": "1609-66-1", "regime": "INCB Table I (1988 Convention)", "synonyms": ["N-Phenyl-N-(piperidin-4-yl)propanamide", "Fentanyl impurity B", "4-(N-Propionanilido)piperidine"], "hs": "2933.39", "added": "23 Nov 2022", "category": "Precursor", "drugs": ["Fentanyl and analogues"], "role": "Precursor and metabolite/impurity marker of fentanyl.", "legit": "Analytical reference standard.", "appearance": "White solid."}, {"id": "npp", "name": "N-Phenethyl-4-piperidone (NPP)", "cas": "39742-60-4", "regime": "INCB Table I (1988 Convention)", "synonyms": ["1-(2-Phenylethyl)piperidin-4-one", "1-Phenethyl-4-piperidone", "N-Phénéthyl-4-pipéridone"], "hs": "2933.37", "added": "2017", "category": "Precursor", "drugs": ["Fentanyl and analogues"], "role": "Key precursor of fentanyl (via ANPP).", "legit": "Limited pharmaceutical/research use.", "appearance": "Off-white to yellow solid."}, {"id": "phenylacetic-acid", "name": "Phenylacetic acid", "cas": "103-82-2", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Benzeneacetic acid", "alpha-Toluic acid", "PAA", "2-Phenylacetic acid", "Acide phénylacétique"], "hs": "2916.34", "added": "Moved Table II→I, 17 Jan 2011", "category": "Precursor", "drugs": ["Amphetamine", "Methamphetamine (via P2P)"], "role": "Converted to P2P.", "legit": "Penicillin G production, fragrances, pharmaceuticals.", "appearance": "White to pale-yellow flaky crystals with honey-like odour."}, {"id": "apaa", "name": "alpha-Phenylacetoacetamide (APAA)", "cas": "4433-77-6", "regime": "INCB Table I (1988 Convention)", "synonyms": ["2-Phenylacetoacetamide", "alpha-Acetyl-alpha-toluamide", "BMK intermediate B", "Benzeneacetamide, α-acetyl-"], "hs": "2924.29", "added": "19 Nov 2019", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P.", "legit": "Very limited.", "appearance": "White to off-white solid."}, {"id": "apaan", "name": "alpha-Phenylacetoacetonitrile (APAAN)", "cas": "4468-48-8", "regime": "INCB Table I (1988 Convention)", "synonyms": ["2-Phenylacetoacetonitrile", "3-Oxo-2-phenylbutanenitrile", "alpha-Acetylphenylacetonitrile"], "hs": "2926.40", "added": "Mar 2014", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P.", "legit": "Very limited.", "appearance": "White to light-yellow solid."}, {"id": "4-ap", "name": "N-Phenyl-4-piperidinamine (4-AP)", "cas": "23056-29-3", "regime": "INCB Table I (1988 Convention)", "synonyms": ["4-Anilinopiperidine", "4-AP", "4-(Phenylamino)piperidine", "Despropionyl norfentanyl", "USP Fentanyl Related Compound B"], "hs": "2933.39", "added": "23 Nov 2022", "category": "Precursor", "drugs": ["Fentanyl and analogues"], "role": "Key precursor of fentanyl-type opioids.", "legit": "Limited pharmaceutical intermediate / reference standard.", "appearance": "Off-white to tan solid."}, {"id": "p2p", "name": "1-Phenyl-2-propanone (P2P / BMK)", "cas": "103-79-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Phenylacetone", "Benzyl methyl ketone", "BMK", "P2P", "Phenyl-2-propanone", "1-Fenil-2-propanona"], "hs": "2914.31", "category": "Precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Direct precursor of amphetamine-type stimulants.", "legit": "Pharmaceutical (amphetamine, appetite suppressants) and fragrance intermediate.", "appearance": "Colourless to yellow oily liquid."}, {"id": "p2p-methyl-glycidic-acid", "name": "P-2-P methyl glycidic acid", "cas": "25547-51-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["BMK glycidic acid", "BMK methyl glycidic acid", "2-Methyl-3-phenyloxirane-2-carboxylic acid"], "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "appearance": "White to off-white solid.", "notes": "Salts (e.g. sodium salt) are controlled with different CAS numbers."}, {"id": "p2p-methyl-glycidic-acid-methyl-ester", "name": "P-2-P methyl glycidic acid, methyl ester", "cas": "80532-66-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["BMK methyl glycidate", "BMK glycidate", "P-2-P methyl glycidate", "Methyl 2-methyl-3-phenyl-2-oxiranecarboxylate"], "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "appearance": "Colourless to pale-yellow liquid."}, {"id": "p2p-methyl-glycidic-acid-ethyl-ester", "name": "P-2-P methyl glycidic acid, ethyl ester", "cas": "41232-97-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["BMK ethyl glycidate", "Ethyl 2-methyl-3-phenyl-2-oxiranecarboxylate"], "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "Related compound ('strawberry aldehyde') is a flavour/fragrance — check isomer/CAS carefully.", "appearance": "Colourless to pale-yellow liquid.", "notes": "Flavour 'ethyl methylphenylglycidate' is a close relative — always confirm CAS 41232-97-7 vs. the flavour CAS before concluding."}, {"id": "p2p-methyl-glycidic-acid-propyl-ester", "name": "P-2-P methyl glycidic acid, propyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2918.99 'group' code."}, {"id": "p2p-methyl-glycidic-acid-isopropyl-ester", "name": "P-2-P methyl glycidic acid, isopropyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2918.99 'group' code."}, {"id": "p2p-methyl-glycidic-acid-butyl-ester", "name": "P-2-P methyl glycidic acid, butyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2918.99 'group' code."}, {"id": "p2p-methyl-glycidic-acid-isobutyl-ester", "name": "P-2-P methyl glycidic acid, isobutyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2918.99 'group' code."}, {"id": "p2p-methyl-glycidic-acid-sec-butyl-ester", "name": "P-2-P methyl glycidic acid, sec-butyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2918.99 'group' code."}, {"id": "p2p-methyl-glycidic-acid-tert-butyl-ester", "name": "P-2-P methyl glycidic acid, tert-butyl ester", "cas": null, "regime": "INCB Table I (1988 Convention)", "hs": "2918.99", "added": "3 Dec 2024", "category": "Pre-precursor", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Designer pre-precursor that yields P2P (BMK).", "legit": "No significant legitimate use.", "notes": "No CAS number assigned in the Red List ('n/a'): identify by name/structure, HS 2918.99 'group' code."}, {"id": "4-piperidone", "name": "4-Piperidone", "cas": "41661-47-6", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Piperidin-4-one", "4-Oxopiperidine", "4-Piperidone monohydrate hydrochloride (common salt form)"], "other_cas": [{"cas": "40064-34-4", "form": "4-Piperidone monohydrate hydrochloride"}], "hs": "2933.39", "added": "3 Dec 2024", "category": "Precursor", "drugs": ["Fentanyl and analogues"], "role": "Early building block for fentanyl precursors (e.g. NPP, 1-boc-4-piperidone).", "legit": "Pharmaceutical intermediate.", "appearance": "Usually sold as white crystalline hydrochloride monohydrate.", "notes": "Typically traded as the HCl monohydrate salt (≈65% base) — the free base CAS is rarely seen."}, {"id": "piperonal", "name": "Piperonal", "cas": "120-57-0", "regime": "INCB Table I (1988 Convention)", "synonyms": ["Heliotropin", "3,4-Methylenedioxybenzaldehyde", "1,3-Benzodioxole-5-carboxaldehyde", "Piperonaldehyde"], "hs": "2932.93", "category": "Precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Starting material converted to MDP2P.", "legit": "Fragrance / flavour (cherry-vanilla note), cosmetics.", "appearance": "White to pale-yellow crystals with sweet floral (heliotrope) odour."}, {"id": "potassium-permanganate", "name": "Potassium permanganate", "cas": "7722-64-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["KMnO4", "Condy's crystals", "Permanganate of potash", "Chameleon mineral", "Kaliumpermanganat"], "un": ["UN1490"], "adr": "5.1", "hs": "2841.61", "category": "Reagent (oxidant)", "drugs": ["Cocaine"], "role": "Oxidising agent used in cocaine refining.", "legit": "Water treatment, disinfectant, bleaching, laboratory reagent.", "appearance": "Dark purple/bronze crystals; dissolves to an intense purple solution and stains skin brown."}, {"id": "pseudoephedrine", "name": "Pseudoephedrine", "cas": "90-82-4", "regime": "INCB Table I (1988 Convention)", "synonyms": ["d-Pseudoephedrine", "(+)-Pseudoephedrine", "Isoephedrine", "Seudoefedrina", "Pseudoéphédrine"], "other_cas": [{"cas": "345-78-8", "form": "Pseudoephedrine hydrochloride"}, {"cas": "7460-12-0", "form": "Pseudoephedrine sulfate"}], "hs": "2939.42", "hs_other": "Preparations: retail 3004.42, bulk 3003.42", "category": "Precursor", "drugs": ["Methamphetamine", "Methcathinone"], "role": "Direct precursor; commonly diverted from decongestant tablets.", "legit": "Decongestant medicines (e.g. Sudafed-type brands).", "appearance": "White crystalline powder or tablets/capsules (preparations).", "notes": "Pharmaceutical preparations (blister packs, bulk tablets) are often how it is smuggled; HS 3003.42 / 3004.42."}, {"id": "safrole", "name": "Safrole", "cas": "94-59-7", "regime": "INCB Table I (1988 Convention)", "synonyms": ["5-(2-Propenyl)-1,3-benzodioxole", "4-Allyl-1,2-methylenedioxybenzene", "Shikimol", "Sassafras oil (natural source)", "Safrol"], "hs": "2932.94", "category": "Precursor", "drugs": ["MDMA (ecstasy)", "MDA"], "role": "Starting material converted to MDP2P.", "legit": "Fragrance and insecticide-synergist intermediates; occurs naturally in sassafras and other essential oils.", "appearance": "Colourless to pale-yellow oily liquid, sassafras (root-beer) smell.", "notes": "Natural oils (sassafras, 'Ocotea' / Cinnamomum camphora 'brown camphor' oils) may contain >80% safrole and should be checked."}, {"id": "acetone", "name": "Acetone", "cas": "67-64-1", "regime": "INCB Table II (1988 Convention)", "synonyms": ["2-Propanone", "Dimethyl ketone", "Propan-2-one", "Acétone", "Acetona"], "un": ["UN1090"], "adr": "3", "hs": "2914.11", "category": "Solvent", "drugs": ["Cocaine", "Heroin", "LSD", "Methamphetamine"], "role": "Extraction / washing / crystallisation solvent.", "legit": "Industrial solvent, nail-polish remover, cleaning agent, chemical feedstock.", "appearance": "Colourless, very volatile, highly flammable liquid with a sweet solvent smell."}, {"id": "anthranilic-acid", "name": "Anthranilic acid", "cas": "118-92-3", "regime": "INCB Table II (1988 Convention)", "synonyms": ["2-Aminobenzoic acid", "o-Aminobenzoic acid", "Vitamin L1", "Acide anthranilique"], "hs": "2922.43", "category": "Precursor", "drugs": ["Methaqualone", "Mecloqualone"], "role": "Starting material for quinazolinone sedatives.", "legit": "Dyes, perfumery (methyl anthranilate), UV absorbers, pharmaceuticals.", "appearance": "White to pale-yellow crystalline powder."}, {"id": "ethyl-ether", "name": "Ethyl ether (diethyl ether)", "cas": "60-29-7", "regime": "INCB Table II (1988 Convention)", "synonyms": ["Diethyl ether", "Ether", "Ethoxyethane", "Sulfuric ether", "1,1'-Oxybisethane", "Éther éthylique"], "un": ["UN1155"], "adr": "3", "hs": "2909.11", "category": "Solvent", "drugs": ["Cocaine", "Heroin", "LSD"], "role": "Extraction / purification solvent.", "legit": "Laboratory and industrial solvent, starting fluid, formerly anaesthetic.", "appearance": "Colourless, extremely flammable, volatile liquid with characteristic sweet smell; forms explosive peroxides on storage."}, {"id": "hydrochloric-acid", "name": "Hydrochloric acid", "cas": "7647-01-0", "regime": "INCB Table II (1988 Convention)", "synonyms": ["Muriatic acid", "Spirit of salt", "Hydrogen chloride (aqueous)", "Chlorhydric acid", "Salzsäure"], "un": ["UN1789"], "adr": "8", "hs": "2806.10", "category": "Reagent (acid)", "drugs": ["Cocaine", "Heroin", "Methamphetamine"], "role": "Acid used to form and crystallise drug hydrochloride salts.", "legit": "Metal pickling, pH control, food and water treatment, chemical manufacturing.", "appearance": "Colourless to light-yellow fuming corrosive liquid with pungent odour.", "notes": "Salts of hydrochloric acid are specifically excluded from Table II. Gaseous HCl has the same CAS."}, {"id": "methyl-ethyl-ketone", "name": "Methyl ethyl ketone (MEK)", "cas": "78-93-3", "regime": "INCB Table II (1988 Convention)", "synonyms": ["2-Butanone", "Butanone", "Ethyl methyl ketone", "MEK", "Méthyléthylcétone"], "un": ["UN1193"], "adr": "3", "hs": "2914.12", "category": "Solvent", "drugs": ["Cocaine", "Heroin"], "role": "Extraction / purification solvent.", "legit": "Paints, coatings, adhesives, cleaning, plastics.", "appearance": "Colourless, flammable liquid with sweet, acetone-like odour."}, {"id": "piperidine", "name": "Piperidine", "cas": "110-89-4", "regime": "INCB Table II (1988 Convention)", "synonyms": ["Hexahydropyridine", "Azacyclohexane", "Pentamethyleneimine", "Piperidina"], "other_cas": [{"cas": "6091-44-7", "form": "Piperidine hydrochloride"}], "un": ["UN2401"], "adr": "3 (8)", "hs": "2933.32", "category": "Precursor", "drugs": ["PCP (phencyclidine)"], "role": "Starting material for PCP.", "legit": "Pharmaceutical and rubber-chemical intermediate, solvent, base.", "appearance": "Colourless, flammable, strongly alkaline liquid with ammoniacal / pepper-like odour.", "notes": "Do not confuse with 4-piperidone (Table I) or piperine (pepper alkaloid)."}, {"id": "sulphuric-acid", "name": "Sulphuric acid", "cas": "7664-93-9", "regime": "INCB Table II (1988 Convention)", "synonyms": ["Sulfuric acid", "Oil of vitriol", "Battery acid", "Acide sulfurique", "Schwefelsäure"], "un": ["UN1830", "UN1831", "UN2796"], "adr": "8", "hs": "2807.00", "category": "Reagent (acid)", "drugs": ["Cocaine", "Heroin", "Methamphetamine", "MDMA"], "role": "Strong acid used in extraction, conversion and refining steps.", "legit": "Fertiliser, batteries, metal processing, chemical manufacturing.", "appearance": "Colourless, oily, dense, highly corrosive liquid; causes severe burns.", "notes": "UN1830 = acid >51%; UN1831 = fuming; UN2796 = battery fluid (<51%). Salts of sulphuric acid are excluded."}, {"id": "toluene", "name": "Toluene", "cas": "108-88-3", "regime": "INCB Table II (1988 Convention)", "synonyms": ["Methylbenzene", "Toluol", "Phenylmethane", "Toluène", "Tolueno"], "un": ["UN1294"], "adr": "3", "hs": "2902.30", "category": "Solvent", "drugs": ["Cocaine", "Heroin", "Methamphetamine", "MDMA"], "role": "Extraction / reaction solvent.", "legit": "Paints, thinners, adhesives, fuel additive, chemical feedstock.", "appearance": "Colourless, flammable liquid with sweet, benzene-like odour."}, {"id": "red-phosphorus", "name": "Phosphorus, red", "cas": "7723-14-0", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Red P", "Phosphorus (red)", "Amorphous phosphorus"], "un": ["UN1338"], "adr": "4.1", "hs": "2804.70", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Reducing-agent component.", "legit": "Matches/striking surfaces, flame retardants, pyrotechnics.", "appearance": "Dark red to violet-brown powder; odourless.", "notes": "Listed on INCB limited ISSL (public mention: Indian NCB notice, 2024). Match-book striker strips are a known source."}, {"id": "white-phosphorus", "name": "Phosphorus, white (yellow)", "cas": "12185-10-3", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Yellow phosphorus", "P4"], "un": ["UN1381"], "adr": "4.2 (6.1)", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Source of phosphorus reagents (very hazardous).", "legit": "Industrial phosphorus chemicals, munitions.", "appearance": "Waxy, pale-yellow solid that ignites spontaneously in air; stored under water.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "iodine", "name": "Iodine", "cas": "7553-56-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["I2", "Iode"], "un": ["UN3495"], "adr": "8 (6.1)", "hs": "2801.20", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Source of hydriodic acid / iodide reagents.", "legit": "Antiseptics, medical/contrast agents, animal feed, catalysts.", "appearance": "Grey-black shiny crystals with violet vapour; stains skin/surfaces brown.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "hydriodic-acid", "name": "Hydriodic acid", "cas": "10034-85-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Hydrogen iodide solution", "HI (aq)"], "un": ["UN1787"], "adr": "8", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Reducing agent.", "legit": "Pharmaceutical and organic synthesis reagent, iodide salt production.", "appearance": "Colourless to yellow/brown fuming corrosive liquid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "hypophosphorous-acid", "name": "Hypophosphorous acid", "cas": "6303-21-5", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Phosphinic acid", "HPA"], "un": ["UN3264"], "adr": "8", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Reducing agent.", "legit": "Electroless plating, pharmaceutical synthesis, polymer additive.", "appearance": "Colourless liquid (usually 50% aqueous solution) or white crystals.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "anhydrous-ammonia", "name": "Ammonia, anhydrous", "cas": "7664-41-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["NH3", "Anhydrous ammonia", "Ammonia solution (aqueous: UN2672 / UN2073)"], "un": ["UN1005", "UN2672", "UN2073"], "adr": "2.3 (8)", "hs": "2814.10", "category": "Reagent", "drugs": ["Methamphetamine", "Cocaine", "Heroin"], "role": "Alkali / reducing medium and base for precipitating alkaloids.", "legit": "Fertiliser, refrigeration, chemical manufacturing.", "appearance": "Colourless gas (liquefied under pressure) with pungent, suffocating odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here. Theft from agricultural tanks is a known indicator."}, {"id": "methylamine", "name": "Methylamine", "cas": "74-89-5", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Monomethylamine", "Aminomethane", "Methylamine solution (40% aq.)"], "un": ["UN1235", "UN1061"], "adr": "3 (8) / 2.1 (3)", "hs": "2921.11", "category": "Precursor (non-scheduled)", "drugs": ["Methamphetamine", "MDMA", "Methcathinone"], "role": "Amine reagent for methamphetamine / MDMA-type drugs.", "legit": "Pesticides, solvents, pharmaceuticals, explosives manufacturing.", "appearance": "Colourless gas or aqueous solution with fishy / ammoniacal odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "methylamine-hydrochloride", "name": "Methylamine hydrochloride", "cas": "593-51-1", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Methylammonium chloride", "MeNH2·HCl"], "category": "Precursor (non-scheduled)", "drugs": ["Methamphetamine", "MDMA"], "role": "Solid, easier-to-transport source of methylamine.", "legit": "Pharmaceutical and agrochemical intermediate.", "appearance": "White crystalline solid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "nitroethane", "name": "Nitroethane", "cas": "79-24-3", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Nitroethane (NE)"], "un": ["UN2842"], "adr": "3", "hs": "2904.20", "category": "Precursor (non-scheduled)", "drugs": ["Amphetamine-type (via P2P pathways)"], "role": "Reagent / intermediate for amphetamine-type stimulants.", "legit": "Solvent, fuel additive, chemical intermediate.", "appearance": "Colourless oily liquid with fruity odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "benzaldehyde", "name": "Benzaldehyde", "cas": "100-52-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Benzenecarbonal", "Bitter almond oil (artificial)"], "un": ["UN1990"], "adr": "9", "category": "Precursor (non-scheduled)", "drugs": ["Amphetamine-type", "Methcathinone"], "role": "Starting material for amphetamine-type stimulants.", "legit": "Flavours, fragrances, dyes, pharmaceuticals.", "appearance": "Colourless to pale-yellow liquid with bitter-almond odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "benzyl-chloride", "name": "Benzyl chloride", "cas": "100-44-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["α-Chlorotoluene", "(Chloromethyl)benzene"], "un": ["UN1738"], "adr": "6.1 (8)", "category": "Precursor (non-scheduled)", "drugs": ["Amphetamine-type"], "role": "Intermediate for phenylacetic-type precursors.", "legit": "Plasticisers, dyes, perfumes, pharmaceuticals, quaternary ammonium compounds.", "appearance": "Colourless to pale-yellow liquid with sharp, tear-gas-like smell (lachrymator).", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "benzyl-cyanide", "name": "Benzyl cyanide (phenylacetonitrile)", "cas": "140-29-4", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Phenylacetonitrile", "Benzeneacetonitrile", "α-Tolunitrile"], "un": ["UN2470"], "adr": "6.1", "category": "Precursor (non-scheduled)", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Chemical precursor of phenylacetic acid, P2P and APAAN.", "legit": "Pharmaceutical (phenobarbital etc.), pesticide and fragrance intermediate.", "appearance": "Colourless to pale-yellow oily liquid with aromatic odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here. Controlled in several countries (e.g. Mexico)."}, {"id": "ethyl-phenylacetate", "name": "Ethyl phenylacetate", "cas": "101-97-3", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Phenylacetic acid ethyl ester", "Ethyl benzeneacetate"], "category": "Pre-precursor (non-scheduled)", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Ester of phenylacetic acid; convertible to P2P.", "legit": "Flavour and fragrance (honey note).", "appearance": "Colourless liquid with sweet honey-like odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "methyl-phenylacetate", "name": "Methyl phenylacetate", "cas": "101-41-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Phenylacetic acid methyl ester"], "category": "Pre-precursor (non-scheduled)", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Ester of phenylacetic acid; convertible to P2P / MAPA.", "legit": "Fragrance and flavour (honey note).", "appearance": "Colourless liquid with honey-jasmine odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "phenylacetamide", "name": "Phenylacetamide", "cas": "103-81-1", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["2-Phenylacetamide", "Benzeneacetamide"], "category": "Pre-precursor (non-scheduled)", "drugs": ["Amphetamine", "Methamphetamine"], "role": "Phenylacetic acid derivative.", "legit": "Pharmaceutical intermediate.", "appearance": "White crystalline solid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "acetyl-chloride", "name": "Acetyl chloride", "cas": "75-36-5", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Ethanoyl chloride"], "un": ["UN1717"], "adr": "3 (8)", "category": "Reagent (substitute)", "drugs": ["Heroin"], "role": "Substitute acetylating chemical (watch-list indicator).", "legit": "Pharmaceutical and dye intermediate, laboratory reagent.", "appearance": "Colourless, fuming liquid with pungent odour; reacts violently with water.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "propionyl-chloride", "name": "Propionyl chloride", "cas": "79-03-8", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Propanoyl chloride"], "un": ["UN1815"], "adr": "3 (8)", "category": "Reagent", "drugs": ["Fentanyl and analogues"], "role": "Acylating reagent for fentanyl-type opioids.", "legit": "Pharmaceutical and agrochemical intermediate.", "appearance": "Colourless fuming liquid with acrid odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "propionic-anhydride", "name": "Propionic anhydride", "cas": "123-62-6", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Propanoic anhydride"], "un": ["UN2496"], "adr": "8", "category": "Reagent", "drugs": ["Fentanyl and analogues"], "role": "Acylating agent for fentanyl-type opioids.", "legit": "Pharmaceutical, polymer and plasticiser intermediate.", "appearance": "Colourless liquid with pungent odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "aniline", "name": "Aniline", "cas": "62-53-3", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Aminobenzene", "Phenylamine", "Benzenamine"], "un": ["UN1547"], "adr": "6.1", "category": "Precursor (non-scheduled)", "drugs": ["Fentanyl and analogues"], "role": "Building block for fentanyl-type precursors.", "legit": "Dyes, polyurethanes (MDI), rubber chemicals, pharmaceuticals.", "appearance": "Colourless to brown oily liquid with characteristic odour; darkens in air.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "phenethyl-bromide", "name": "(2-Bromoethyl)benzene (phenethyl bromide)", "cas": "103-63-9", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["2-Phenylethyl bromide", "β-Bromoethylbenzene"], "category": "Precursor (non-scheduled)", "drugs": ["Fentanyl and analogues"], "role": "Alkylating reagent for fentanyl-type precursors.", "legit": "Pharmaceutical and fragrance intermediate.", "appearance": "Colourless to pale-yellow liquid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "formamide", "name": "Formamide", "cas": "75-12-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Methanamide"], "category": "Reagent", "drugs": ["Methamphetamine", "Amphetamine"], "role": "Reagent for amphetamine-type stimulants.", "legit": "Solvent, softener, pharmaceutical intermediate.", "appearance": "Colourless, viscous liquid; slight ammonia odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "n-methylformamide", "name": "N-Methylformamide", "cas": "123-39-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["NMF"], "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Reagent for amphetamine-type stimulants.", "legit": "Solvent, chemical intermediate.", "appearance": "Colourless liquid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "ammonium-formate", "name": "Ammonium formate", "cas": "540-69-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Formic acid ammonium salt"], "category": "Reagent", "drugs": ["Methamphetamine", "Amphetamine"], "role": "Reagent for amphetamine-type stimulants.", "legit": "HPLC buffer, hydrogen-transfer reagent, deicing, laboratory use.", "appearance": "White crystalline solid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "formic-acid", "name": "Formic acid", "cas": "64-18-6", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Methanoic acid"], "un": ["UN1779"], "adr": "8 (3)", "hs": "2915.11", "category": "Reagent", "drugs": ["Methamphetamine", "Amphetamine"], "role": "Reagent / acid for amphetamine-type stimulants.", "legit": "Leather, textiles, silage preservative, descaler.", "appearance": "Colourless fuming liquid with pungent odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "gbl", "name": "Gamma-butyrolactone (GBL)", "cas": "96-48-0", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["γ-Butyrolactone", "Dihydro-2(3H)-furanone", "4-Butanolide"], "category": "Pre-drug / solvent", "drugs": ["GHB"], "role": "Converts to GHB in the body; also used to make GHB.", "legit": "Industrial solvent, paint stripper, pharmaceutical intermediate, NMP production.", "appearance": "Colourless oily liquid, mild odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here. Controlled as a GHB precursor in many countries."}, {"id": "14-butanediol", "name": "1,4-Butanediol (1,4-BD)", "cas": "110-63-4", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Butane-1,4-diol", "BDO", "Tetramethylene glycol"], "category": "Pre-drug", "drugs": ["GHB"], "role": "Metabolised to GHB.", "legit": "Plastics (PBT, polyurethane), solvents, spandex.", "appearance": "Colourless viscous liquid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here. Controlled in many countries."}, {"id": "lithium", "name": "Lithium (metal)", "cas": "7439-93-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Li"], "un": ["UN1415"], "adr": "4.3", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Reducing metal (often taken from batteries).", "legit": "Batteries, alloys, lubricants.", "appearance": "Soft silvery-white metal, tarnishes in air; reacts with water.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "sodium-metal", "name": "Sodium (metal)", "cas": "7440-23-5", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Na"], "un": ["UN1428"], "adr": "4.3", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Reducing metal.", "legit": "Chemical manufacturing, heat-transfer fluid.", "appearance": "Soft silvery metal, usually stored under oil.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "sodium-hydroxide", "name": "Sodium hydroxide", "cas": "1310-73-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Caustic soda", "Lye", "NaOH"], "un": ["UN1823", "UN1824"], "adr": "8", "category": "Reagent (base)", "drugs": ["Methamphetamine", "Cocaine", "Heroin", "MDMA"], "role": "Strong base used in many extraction and conversion steps.", "legit": "Soap, drain cleaners, paper, chemical manufacturing.", "appearance": "White pellets/flakes (hygroscopic) or clear alkaline solution.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "sodium-borohydride", "name": "Sodium borohydride", "cas": "16940-66-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["NaBH4"], "un": ["UN1426"], "adr": "4.3", "category": "Reagent", "drugs": ["Methamphetamine", "Amphetamine", "MDMA"], "role": "Reducing agent.", "legit": "Pulp bleaching, pharmaceutical synthesis, hydrogen storage.", "appearance": "White powder or pellets; releases hydrogen with water.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "lithium-aluminium-hydride", "name": "Lithium aluminium hydride", "cas": "16853-85-3", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["LAH", "Lithium tetrahydridoaluminate"], "un": ["UN1410"], "adr": "4.3", "category": "Reagent", "drugs": ["Amphetamine-type"], "role": "Powerful reducing agent.", "legit": "Pharmaceutical and fine-chemical synthesis.", "appearance": "White to grey powder; violently water-reactive.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "mercuric-chloride", "name": "Mercury(II) chloride", "cas": "7487-94-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Mercuric chloride", "Corrosive sublimate"], "un": ["UN1624"], "adr": "6.1", "category": "Reagent", "drugs": ["Methamphetamine"], "role": "Metal reagent used in reduction chemistry.", "legit": "Laboratory reagent, catalysts (restricted).", "appearance": "White crystalline powder; highly toxic.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "thionyl-chloride", "name": "Thionyl chloride", "cas": "7719-09-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Sulfurous oxychloride"], "un": ["UN1836"], "adr": "8", "category": "Reagent", "drugs": ["Methamphetamine", "Methaqualone"], "role": "Chlorinating reagent.", "legit": "Pharmaceutical and agrochemical manufacturing.", "appearance": "Colourless to yellow fuming liquid with suffocating odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "phosphorus-trichloride", "name": "Phosphorus trichloride", "cas": "7719-12-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["PCl3"], "un": ["UN1809"], "adr": "6.1 (8)", "category": "Reagent", "drugs": ["Methaqualone"], "role": "Reagent for methaqualone.", "legit": "Flame retardants, pesticides, plasticisers.", "appearance": "Colourless fuming liquid with pungent odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "o-toluidine", "name": "o-Toluidine", "cas": "95-53-4", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["2-Methylaniline", "2-Aminotoluene"], "un": ["UN1708"], "adr": "6.1", "category": "Precursor (non-scheduled)", "drugs": ["Methaqualone"], "role": "Amine component of methaqualone.", "legit": "Dyes, rubber chemicals, pesticides.", "appearance": "Pale-yellow to reddish liquid that darkens in air.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "chloroform", "name": "Chloroform", "cas": "67-66-3", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Trichloromethane", "Tri"], "un": ["UN1888"], "adr": "6.1", "hs": "2903.13", "category": "Solvent", "drugs": ["Heroin", "Cocaine"], "role": "Extraction solvent.", "legit": "Solvent, refrigerant manufacturing, laboratory use.", "appearance": "Colourless, dense, sweet-smelling liquid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "dichloromethane", "name": "Dichloromethane (methylene chloride)", "cas": "75-09-2", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["DCM", "Methylene chloride"], "un": ["UN1593"], "adr": "6.1", "hs": "2903.12", "category": "Solvent", "drugs": ["Cocaine", "Heroin", "Methamphetamine", "MDMA"], "role": "Extraction solvent.", "legit": "Paint stripper, degreaser, pharmaceutical processing.", "appearance": "Colourless, volatile liquid with sweet odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "methanol", "name": "Methanol", "cas": "67-56-1", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Methyl alcohol", "Wood alcohol"], "un": ["UN1230"], "adr": "3 (6.1)", "hs": "2905.11", "category": "Solvent", "drugs": ["Cocaine", "Heroin", "Methamphetamine", "MDMA"], "role": "Solvent / reaction medium.", "legit": "Fuel, antifreeze, solvent, chemical feedstock.", "appearance": "Colourless, flammable liquid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "isopropanol", "name": "Isopropanol (2-propanol)", "cas": "67-63-0", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Isopropyl alcohol", "IPA", "Rubbing alcohol"], "un": ["UN1219"], "adr": "3", "hs": "2905.12", "category": "Solvent", "drugs": ["Cocaine", "Heroin", "Methamphetamine"], "role": "Solvent for washing / crystallisation.", "legit": "Disinfectant, cleaning agent, solvent.", "appearance": "Colourless, flammable liquid with alcohol odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "ethyl-acetate", "name": "Ethyl acetate", "cas": "141-78-6", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Acetic ester", "Ethyl ethanoate"], "un": ["UN1173"], "adr": "3", "hs": "2915.31", "category": "Solvent", "drugs": ["Heroin", "Cocaine", "Methamphetamine"], "role": "Extraction solvent.", "legit": "Paints, adhesives, nail-polish remover, flavours.", "appearance": "Colourless, flammable liquid with fruity odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "hexane", "name": "n-Hexane", "cas": "110-54-3", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Hexane"], "un": ["UN1208"], "adr": "3", "hs": "2901.10", "category": "Solvent", "drugs": ["Cocaine", "Methamphetamine"], "role": "Non-polar extraction / washing solvent.", "legit": "Edible-oil extraction, glues, cleaning solvents.", "appearance": "Colourless, volatile, flammable liquid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "xylene", "name": "Xylene (mixed isomers)", "cas": "1330-20-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Dimethylbenzene", "Xylol"], "un": ["UN1307"], "adr": "3", "category": "Solvent", "drugs": ["Cocaine", "Methamphetamine"], "role": "Solvent.", "legit": "Paints, thinners, fuels, chemical feedstock.", "appearance": "Colourless, flammable liquid with aromatic odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "diethylamine", "name": "Diethylamine", "cas": "109-89-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["N-Ethylethanamine"], "un": ["UN1154"], "adr": "3 (8)", "category": "Precursor (non-scheduled)", "drugs": ["LSD"], "role": "Amine component for lysergamide formation.", "legit": "Rubber chemicals, pesticides, pharmaceuticals.", "appearance": "Colourless, highly flammable liquid with ammoniacal odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "ammonium-chloride", "name": "Ammonium chloride", "cas": "12125-02-9", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Sal ammoniac", "Salmiac"], "category": "Reagent", "drugs": ["Heroin"], "role": "Used in morphine extraction.", "legit": "Fertiliser, soldering flux, batteries, food additive.", "appearance": "White crystalline powder.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "sodium-carbonate", "name": "Sodium carbonate", "cas": "497-19-8", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Soda ash", "Washing soda"], "category": "Reagent (base)", "drugs": ["Heroin", "Cocaine"], "role": "Base used in alkaloid extraction/precipitation.", "legit": "Glass making, detergents, water softening.", "appearance": "White powder.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "calcium-oxide", "name": "Calcium oxide (quicklime)", "cas": "1305-78-8", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Lime", "Quicklime", "Burnt lime"], "un": ["UN1910"], "adr": "8", "category": "Reagent (base)", "drugs": ["Cocaine"], "role": "Alkali used in coca-leaf processing.", "legit": "Construction, agriculture, water treatment.", "appearance": "White to grey lumps or powder; reacts exothermically with water.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "kerosene", "name": "Kerosene", "cas": "8008-20-6", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Paraffin oil (UK)", "Jet fuel A-1 (similar)"], "un": ["UN1223"], "adr": "3", "category": "Solvent", "drugs": ["Cocaine"], "role": "Extraction solvent for coca alkaloids.", "legit": "Fuel and heating.", "appearance": "Pale to straw liquid with characteristic petroleum smell.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "gasoline", "name": "Gasoline (petrol)", "cas": "86290-81-5", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Petrol", "Motor spirit"], "un": ["UN1203"], "adr": "3", "category": "Solvent", "drugs": ["Cocaine"], "role": "Extraction solvent for coca alkaloids.", "legit": "Motor fuel.", "appearance": "Clear, volatile liquid (often dyed).", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "cyclohexanone", "name": "Cyclohexanone", "cas": "108-94-1", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Ketohexamethylene"], "un": ["UN1915"], "adr": "3", "category": "Precursor (non-scheduled)", "drugs": ["PCP (phencyclidine)"], "role": "Starting material for PCP-type drugs.", "legit": "Nylon intermediates, solvents, paints.", "appearance": "Colourless oily liquid with peppermint / acetone-like odour.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "pcc", "name": "1-Piperidinocyclohexanecarbonitrile (PCC)", "cas": "3867-15-0", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["PCC", "Piperidinocyclohexanecarbonitrile"], "category": "Precursor (non-scheduled)", "drugs": ["PCP (phencyclidine)"], "role": "Immediate PCP precursor.", "legit": "None significant.", "appearance": "White to off-white solid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here. Controlled as a listed chemical in some countries."}, {"id": "propiophenone", "name": "Propiophenone", "cas": "93-55-0", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["Ethyl phenyl ketone", "1-Phenylpropan-1-one"], "category": "Precursor (non-scheduled)", "drugs": ["Methcathinone", "Cathinone-type NPS"], "role": "Starting material for cathinones.", "legit": "Fragrance and pharmaceutical intermediate.", "appearance": "Colourless to pale-yellow liquid / low-melting solid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "4-methylpropiophenone", "name": "4'-Methylpropiophenone", "cas": "5337-93-9", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["4-MPP", "p-Methylpropiophenone"], "category": "Precursor (non-scheduled)", "drugs": ["Mephedrone (4-MMC)"], "role": "Starting material for mephedrone and related cathinones.", "legit": "Fragrance and pharmaceutical intermediate.", "appearance": "White to off-white solid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}, {"id": "2-bromo-4-methylpropiophenone", "name": "2-Bromo-4'-methylpropiophenone", "cas": "1451-82-7", "regime": "Not scheduled internationally (monitored / national control)", "synonyms": ["4-Methyl-α-bromopropiophenone"], "category": "Precursor (non-scheduled)", "drugs": ["Mephedrone (4-MMC)"], "role": "Direct precursor of mephedrone-type cathinones.", "legit": "Very limited.", "appearance": "Pale solid.", "notes": "Non-scheduled internationally; commonly seized/reported in clandestine laboratories. Nationally controlled in some jurisdictions — check local law. Full INCB ISSL is restricted to governments and is not reproduced here."}];window.META={"redListEdition": "INCB Red List, 23rd edition (July 2025)"};
+</script>
+<script>
+window.COMPANIES=[{"id": "ineos-phenol", "name": "INEOS Phenol", "aliases": ["INEOS", "INEOS Phenol GmbH", "INEOS Phenol Antwerp", "Ineos Phenol Doel"], "country": "Global (Europe / Americas / Asia)", "type": "producer", "web": "ineos.com", "cas": ["67-64-1"], "source": "Company site: world's largest phenol and acetone producer — https://www.ineos.com/pt/Empresas/Ineos-fenol/"}, {"id": "ineos-acetyls", "name": "INEOS Acetyls", "aliases": ["INEOS", "INEOS Acetyls UK", "BP Chemicals (former)", "INEOS Acetyls Hull"], "country": "Europe (UK / Germany)", "type": "producer", "web": "ineos.com", "cas": ["108-24-7"], "source": "Company site: major acetic acid, acetic anhydride and ethyl acetate producer in Europe — https://www.ineos.com/fr/businesses/Ineos-Acetyls/acetyls-in-europe/"}, {"id": "eastman", "name": "Eastman Chemical Company", "aliases": ["Eastman", "Eastman Chemical", "Eastman Kodak Chemicals (former)"], "country": "USA", "type": "producer", "web": "eastman.com", "cas": ["108-24-7"], "source": "Public industry reports on acetic anhydride (Eastman process, Kingsport, USA) — verify with company"}, {"id": "daicel", "name": "Daicel Corporation", "aliases": ["Daicel", "Daicel Chemical Industries"], "country": "Japan", "type": "producer", "web": "daicel.com", "cas": ["108-24-7"], "source": "Public industry reports on acetic anhydride producers — verify with company"}, {"id": "shell-chemicals", "name": "Shell Chemicals", "aliases": ["Shell", "Shell Chemical LP", "Shell Nederland Chemie"], "country": "Global", "type": "producer", "web": "shell.com", "cas": ["67-64-1"], "source": "Market report: acetone production units integrated with refining/petrochemicals — verify with company"}, {"id": "mitsui-chemicals", "name": "Mitsui Chemicals", "aliases": ["Mitsui", "Mitsui Chemicals Inc"], "country": "Japan", "type": "producer", "web": "mitsuichemicals.com", "cas": ["67-64-1"], "source": "Market report listing major acetone producers — verify with company"}, {"id": "kumho-pb", "name": "Kumho P&B Chemicals", "aliases": ["Kumho P and B", "Kumho PB", "Kumho Petrochemical"], "country": "South Korea", "type": "producer", "cas": ["67-64-1"], "source": "Market report listing BPA/acetone producers — verify with company"}, {"id": "dow", "name": "Dow Chemical", "aliases": ["Dow", "The Dow Chemical Company", "Dow Inc"], "country": "USA / Global", "type": "producer", "web": "dow.com", "cas": ["67-64-1"], "source": "Market report listing major commodity acetone producers — verify with company"}, {"id": "sabic", "name": "SABIC", "aliases": ["Saudi Basic Industries", "Sabic"], "country": "Saudi Arabia / Global", "type": "producer", "web": "sabic.com", "cas": ["67-64-1"], "source": "Market report listing major acetone suppliers — verify with company"}, {"id": "chongqing-changyuan", "name": "Chongqing Changyuan Group Limited", "aliases": ["Changyuan", "Chongqing Changyuan", "Chang Yuan Group", "Baiyin Changyuan Chemical"], "country": "China", "type": "producer", "cas": ["7722-64-7"], "source": "International Manganese Institute member profile: largest potassium permanganate manufacturer — https://www.manganese.org/?p=8761"}, {"id": "malladi", "name": "Malladi Drugs & Pharmaceuticals Limited", "aliases": ["Malladi", "Malladi Drugs and Pharmaceuticals", "Malladi Drugs"], "country": "India", "type": "producer", "web": "malladi.com", "cas": ["299-42-3", "90-82-4"], "source": "PharmaCompass listing: ephedrine and pseudoephedrine salts API manufacturer (licensed, regulated trade) — https://www.pharmacompass.com/ndc-api/299-42-3"}, {"id": "merck-sigma", "name": "Merck KGaA / MilliporeSigma / Sigma-Aldrich", "aliases": ["Sigma-Aldrich", "Sigma Aldrich", "Merck", "Merck KGaA", "MilliporeSigma", "Supelco", "Fluka", "Riedel-de Haën"], "country": "Germany / USA / Global", "type": "supplier", "web": "sigmaaldrich.com", "cas": ["67-64-1", "78-93-3", "108-88-3", "60-29-7", "7647-01-0", "7664-93-9", "108-24-7", "110-89-4", "7722-64-7", "118-92-3", "103-82-2", "120-57-0", "67-56-1", "67-63-0", "141-78-6", "110-54-3", "75-09-2", "67-66-3", "1310-73-2", "64-18-6", "7553-56-2", "7723-14-0", "100-52-7", "62-53-3", "540-69-2", "75-12-7"], "source": "Public catalogue (reagent grade); controlled substances sold only under licence"}, {"id": "thermo-fisher", "name": "Thermo Fisher Scientific (Fisher Chemical, Acros Organics, Alfa Aesar)", "aliases": ["Fisher Scientific", "Fisher Chemical", "Acros Organics", "Alfa Aesar", "Thermo Fisher", "Thermo Scientific"], "country": "USA / Global", "type": "supplier", "web": "thermofisher.com", "cas": ["67-64-1", "78-93-3", "108-88-3", "60-29-7", "7647-01-0", "7664-93-9", "108-24-7", "110-89-4", "7722-64-7", "118-92-3", "103-82-2", "120-57-0", "67-56-1", "67-63-0", "141-78-6", "110-54-3", "75-09-2", "67-66-3", "1310-73-2", "64-18-6", "7553-56-2", "100-52-7", "62-53-3", "540-69-2", "75-12-7"], "source": "Public catalogues (reagent grade)"}, {"id": "tci", "name": "TCI Chemicals (Tokyo Chemical Industry)", "aliases": ["TCI", "Tokyo Chemical Industry", "TCI America", "TCI Europe"], "country": "Japan / Global", "type": "supplier", "web": "tcichemicals.com", "cas": ["67-64-1", "108-88-3", "110-89-4", "118-92-3", "103-82-2", "120-57-0", "108-24-7", "62-53-3", "100-52-7", "100-44-7", "140-29-4", "75-12-7", "540-69-2", "64-18-6", "96-48-0", "110-63-4"], "source": "Public catalogue (reagent grade)"}, {"id": "vwr-avantor", "name": "VWR / Avantor", "aliases": ["VWR", "Avantor", "VWR International", "J.T.Baker", "Macron"], "country": "USA / Global", "type": "supplier", "web": "vwr.com", "cas": ["67-64-1", "78-93-3", "108-88-3", "60-29-7", "7647-01-0", "7664-93-9", "108-24-7", "7722-64-7", "67-56-1", "67-63-0", "141-78-6", "110-54-3", "75-09-2", "67-66-3", "1310-73-2", "64-18-6", "7553-56-2"], "source": "Public catalogue (reagent grade)"}, {"id": "honeywell", "name": "Honeywell (Burdick & Jackson / Riedel-de Haën)", "aliases": ["Honeywell", "Burdick & Jackson", "Burdick and Jackson", "Honeywell Research Chemicals"], "country": "USA / Germany", "type": "supplier", "web": "honeywell.com", "cas": ["67-64-1", "78-93-3", "108-88-3", "67-56-1", "67-63-0", "141-78-6", "110-54-3", "75-09-2", "67-66-3", "60-29-7"], "source": "Public catalogue (solvents, reagent grade)"}, {"id": "brenntag", "name": "Brenntag", "aliases": ["Brenntag SE", "Brenntag Specialties"], "country": "Germany / Global", "type": "distributor", "web": "brenntag.com", "cas": ["67-64-1", "78-93-3", "108-88-3", "7647-01-0", "7664-93-9", "1310-73-2", "67-56-1", "67-63-0", "141-78-6", "110-54-3", "75-09-2", "64-18-6", "7722-64-7", "497-19-8", "1305-78-8"], "source": "Company distribution portfolio (bulk chemicals)"}, {"id": "univar", "name": "Univar Solutions", "aliases": ["Univar", "Univar Solutions Inc"], "country": "USA / Global", "type": "distributor", "web": "univar.com", "cas": ["67-64-1", "78-93-3", "108-88-3", "7647-01-0", "7664-93-9", "1310-73-2", "67-56-1", "67-63-0", "141-78-6", "110-54-3", "75-09-2", "64-18-6", "497-19-8"], "source": "Company distribution portfolio (bulk chemicals)"}];
+</script>
+<script>
+/* Precursor Chemical ID – search app (no dependencies, works offline) */
+(function () {
+  "use strict";
+
+  var CHEMS = window.CHEMICALS || [];
+  var BASE_COMPANIES = window.COMPANIES || [];
+  var META = window.META || {};
+  var LS_KEY = "pcid_user_companies_v1";
+
+  /* ---------- helpers ---------- */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function norm(s) {
+    return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+  }
+  function compact(s) { return norm(s).replace(/ /g, ""); }
+
+  function casValid(cas) {
+    if (!/^\d{2,7}-\d{2}-\d$/.test(cas)) return false;
+    var d = cas.replace(/-/g, "");
+    var body = d.slice(0, -1), check = parseInt(d.slice(-1), 10), sum = 0;
+    for (var i = 0; i < body.length; i++) sum += (i + 1) * parseInt(body.charAt(body.length - 1 - i), 10);
+    return sum % 10 === check;
+  }
+
+  function regimeKey(c) {
+    if (c.regime.indexOf("Table II") >= 0) return "T2";
+    if (c.regime.indexOf("Table I") >= 0) return "T1";
+    return "NS";
+  }
+  var REGIME_LABEL = { T1: "INCB Table I", T2: "INCB Table II", NS: "Not scheduled" };
+  var REGIME_CLASS = { T1: "b-t1", T2: "b-t2", NS: "b-ns" };
+
+  var DRUGS = [
+    ["Heroin", /heroin/i], ["Cocaine", /cocaine/i], ["Methamphetamine", /methamphetamine/i],
+    ["Amphetamine-type (incl. meth)", /amphetamine/i], ["MDMA / ecstasy", /mdma|mda\b|mdea/i],
+    ["LSD", /lsd/i], ["Fentanyl & analogues", /fentanyl/i], ["Methaqualone", /methaqualone|mecloqualone/i],
+    ["PCP", /pcp/i], ["GHB", /ghb/i], ["Cathinones / mephedrone", /cathinone|mephedrone/i]
+  ];
+
+  /* ---------- index ---------- */
+  CHEMS.forEach(function (c) {
+    c._key = regimeKey(c);
+    c._names = [c.name].concat(c.synonyms || []).map(norm);
+    c._namesC = [c.name].concat(c.synonyms || []).map(compact);
+    c._allCas = (c.cas ? [c.cas] : []).concat((c.other_cas || []).map(function (o) { return o.cas; }));
+    c._drugText = (c.drugs || []).join(" | ");
+    c._hs = (c.hs || "").replace(".", "");
+  });
+
+  function chemByCas(cas) {
+    for (var i = 0; i < CHEMS.length; i++) if (CHEMS[i]._allCas.indexOf(cas) >= 0) return CHEMS[i];
+    return null;
+  }
+
+  /* ---------- chemical search ---------- */
+  function searchChems(raw, filters) {
+    var q = raw.trim();
+    var out = [];
+    var qn = norm(q), qc = compact(q);
+    var isCas = /^\d[\d-]*$/.test(q) && q.indexOf("-") > 0;
+    var unm = q.match(/^(?:un\s*)?(\d{4})$/i);
+    var hsm = q.match(/^(\d{4})\.(\d{1,2})$/) || q.match(/^(\d{6})$/);
+
+    CHEMS.forEach(function (c) {
+      if (filters.regime && c._key !== filters.regime) return;
+      if (filters.drug && !filters.drug.test(c._drugText)) return;
+      var score = 0;
+      if (!q) { score = 1; }
+      else if (isCas) {
+        c._allCas.forEach(function (cas) {
+          if (cas === q) score = Math.max(score, 100);
+          else if (cas.indexOf(q) === 0) score = Math.max(score, 70);
+          else if (cas.indexOf(q) >= 0) score = Math.max(score, 40);
+        });
+      } else if (unm) {
+        var un = "UN" + unm[1];
+        if ((c.un || []).indexOf(un) >= 0) score = 100;
+      } else if (hsm) {
+        var hs = hsm.length === 3 ? hsm[1] + (hsm[2].length === 1 ? hsm[2] + "0" : hsm[2]) : hsm[1];
+        if (c._hs === hs) score = 100;
+        else if (c._hs.indexOf(hs) === 0) score = 60;
+      } else {
+        for (var i = 0; i < c._names.length; i++) {
+          var n = c._names[i], nc = c._namesC[i];
+          if (n === qn || nc === qc) score = Math.max(score, i === 0 ? 100 : 90);
+          else if (n.indexOf(qn) === 0 || nc.indexOf(qc) === 0) score = Math.max(score, i === 0 ? 80 : 70);
+          else if (n.indexOf(qn) >= 0 || nc.indexOf(qc) >= 0) score = Math.max(score, i === 0 ? 60 : 50);
+        }
+        if (!score) { // all words present somewhere in names
+          var words = qn.split(" ").filter(Boolean);
+          var hay = c._names.join(" ");
+          if (words.length > 1 && words.every(function (w) { return hay.indexOf(w) >= 0; })) score = 45;
+        }
+        if (!score && qn.length >= 3 && c._drugText && norm(c._drugText).indexOf(qn) >= 0) score = 20;
+      }
+      if (score) out.push({ c: c, s: score });
+    });
+    out.sort(function (a, b) { return b.s - a.s || a.c.name.localeCompare(b.c.name); });
+    return out.map(function (x) { return x.c; });
+  }
+
+  /* ---------- companies ---------- */
+  var LEGAL = { ltd: 1, limited: 1, inc: 1, llc: 1, gmbh: 1, ag: 1, sa: 1, bv: 1, nv: 1, co: 1, corp: 1, corporation: 1, company: 1, plc: 1, pvt: 1, private: 1, kg: 1, kgaa: 1, srl: 1, spa: 1, ltda: 1, sdn: 1, bhd: 1, the: 1, and: 1, group: 1, lp: 1, se: 1 };
+  function coNorm(s) {
+    return norm(s).split(" ").filter(function (w) { return w && !LEGAL[w]; }).join(" ");
+  }
+  function lev(a, b) {
+    var m = a.length, n = b.length, d = [], i, j;
+    for (i = 0; i <= m; i++) { d[i] = [i]; }
+    for (j = 1; j <= n; j++) d[0][j] = j;
+    for (i = 1; i <= m; i++) for (j = 1; j <= n; j++)
+      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+    return d[m][n];
+  }
+
+  function loadUser() {
+    try { var v = JSON.parse(localStorage.getItem(LS_KEY) || "[]"); return Array.isArray(v) ? v : []; } catch (e) { return []; }
+  }
+  function saveUser(list) { try { localStorage.setItem(LS_KEY, JSON.stringify(list)); return true; } catch (e) { return false; } }
+  function allCompanies() {
+    return BASE_COMPANIES.map(function (c) { return c; }).concat(loadUser().map(function (c) { c._user = true; return c; }));
+  }
+
+  /* returns array of {co, level} sorted by strength */
+  function findCompanies(raw) {
+    var q = coNorm(raw);
+    if (q.length < 2) return [];
+    var res = [];
+    allCompanies().forEach(function (co) {
+      var names = [co.name].concat(co.aliases || []).map(coNorm);
+      var best = 0;
+      names.forEach(function (n) {
+        if (!n) return;
+        if (n === q) best = Math.max(best, 3);
+        else if (q.length >= 4 && (n.indexOf(q) >= 0 || (n.length >= 4 && q.indexOf(n) >= 0))) best = Math.max(best, 2);
+        else {
+          var qa = q.split(" "), na = n.split(" ");
+          var ok = qa.some(function (w) {
+            return w.length >= 5 && na.some(function (v) { return v.length >= 5 && lev(w, v) <= 1; });
+          });
+          if (ok) best = Math.max(best, 1);
+        }
+      });
+      if (best) res.push({ co: co, level: best });
+    });
+    res.sort(function (a, b) { return b.level - a.level; });
+    return res;
+  }
+
+  function companyVerdict(chem, raw) {
+    var q = (raw || "").trim();
+    if (!q) return "";
+    var matches = findCompanies(q);
+    if (!matches.length) {
+      return '<div class="verdict v-warn"><b>Company not in database</b>"' + esc(q) + '" is not a known producer/supplier in this tool. This does not mean the product is fake – verify the company (registration, address, website, customs/CNA contacts) and ask for the authorisation and certificate of analysis' + (chem._key !== "NS" ? ' (this chemical is internationally scheduled).' : '.') + '</div>';
+    }
+    var top = matches[0].level;
+    var rel = matches.filter(function (m) { return m.level === top; }).slice(0, 3);
+    var parts = [];
+    var anyOk = false;
+    rel.forEach(function (m) {
+      var has = m.co.cas.some(function (cas) { return chem._allCas.indexOf(cas) >= 0; });
+      var fuzzy = m.level === 1 ? " (similar spelling – check exact name)" : "";
+      if (has) {
+        anyOk = true;
+        parts.push("<li><b>" + esc(m.co.name) + "</b>" + fuzzy + " – recorded as <b>" + esc(m.co.type) + "</b> of this chemical" + (m.co.country ? " (" + esc(m.co.country) + ")" : "") + (m.co.source ? '<br><span class="small">' + esc(m.co.source) + "</span>" : "") + "</li>");
+      } else {
+        parts.push("<li><b>" + esc(m.co.name) + "</b>" + fuzzy + " is in the database, but <b>not recorded</b> as producing/supplying this chemical" + (m.co.country ? " (" + esc(m.co.country) + ")" : "") + ".</li>");
+      }
+    });
+    var cls = anyOk ? (top === 1 ? "v-warn" : "v-ok") : "v-warn";
+    var head = anyOk ? (top === 1 ? "Possible match – verify spelling" : "Match: company is known for this chemical") : "Company known, chemical not recorded for it";
+    return '<div class="verdict ' + cls + '"><b>' + head + '</b><ul class="plain">' + parts.join("") + '</ul><span class="small">Indicative database only – a known name on a label does not prove the container is genuine. Verify with the company and shipping documents.</span></div>';
+  }
+
+  /* ---------- rendering ---------- */
+  function idBadge(label, value, copyable) {
+    if (!value) return "";
+    return '<span class="badge b-id"><small>' + esc(label) + "</small> " + esc(value) +
+      (copyable ? ' <button class="copy" type="button" data-copy="' + esc(value) + '" aria-label="Copy ' + esc(label) + '">copy</button>' : "") + "</span>";
+  }
+
+  function renderCard(c, companyRaw) {
+    var h = '<article class="card res"><div class="res-head"><h2>' + esc(c.name) + "</h2><div class=\"badges\">";
+    h += '<span class="badge ' + REGIME_CLASS[c._key] + '">' + REGIME_LABEL[c._key] + "</span>";
+    h += c.cas ? idBadge("CAS", c.cas, true) : '<span class="badge b-id"><small>CAS</small> none assigned</span>';
+    if ((c.un || []).length) c.un.forEach(function (u) { h += idBadge("UN", u, true); });
+    else h += '<span class="badge b-id"><small>UN</small> none / not DG</span>';
+    h += idBadge("HS", c.hs, true);
+    h += "</div></div><div class=\"res-body\"><dl>";
+    if (c.synonyms && c.synonyms.length) h += "<dt>Also known as</dt><dd>" + c.synonyms.map(esc).join(" · ") + "</dd>";
+    if (c.other_cas && c.other_cas.length) h += "<dt>Other CAS</dt><dd>" + c.other_cas.map(function (o) { return esc(o.cas) + " <span class=\"small\">(" + esc(o.form) + ")</span>"; }).join("<br>") + "</dd>";
+    if (c.adr) h += "<dt>Transport class</dt><dd>ADR/IMDG " + esc(c.adr) + "</dd>";
+    if (c.hs_other) h += "<dt>HS (products)</dt><dd>" + esc(c.hs_other) + "</dd>";
+    if (c.drugs && c.drugs.length) h += "<dt>Used for making</dt><dd>" + c.drugs.map(esc).join(", ") + "</dd>";
+    if (c.role) h += "<dt>Role</dt><dd>" + esc(c.role) + "</dd>";
+    if (c.legit) h += "<dt>Legitimate use</dt><dd>" + esc(c.legit) + "</dd>";
+    if (c.appearance) h += "<dt>Appearance</dt><dd>" + esc(c.appearance) + "</dd>";
+    if (c.added) h += "<dt>Scheduled</dt><dd>" + esc(c.added) + "</dd>";
+    if (c.notes) h += "<dt>Notes</dt><dd>" + esc(c.notes) + "</dd>";
+    h += "</dl></div>" + companyVerdict(c, companyRaw) + "</article>";
+    return h;
+  }
+
+  /* ---------- search tab ---------- */
+  function currentFilters() {
+    var di = $("f-drug").value;
+    return { regime: $("f-regime").value, drug: di === "" ? null : DRUGS[parseInt(di, 10)][1] };
+  }
+  function runSearch() {
+    var q = $("q").value, comp = $("company").value;
+    var res = searchChems(q, currentFilters());
+    var box = $("results");
+    if (!q.trim() && !$("f-regime").value && !$("f-drug").value) {
+      box.innerHTML = '<div class="card small">Type a chemical name, CAS number, UN number or HS code above. ' +
+        CHEMS.length + " entries loaded (" + CHEMS.filter(function (c) { return c._key === "T1"; }).length + " Table I, " +
+        CHEMS.filter(function (c) { return c._key === "T2"; }).length + " Table II, " +
+        CHEMS.filter(function (c) { return c._key === "NS"; }).length + " non-scheduled).</div>";
+      $("count").textContent = "";
+      return;
+    }
+    $("count").textContent = res.length + (res.length === 1 ? " result" : " results");
+    if (!res.length) {
+      var msg = '<div class="card">No match in the database.';
+      var asCas = $("q").value.trim();
+      if (/^\d{2,7}-\d{2}-\d$/.test(asCas)) {
+        msg += casValid(asCas) ? " The CAS number is formally valid but is not in this list – it may still be a salt, ester or national-list chemical; check the INCB Red List and national law."
+                               : ' <b>The CAS check digit is invalid</b> – a typo, or a falsified label.';
+      } else msg += " Try a synonym, a partial name, or the CAS number.";
+      box.innerHTML = msg + "</div>";
+      return;
+    }
+    box.innerHTML = res.slice(0, 60).map(function (c) { return renderCard(c, comp); }).join("") +
+      (res.length > 60 ? '<p class="small">Showing first 60 – refine your search.</p>' : "");
+  }
+
+  /* ---------- label check ---------- */
+  function check(cls, text) {
+    var sym = { ok: "✓", warn: "!", bad: "✕", info: "i" }[cls];
+    return '<li><span class="ic ' + cls + '">' + sym + '</span><div>' + text + "</div></li>";
+  }
+  function runLabel() {
+    var name = $("l-name").value.trim(), cas = $("l-cas").value.trim(), un = $("l-un").value.trim().toUpperCase().replace(/\s+/g, ""), comp = $("l-company").value.trim();
+    var out = [];
+    var byCas = null, byName = null, byUn = [];
+
+    if (!name && !cas && !un && !comp) { $("l-result").innerHTML = '<div class="card small">Enter at least one field from the label.</div>'; return; }
+
+    if (cas) {
+      if (!/^\d{2,7}-\d{2}-\d$/.test(cas)) out.push(check("bad", "<b>CAS format invalid:</b> “" + esc(cas) + "” is not in the form NNNN-NN-N. Possible typo or falsified label."));
+      else if (!casValid(cas)) out.push(check("bad", "<b>CAS check digit invalid:</b> " + esc(cas) + " fails the CAS checksum – the number cannot exist. Typo or falsified label."));
+      else {
+        out.push(check("ok", "<b>CAS check digit valid:</b> " + esc(cas) + "."));
+        byCas = chemByCas(cas);
+        if (byCas) out.push(check(byCas._key === "NS" ? "info" : "warn", "<b>CAS identifies:</b> " + esc(byCas.name) + " – <span class=\"badge " + REGIME_CLASS[byCas._key] + '">' + REGIME_LABEL[byCas._key] + "</span>" + (cas !== byCas.cas && byCas.cas ? " (salt/form of CAS " + esc(byCas.cas) + ")" : "")));
+        else out.push(check("info", "CAS " + esc(cas) + " is not in this database. It may be an ordinary chemical, or a salt/ester/national-list item – check the INCB Red List."));
+      }
+    }
+    if (name) {
+      var n = searchChems(name, {});
+      byName = n.length ? n[0] : null;
+      if (byName && searchChems(name, {})[0] && (norm(name).length >= 3)) {
+        out.push(check("info", "<b>Name matches:</b> " + esc(byName.name) + (n.length > 1 ? " (+" + (n.length - 1) + " similar)" : "") + "."));
+      } else out.push(check("info", "Product name “" + esc(name) + "” does not match any chemical in the database."));
+    }
+    if (un) {
+      var u = un.replace(/^UN/, "");
+      if (!/^\d{4}$/.test(u)) out.push(check("bad", "<b>UN number format invalid:</b> expected four digits (e.g. UN1090)."));
+      else {
+        byUn = CHEMS.filter(function (c) { return (c.un || []).indexOf("UN" + u) >= 0; });
+        if (byUn.length) out.push(check("info", "<b>UN" + u + " is:</b> " + byUn.map(function (c) { return esc(c.name); }).join(", ") + "."));
+        else out.push(check("info", "UN" + u + " is not assigned to any chemical in this database (it may still be a valid transport number for other goods)."));
+      }
+    }
+
+    /* consistency */
+    var ref = byCas || byName;
+    if (byCas && byName && byCas !== byName) {
+      out.push(check("bad", "<b>Name and CAS disagree:</b> the CAS belongs to <b>" + esc(byCas.name) + "</b> but the name suggests <b>" + esc(byName.name) + "</b>. Strong red flag for a mislabelled or falsified container."));
+    } else if (byCas && byName) {
+      out.push(check("ok", "Name and CAS describe the same chemical."));
+    }
+    if (un && /^(UN)?\d{4}$/.test(un) && ref) {
+      var uu = "UN" + un.replace(/^UN/, "");
+      if ((ref.un || []).length) {
+        if (ref.un.indexOf(uu) >= 0) out.push(check("ok", "UN number is consistent with " + esc(ref.name) + "."));
+        else out.push(check("bad", "<b>UN number does not fit:</b> " + esc(ref.name) + " normally travels as " + ref.un.map(esc).join(" / ") + ", not " + esc(uu) + ". Check the shipping paper and the container."));
+      } else {
+        out.push(check("warn", esc(ref.name) + " has no dedicated UN number in this database (often not dangerous goods). A UN number on the label should be checked against its safety data sheet."));
+      }
+    }
+
+    /* company */
+    if (comp) {
+      if (ref) {
+        var v = companyVerdict(ref, comp);
+        var cls = /v-ok/.test(v) ? "ok" : (/v-bad/.test(v) ? "bad" : "warn");
+        out.push(check(cls, v.replace(/^<div class="verdict [^"]*">/, "").replace(/<\/div>$/, "")));
+      } else {
+        var m = findCompanies(comp);
+        if (m.length) out.push(check("info", "Company recognised: <b>" + esc(m[0].co.name) + "</b> (" + esc(m[0].co.type) + "). The chemical could not be identified, so supply status cannot be checked."));
+        else out.push(check("warn", "Company “" + esc(comp) + "” is not in the database and the chemical could not be identified."));
+      }
+    }
+    var html = '<div class="card"><h3>Result</h3><ul class="checks">' + out.join("") + "</ul></div>";
+    if (ref) html += renderCard(ref, "");
+    $("l-result").innerHTML = html;
+  }
+
+  /* ---------- browse ---------- */
+  function browseRows() {
+    var f = norm($("b-filter").value), rg = $("b-regime").value;
+    return CHEMS.filter(function (c) {
+      if (rg && c._key !== rg) return false;
+      if (!f) return true;
+      return c._names.join(" ").indexOf(f) >= 0 || c._allCas.join(" ").indexOf($("b-filter").value.trim()) >= 0 || (c.un || []).join(" ").toLowerCase().indexOf(f) >= 0 || c._hs.indexOf(f.replace(/ /g, "")) === 0;
+    });
+  }
+  function renderBrowse() {
+    var rows = browseRows();
+    $("b-count").textContent = rows.length + " of " + CHEMS.length + " chemicals";
+    $("b-table").querySelector("tbody").innerHTML = rows.map(function (c) {
+      return '<tr class="click" data-id="' + esc(c.id) + '"><td>' + esc(c.name) + '</td><td class="num">' + esc(c.cas || "—") + '</td><td class="num">' + esc((c.un || []).join(", ") || "—") + '</td><td class="num">' + esc(c.hs || "—") + '</td><td><span class="badge ' + REGIME_CLASS[c._key] + '">' + REGIME_LABEL[c._key] + "</span></td></tr>";
+    }).join("");
+  }
+  function csvCell(v) { v = v == null ? "" : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  function downloadCsv() {
+    var head = ["Name", "CAS", "Other CAS", "UN", "HS", "Status", "Category", "Used for", "Role", "Legitimate use", "Synonyms"];
+    var lines = [head.join(",")];
+    CHEMS.forEach(function (c) {
+      lines.push([c.name, c.cas || "", (c.other_cas || []).map(function (o) { return o.cas + " (" + o.form + ")"; }).join("; "), (c.un || []).join("; "), c.hs || "", REGIME_LABEL[c._key], c.category || "", (c.drugs || []).join("; "), c.role || "", c.legit || "", (c.synonyms || []).join("; ")].map(csvCell).join(","));
+    });
+    var blob = new Blob(["﻿" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "precursor-chemicals.csv";
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  /* ---------- user companies ---------- */
+  function renderUser() {
+    var list = loadUser();
+    $("u-list").innerHTML = list.length ? list.map(function (c, i) {
+      return "<li><b>" + esc(c.name) + "</b> (" + esc(c.type) + (c.country ? ", " + esc(c.country) : "") + ") – CAS: " + esc(c.cas.join(", ")) +
+        ' <button class="copy" type="button" data-del="' + i + '">remove</button></li>';
+    }).join("") : '<li class="small">None saved yet.</li>';
+  }
+  function addUser() {
+    var name = $("u-name").value.trim();
+    var cas = $("u-cas").value.split(/[,;\s]+/).map(function (s) { return s.trim(); }).filter(Boolean);
+    var msg = $("u-msg");
+    if (!name) { msg.textContent = "Enter a company name."; return; }
+    var bad = cas.filter(function (c) { return !casValid(c); });
+    if (!cas.length || bad.length) { msg.textContent = cas.length ? "Invalid CAS number(s): " + bad.join(", ") : "Enter at least one CAS number."; return; }
+    var list = loadUser();
+    list.push({ id: "user-" + Date.now(), name: name, aliases: [], country: $("u-country").value.trim(), type: $("u-type").value, cas: cas, source: "Added locally by user" });
+    if (!saveUser(list)) { msg.textContent = "Could not save (browser storage unavailable)."; return; }
+    $("u-name").value = ""; $("u-cas").value = ""; $("u-country").value = "";
+    msg.textContent = "Saved on this device."; renderUser();
+  }
+  function exportUser() {
+    var blob = new Blob([JSON.stringify({ companies: loadUser() }, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "my-companies.json";
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  /* ---------- tabs & wiring ---------- */
+  function showTab(name) {
+    ["search", "label", "browse", "about"].forEach(function (t) {
+      var on = t === name;
+      $("tab-" + t).setAttribute("aria-selected", on ? "true" : "false");
+      $("panel-" + t).hidden = !on;
+    });
+    if (name === "browse") renderBrowse();
+    window.scrollTo(0, 0);
+  }
+
+  function init() {
+    DRUGS.forEach(function (d, i) { var o = document.createElement("option"); o.value = i; o.textContent = d[0]; $("f-drug").appendChild(o); });
+    ["search", "label", "browse", "about"].forEach(function (t) { $("tab-" + t).addEventListener("click", function () { showTab(t); }); });
+
+    ["q", "company"].forEach(function (id) { $(id).addEventListener("input", runSearch); });
+    ["f-regime", "f-drug"].forEach(function (id) { $(id).addEventListener("change", runSearch); });
+
+    var ex = ["acetic anhydride", "103-79-7", "UN1090", "2939.42", "P2P", "ANPP", "red phosphorus", "safrole"];
+    $("examples").innerHTML = ex.map(function (e) { return '<button class="chip" type="button" data-ex="' + esc(e) + '">' + esc(e) + "</button>"; }).join("");
+    $("examples").addEventListener("click", function (e) {
+      var b = e.target.closest("[data-ex]"); if (!b) return;
+      $("q").value = b.getAttribute("data-ex"); runSearch(); $("q").focus();
+    });
+
+    $("l-run").addEventListener("click", runLabel);
+    ["l-name", "l-cas", "l-un", "l-company"].forEach(function (id) { $(id).addEventListener("keydown", function (e) { if (e.key === "Enter") runLabel(); }); });
+
+    $("b-filter").addEventListener("input", renderBrowse);
+    $("b-regime").addEventListener("change", renderBrowse);
+    $("b-csv").addEventListener("click", downloadCsv);
+    $("b-table").addEventListener("click", function (e) {
+      var tr = e.target.closest("tr[data-id]"); if (!tr) return;
+      var c = CHEMS.filter(function (x) { return x.id === tr.getAttribute("data-id"); })[0];
+      if (!c) return;
+      $("q").value = c.cas || c.name; $("company").value = ""; showTab("search"); runSearch();
+    });
+
+    $("u-add").addEventListener("click", addUser);
+    $("u-export").addEventListener("click", exportUser);
+    $("u-list").addEventListener("click", function (e) {
+      var b = e.target.closest("[data-del]"); if (!b) return;
+      var list = loadUser(); list.splice(parseInt(b.getAttribute("data-del"), 10), 1); saveUser(list); renderUser();
+    });
+
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-copy]"); if (!b) return;
+      var v = b.getAttribute("data-copy");
+      try { navigator.clipboard.writeText(v); b.textContent = "copied"; setTimeout(function () { b.textContent = "copy"; }, 1200); } catch (err) { b.textContent = "select & copy"; }
+    });
+
+    $("meta").textContent = (META.redListEdition || "") + (META.built ? " · data built " + META.built : "") + " · " + CHEMS.length + " chemicals · " + (BASE_COMPANIES.length) + " companies";
+    renderUser();
+    runSearch();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+name: Validate data and deploy Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate data (CAS check digits, duplicates, references)
+        run: python3 scripts/build.py --check
+      - name: Rebuild bundles and make sure they are committed
+        run: |
+          python3 scripts/build.py
+          git diff --exit-code docs/data dist || (echo "Run 'python3 scripts/build.py' and commit the result" && exit 1)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Smoke tests
+        run: |
+          cd scripts
+          npm init -y >/dev/null
+          npm i jsdom >/dev/null
+          node test_app.js
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4

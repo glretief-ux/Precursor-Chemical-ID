@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Precursor Chemical ID – Law Enforcement Reference</title>
+<meta name="description" content="Identify drug precursors and chemicals used in illicit drug manufacture by CAS number, UN number, HS code or name, and check a chemical sticker's manufacturer.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>Precursor Chemical ID</h1>
+    <p class="sub">Identify a chemical by <b>CAS</b>, <b>UN number</b>, <b>HS code</b> or <b>name</b> — and check the <b>company on the sticker</b>.</p>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">Search</button>
+      <button role="tab" id="tab-label" aria-selected="false" aria-controls="panel-label">Label check</button>
+      <button role="tab" id="tab-browse" aria-selected="false" aria-controls="panel-browse">Browse all</button>
+      <button role="tab" id="tab-about" aria-selected="false" aria-controls="panel-about">About &amp; sources</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- SEARCH -->
+  <section id="panel-search" role="tabpanel" aria-labelledby="tab-search">
+    <div class="card form">
+      <label for="q">Chemical <span class="hint">name, synonym, CAS (108-24-7), UN (UN1715 / 1715), HS (2915.24)</span></label>
+      <input id="q" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. acetic anhydride · 103-79-7 · UN1090 · P2P · pseudoephedrine">
+
+      <label for="company">Company on the sticker <span class="hint">optional – checks whether this company is known to produce/supply the chemical</span></label>
+      <input id="company" type="search" autocomplete="off" spellcheck="false" placeholder="e.g. INEOS · Sigma-Aldrich · Malladi">
+
+      <div class="row">
+        <div>
+          <label for="f-regime">Control status</label>
+          <select id="f-regime">
+            <option value="">All</option>
+            <option value="T1">INCB Table I</option>
+            <option value="T2">INCB Table II</option>
+            <option value="NS">Not scheduled (monitored)</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-drug">Used for making</label>
+          <select id="f-drug"><option value="">Any drug</option></select>
+        </div>
+      </div>
+      <div class="chips" id="examples" aria-label="Examples"></div>
+    </div>
+    <p id="count" class="count" aria-live="polite"></p>
+    <div id="results"></div>
+  </section>
+
+  <!-- LABEL CHECK -->
+  <section id="panel-label" role="tabpanel" aria-labelledby="tab-label" hidden>
+    <div class="card form">
+      <p class="lead">Enter whatever is printed on the container label. The tool cross-checks the details against each other and against the database.</p>
+      <label for="l-name">Product name on label</label>
+      <input id="l-name" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. Acetone">
+      <div class="row">
+        <div>
+          <label for="l-cas">CAS number</label>
+          <input id="l-cas" type="text" inputmode="text" autocomplete="off" spellcheck="false" placeholder="67-64-1">
+        </div>
+        <div>
+          <label for="l-un">UN number</label>
+          <input id="l-un" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="UN1090">
+        </div>
+      </div>
+      <label for="l-company">Manufacturer / company on label</label>
+      <input id="l-company" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. INEOS Phenol">
+      <button id="l-run" class="primary" type="button">Check label</button>
+    </div>
+    <div id="l-result"></div>
+    <div class="card">
+      <h3>Field checklist for suspicious labels</h3>
+      <ul class="plain">
+        <li>Does the hazard class / pictogram match the chemical (e.g. flammable for solvents, corrosive for acids)?</li>
+        <li>Is the CAS check digit valid, and does the CAS match the product name on the same label?</li>
+        <li>Does the company address, telephone and website exist and match the stated country of origin?</li>
+        <li>Lot/batch number, date and purity present? Printed professionally or stuck-on / hand-written?</li>
+        <li>Does the declared goods description and HS code on the shipping documents match the label?</li>
+        <li>Is the quantity or purity unusual for the declared use (e.g. drums of a reagent-grade lab chemical)?</li>
+        <li>For scheduled chemicals: ask for the import/export authorisation and end-user declaration.</li>
+        <li><b>A label is never proof of contents</b> – confirm with a field test or laboratory analysis and secure samples under chain of custody.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BROWSE -->
+  <section id="panel-browse" role="tabpanel" aria-labelledby="tab-browse" hidden>
+    <div class="card form">
+      <div class="row">
+        <div>
+          <label for="b-filter">Filter list</label>
+          <input id="b-filter" type="search" autocomplete="off" placeholder="type to filter…">
+        </div>
+        <div>
+          <label for="b-regime">Control status</label>
+          <select id="b-regime">
+            <option value="">All</option>
+            <option value="T1">INCB Table I</option>
+            <option value="T2">INCB Table II</option>
+            <option value="NS">Not scheduled</option>
+          </select>
+        </div>
+      </div>
+      <button id="b-csv" class="secondary" type="button">Download CSV</button>
+    </div>
+    <p id="b-count" class="count"></p>
+    <div class="table-wrap">
+      <table id="b-table">
+        <thead><tr><th>Chemical</th><th>CAS</th><th>UN</th><th>HS</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="panel-about" role="tabpanel" aria-labelledby="tab-about" hidden>
+    <div class="card">
+      <h3>What this is</h3>
+      <p>A quick-reference tool for officers (customs, police, forensic and regulatory staff) to identify drug precursors and other chemicals frequently used in illicit drug manufacture, and to sanity-check what is printed on a container sticker.</p>
+      <p><b>Scheduled chemicals:</b> every substance in Tables I and II of the 1988 UN Convention as listed in the <a href="https://www.incb.org/incb/en/precursors/red-list.html" target="_blank" rel="noopener">INCB Red List</a> (23rd edition, July 2025), with CAS, HS code and – where one exists – UN transport number.</p>
+      <p><b>Non-scheduled chemicals:</b> substances widely reported as substitutes or reagents in clandestine laboratories (e.g. red phosphorus, iodine, benzyl cyanide, GBL, common solvents). The INCB's full limited International Special Surveillance List (ISSL) is restricted to governments and is <u>not</u> reproduced here.</p>
+      <p id="meta"></p>
+    </div>
+    <div class="card">
+      <h3>Limits you must know about</h3>
+      <ul class="plain">
+        <li>Salts, isomers and preparations of Table I/II substances are controlled but have <b>different CAS numbers</b>. A CAS that is not listed may still be a controlled salt – check <i>other CAS</i> and the INCB conversion table.</li>
+        <li>Many entries have <b>no dedicated UN number</b> because they are not dangerous goods in transport; a missing UN is not suspicious by itself.</li>
+        <li>The company list is <b>small, indicative and not exhaustive</b>. "Not in database" does not mean "fake", and "known producer" does not mean the product is genuine – counterfeit and re-labelled containers exist.</li>
+        <li>Legal status differs by country. Check national law (and regional rules, e.g. EU Regulations 273/2004 and 111/2005) before acting.</li>
+        <li>This is a reference aid, not legal advice, and no substitute for forensic identification.</li>
+      </ul>
+    </div>
+    <div class="card form">
+      <h3>My companies (saved on this device only)</h3>
+      <p class="hint2">Add producers/suppliers you have verified yourself. They are stored in this browser and used in the sticker check. Use <b>Export</b> to share them via a pull request.</p>
+      <label for="u-name">Company name</label>
+      <input id="u-name" type="text" autocomplete="off" placeholder="e.g. Example Chemicals Ltd">
+      <div class="row">
+        <div>
+          <label for="u-type">Type</label>
+          <select id="u-type"><option>producer</option><option>supplier</option><option>distributor</option></select>
+        </div>
+        <div>
+          <label for="u-country">Country</label>
+          <input id="u-country" type="text" autocomplete="off" placeholder="e.g. Belgium">
+        </div>
+      </div>
+      <label for="u-cas">CAS numbers they produce/supply <span class="hint">comma-separated</span></label>
+      <input id="u-cas" type="text" autocomplete="off" placeholder="67-64-1, 108-88-3">
+      <div class="btnrow">
+        <button id="u-add" class="primary" type="button">Add company</button>
+        <button id="u-export" class="secondary" type="button">Export JSON</button>
+      </div>
+      <p id="u-msg" class="hint2" aria-live="polite"></p>
+      <ul id="u-list" class="plain"></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  Reference aid only – verify by laboratory analysis and national law. Data: INCB Red List (public) and public-domain chemical identifiers.
+</footer>
+
+<script src="data/chemicals.js"></script>
+<script src="data/manufacturers.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
