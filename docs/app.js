@@ -35,6 +35,11 @@
   var REGIME_LABEL = { T1: "INCB Table I", T2: "INCB Table II", NS: "Not scheduled" };
   var REGIME_CLASS = { T1: "b-t1", T2: "b-t2", NS: "b-ns" };
 
+  var TRADE = {
+    T1: "Licence/registration to make or trade; export and import authorisation; pre-export notification; customer declarations; records. <a href=\"#\" data-goto=\"controls\">See permits</a>",
+    T2: "Registration/licensing varies by country; pre-export notification where the importing country requires it; records and correct customs documents. <a href=\"#\" data-goto=\"controls\">See permits</a>",
+    NS: "No international licence requirement; may be nationally controlled. Check national law."
+  };
   var DRUGS = [
     ["Heroin", /heroin/i], ["Cocaine", /cocaine/i], ["Methamphetamine", /methamphetamine/i],
     ["Amphetamine-type (incl. meth)", /amphetamine/i], ["MDMA / ecstasy", /mdma|mda\b|mdea/i],
@@ -201,6 +206,7 @@
     if (c.role) h += "<dt>Role</dt><dd>" + esc(c.role) + "</dd>";
     if (c.legit) h += "<dt>Legitimate use</dt><dd>" + esc(c.legit) + "</dd>";
     if (c.appearance) h += "<dt>Appearance</dt><dd>" + esc(c.appearance) + "</dd>";
+    h += "<dt>Trade control</dt><dd>" + TRADE[c._key] + "</dd>";
     if (c.added) h += "<dt>Scheduled</dt><dd>" + esc(c.added) + "</dd>";
     if (c.notes) h += "<dt>Notes</dt><dd>" + esc(c.notes) + "</dd>";
     h += "</dl></div>" + companyVerdict(c, companyRaw) + "</article>";
@@ -371,7 +377,7 @@
 
   /* ---------- tabs & wiring ---------- */
   function showTab(name) {
-    ["search", "label", "browse", "about"].forEach(function (t) {
+    ["search", "label", "browse", "controls", "about"].forEach(function (t) {
       var on = t === name;
       $("tab-" + t).setAttribute("aria-selected", on ? "true" : "false");
       $("panel-" + t).hidden = !on;
@@ -382,7 +388,7 @@
 
   function init() {
     DRUGS.forEach(function (d, i) { var o = document.createElement("option"); o.value = i; o.textContent = d[0]; $("f-drug").appendChild(o); });
-    ["search", "label", "browse", "about"].forEach(function (t) { $("tab-" + t).addEventListener("click", function () { showTab(t); }); });
+    ["search", "label", "browse", "controls", "about"].forEach(function (t) { $("tab-" + t).addEventListener("click", function () { showTab(t); }); });
 
     ["q", "company"].forEach(function (id) { $(id).addEventListener("input", runSearch); });
     ["f-regime", "f-drug"].forEach(function (id) { $(id).addEventListener("change", runSearch); });
@@ -415,6 +421,8 @@
     });
 
     document.addEventListener("click", function (e) {
+      var g = e.target.closest("[data-goto]");
+      if (g) { e.preventDefault(); showTab(g.getAttribute("data-goto")); return; }
       var b = e.target.closest("[data-copy]"); if (!b) return;
       var v = b.getAttribute("data-copy");
       try { navigator.clipboard.writeText(v); b.textContent = "copied"; setTimeout(function () { b.textContent = "copy"; }, 1200); } catch (err) { b.textContent = "select & copy"; }

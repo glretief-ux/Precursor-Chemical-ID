@@ -22,6 +22,7 @@
       <button role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">Search</button>
       <button role="tab" id="tab-label" aria-selected="false" aria-controls="panel-label">Label check</button>
       <button role="tab" id="tab-browse" aria-selected="false" aria-controls="panel-browse">Browse all</button>
+      <button role="tab" id="tab-controls" aria-selected="false" aria-controls="panel-controls">Controls &amp; permits</button>
       <button role="tab" id="tab-about" aria-selected="false" aria-controls="panel-about">About &amp; sources</button>
     </nav>
   </div>
@@ -121,6 +122,106 @@
         <thead><tr><th>Chemical</th><th>CAS</th><th>UN</th><th>HS</th><th>Status</th></tr></thead>
         <tbody></tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- CONTROLS & PERMITS -->
+  <section id="panel-controls" role="tabpanel" aria-labelledby="tab-controls" hidden>
+    <div class="card">
+      <h3>How chemicals are controlled, from manufacture to importer</h3>
+      <p>Scheduled precursors are controlled under <b>Article 12 of the 1988 UN Convention</b>. Each country applies it through national law, run by a <b>Competent National Authority (CNA)</b>. The control chain below is the common pattern; exact permits and thresholds differ by country, so always confirm with the national law and the CNA.</p>
+    </div>
+
+    <ol class="flow">
+      <li>
+        <div class="step">1</div>
+        <div class="fbody"><h4>Manufacture and production</h4>
+          <p>The producer is licensed or registered with the national authority for the specific chemicals it makes. It keeps production and stock records, and must be able to account for losses.</p>
+          <p class="doc"><b>Documents:</b> manufacturing licence / registration · production and stock records · safety data sheet and certificate of analysis (CoA).</p></div>
+      </li>
+      <li>
+        <div class="step">2</div>
+        <div class="fbody"><h4>Storage, distribution and domestic sale</h4>
+          <p>Distributors and traders are licensed or registered. For every sale they identify the customer, record the quantity and stated end use, and report suspicious or unusual orders to the authority. Many countries require a <b>customer declaration</b> of legitimate use for sales of scheduled substances.</p>
+          <p class="doc"><b>Documents:</b> trader licence / registration · customer declaration (end-use) · sales and stock records (the Convention requires records to be kept for at least 2 years) · suspicious-order reports.</p></div>
+      </li>
+      <li>
+        <div class="step">3</div>
+        <div class="fbody"><h4>Export</h4>
+          <p>The exporter obtains an <b>export authorisation</b> for each shipment (or a general licence, depending on the country). The exporting authority issues a <b>pre-export notification (PEN)</b> to the importing country's authority, normally through the INCB's <b>PEN Online</b> system, and waits for a response or non-objection where the importing country requires one. Commercial documents must state the chemical's name <i>as in the Convention table</i>, the quantity, and the exporter, importer and consignee details, and containers must be labelled correctly.</p>
+          <p class="doc"><b>Documents:</b> export authorisation · PEN reference / response · commercial invoice · packing list · transport document (bill of lading / airway bill) · customs export declaration · end-user declaration.</p></div>
+      </li>
+      <li>
+        <div class="step">4</div>
+        <div class="fbody"><h4>Transit and transhipment</h4>
+          <p>Shipments passing through another country (or a free zone / transhipment hub) remain subject to customs supervision. Authorities may check the documents and, where national law allows, notify the origin and destination authorities. Consignments that change route, consignee or paperwork in transit are a key risk indicator.</p>
+          <p class="doc"><b>Documents:</b> transit declaration · original transport documents · copies of the export authorisation and PEN where required.</p></div>
+      </li>
+      <li>
+        <div class="step">5</div>
+        <div class="fbody"><h4>Import and customs clearance</h4>
+          <p>The importer needs an <b>import authorisation or permit</b> (where national law requires one) and must be a licensed/registered operator for that chemical. Customs matches the declaration, HS code and CAS number to the licence and the PEN, checks quantity and consignee, and may inspect and sample. A mismatch is grounds to hold the shipment under national law.</p>
+          <p class="doc"><b>Documents:</b> import licence / permit · importer's operator licence · PEN notification on file · customs import declaration with correct HS code · invoice, packing list, transport document · CoA / SDS.</p></div>
+      </li>
+      <li>
+        <div class="step">6</div>
+        <div class="fbody"><h4>Final user</h4>
+          <p>The importer supplies only registered or declared customers and keeps records of every transaction. Unusual quantities, new customers with no legitimate trade, or a stated use that does not fit the chemical should be reported to the authority.</p>
+          <p class="doc"><b>Documents:</b> customer declarations · transaction records · reports of suspicious orders.</p></div>
+      </li>
+    </ol>
+
+    <div class="card">
+      <h3>Which control applies?</h3>
+      <div class="table-wrap">
+        <table class="plain-table">
+          <thead><tr><th>Status</th><th>What to expect</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge b-t1">Table I</span></td><td>Strictest regime: licence or registration for manufacture and trade, export and import authorisation, pre-export notification, customer declarations, records and labelling. Salts and preparations are also controlled.</td></tr>
+            <tr><td><span class="badge b-t2">Table II</span></td><td>Same framework, usually lighter: registration or licensing varies by country; pre-export notification where the importing country has asked for it; records and correct customs documents always apply. Many Table II chemicals are common industrial solvents and acids.</td></tr>
+            <tr><td><span class="badge b-ns">Not scheduled</span></td><td>No international licensing requirement. Some countries control them nationally, and the INCB runs voluntary monitoring. Treat unusual quantities or declared uses as intelligence indicators.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hint2">Regional and national examples: the EU applies Regulations 273/2004 (intra-EU trade) and 111/2005 (trade with non-EU countries), with licences, registrations, authorisations and customer declarations by category. The US applies the Controlled Substances Act (List I and II chemicals) through the DEA, with registration and import/export declarations. Check your own country's rules.</p>
+    </div>
+
+    <div class="card">
+      <h3>How to check a permit</h3>
+      <ol class="plain">
+        <li><b>Identify the chemical.</b> Use the Search tab: confirm name, CAS, HS code and whether it is Table I, Table II or not scheduled. Salts and preparations have different CAS and HS codes.</li>
+        <li><b>Read the permit itself.</b> Check the permit number, issuing authority, holder name and address, chemical name and CAS, quantity, validity dates, exporting and importing country, consignee, and whether it is for a single shipment or a period.</li>
+        <li><b>Match it to the shipment.</b> The holder must be the importer or exporter on the invoice and transport document. Name, CAS, HS code, quantity, packaging and container number must all agree. Quantity must not exceed the permit, and the permit must be valid on the date of import or export.</li>
+        <li><b>Check the notification trail.</b> For scheduled substances, ask your CNA whether a pre-export notification was sent for this shipment and whether the importing authority responded, using INCB PEN Online (access is for CNAs).</li>
+        <li><b>Verify with the issuing authority.</b> Do not rely on contact details printed on the permit. Look up the authority's contact through your CNA or the INCB list of CNAs, and ask them to confirm that the permit is genuine and still valid.</li>
+        <li><b>Check the operator.</b> Confirm the importer or exporter is registered or licensed for this chemical with the competent authority, not just that the company exists in a business register.</li>
+        <li><b>If anything does not match,</b> follow national law on holding, sampling and seizing; secure samples with chain of custody; and report through your CNA, which can raise it with the INCB Precursors Incident Communication System (PICS) and partner countries.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>Red flags</h3>
+      <ul class="plain">
+        <li>No permit, an expired permit, or one that does not name the chemical, quantity or consignee.</li>
+        <li>Permit number, stamp or signature that the issuing authority cannot confirm.</li>
+        <li>Chemical declared under another name or a wrong HS code, or declared as a mixture, "cleaning product" or "lab reagent" in industrial quantities.</li>
+        <li>New or recently registered company, no web presence, or a business unrelated to chemicals.</li>
+        <li>Illogical route or transhipment through several countries; last-minute change of consignee or destination.</li>
+        <li>Payment in cash or through third parties; pressure to clear quickly.</li>
+        <li>Labels whose CAS, UN number or manufacturer do not agree (use the Label check tab).</li>
+        <li>Quantities far above what the declared industry needs, or an end-use that does not fit the chemical.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Who to contact and where to look</h3>
+      <ul class="plain">
+        <li><b>Your Competent National Authority (CNA)</b> for precursors: permit verification, PEN Online queries and incident reporting. Contacts are listed by the INCB: <a href="https://www.incb.org/incb/en/precursors/cna.html" target="_blank" rel="noopener">INCB CNA information</a>.</li>
+        <li><b>INCB Precursors Control Section</b>: <a href="mailto:incb.precursors@un.org">incb.precursors@un.org</a> · <a href="https://www.incb.org/incb/en/precursors/red-list.html" target="_blank" rel="noopener">Red List</a>.</li>
+        <li><b>UNODC multilingual dictionary of precursors and chemicals</b> (names in many languages): <a href="https://www.unodc.org/unodc/en/scientists/multilingual-dictionary-of-precursors-and-chemicals" target="_blank" rel="noopener">UNODC</a>.</li>
+        <li><b>Container Control Programme (CCP) / WCO</b> and your regional customs liaison for intelligence sharing on suspicious containers.</li>
+      </ul>
+      <p class="hint2">This page is a general guide, not legal advice. National law decides which permits apply and what officers may do.</p>
     </div>
   </section>
 

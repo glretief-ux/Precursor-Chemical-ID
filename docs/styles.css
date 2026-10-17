@@ -106,3 +106,14 @@ th{letter-spacing:.04em;text-transform:uppercase;font-size:.72rem}
   label,.card h3,.res-head h2{color:#9ecbff}
   button.primary{background:var(--accent)}
 }
+
+/* controls & permits */
+.flow{list-style:none;margin:0 0 12px;padding:0}
+.flow li{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0 0 8px;position:relative}
+.step{flex:0 0 32px;height:32px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:700}
+.fbody{flex:1;min-width:0}
+.fbody h4{margin:2px 0 4px;color:var(--brand);font-size:1rem}
+.fbody p{margin:.3em 0}
+.doc{font-size:.85rem;color:var(--muted)}
+.plain-table td:first-child{white-space:nowrap}
+@media (prefers-color-scheme: dark){.fbody h4{color:#9ecbff}.step{background:var(--accent)}}
