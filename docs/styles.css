@@ -1,6 +1,6 @@
 :root{
-  --bg:#f5f6f8; --card:#ffffff; --ink:#14181f; --muted:#5a6472; --line:#dde1e7;
-  --brand:#14365d; --brand-ink:#ffffff; --accent:#1f6feb;
+  --bg:#eef1f5; --card:#ffffff; --ink:#14181f; --muted:#5a6472; --line:#dde1e7;
+  --brand:#0b2745; --brand-ink:#ffffff; --accent:#1f5fa8;
   --t1:#b42318; --t1-bg:#fee4e2; --t2:#b54708; --t2-bg:#fef0c7; --ns:#175cd3; --ns-bg:#d1e9ff;
   --ok:#067647; --ok-bg:#d3f8df; --warn:#93370d; --warn-bg:#fef0c7; --bad:#b42318; --bad-bg:#fee4e2;
   --radius:14px;
@@ -15,11 +15,8 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Verdana,Geneva,"DejaVu Sans",sans-serif}
 .wrap{max-width:980px;margin:0 auto;padding:0 16px}
-.top{background:var(--brand);color:var(--brand-ink);padding:max(12px,env(safe-area-inset-top)) 0 0;position:sticky;top:0;z-index:5;box-shadow:0 1px 6px rgba(0,0,0,.25)}
-.top h1{font-size:1.25rem;margin:8px 0 2px;letter-spacing:.2px}
-.top .sub{margin:0 0 8px;font-size:.85rem;opacity:.9}
 .tabs{display:flex;gap:4px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:0}
 .tabs button{flex:0 0 auto;background:transparent;border:0;color:inherit;padding:10px 14px;font-size:.95rem;cursor:pointer;border-bottom:3px solid transparent;opacity:.8}
 .tabs button[aria-selected="true"]{opacity:1;border-bottom-color:#fff;font-weight:600}
@@ -84,3 +81,28 @@ tr.click:hover td{background:var(--bg)}
 a{color:var(--accent)}
 .foot{color:var(--muted);font-size:.78rem;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 .small{font-size:.85rem;color:var(--muted)}
+
+/* ---- professional header ---- */
+.brand{background:#fff;border-bottom:1px solid #d5dbe3}
+.brand-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:max(10px,env(safe-area-inset-top));padding-bottom:10px}
+.logo{height:64px;width:auto;display:block}
+.brand-txt{text-align:right;color:#0b2745;font-weight:700;font-size:.85rem;letter-spacing:.06em;line-height:1.4}
+.brand-txt span{font-weight:400;letter-spacing:.02em;color:#4a5668;font-size:.78rem}
+@media (max-width:560px){.logo{height:46px}.brand-txt{font-size:.7rem}.brand-txt span{font-size:.66rem}}
+.bar{background:linear-gradient(180deg,#0b2745,#12365f);color:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.bar h1{font-size:1.2rem;margin:12px 0 2px;letter-spacing:.03em;font-weight:700}
+.bar .sub{margin:0 0 8px;font-size:.8rem;opacity:.85}
+.bar .tabs button{color:#fff;font-family:inherit;font-size:.85rem;letter-spacing:.02em}
+.bar .tabs button[aria-selected="true"]{border-bottom-color:#7db4f0}
+.card{box-shadow:0 1px 3px rgba(11,39,69,.08);border-radius:10px}
+.card h3{color:var(--brand);letter-spacing:.02em}
+label{text-transform:none;color:var(--brand)}
+button.primary{background:var(--brand)}
+.res-head h2{color:var(--brand);font-size:1.02rem}
+.badge{border-radius:5px}
+th{letter-spacing:.04em;text-transform:uppercase;font-size:.72rem}
+@media (prefers-color-scheme: dark){
+  .brand{background:#fff}
+  label,.card h3,.res-head h2{color:#9ecbff}
+  button.primary{background:var(--accent)}
+}

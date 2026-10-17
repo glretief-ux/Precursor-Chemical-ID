@@ -89,6 +89,9 @@ def main():
     html = re.sub(r'<script src="data/chemicals.js"></script>', lambda m: f"<script>\n{chem_js}\n</script>", html)
     html = re.sub(r'<script src="data/manufacturers.js"></script>', lambda m: f"<script>\n{comp_js}\n</script>", html)
     html = re.sub(r'<script src="app.js"></script>', lambda m: f"<script>\n{app}\n</script>", html)
+    import base64
+    logo = base64.b64encode((ROOT / "docs" / "logo.png").read_bytes()).decode()
+    html = html.replace('src="logo.png"', 'src="data:image/png;base64,' + logo + '"')
     dist = ROOT / "dist"
     dist.mkdir(exist_ok=True)
     (dist / "precursor-chemical-id.html").write_text(html, encoding="utf-8")
