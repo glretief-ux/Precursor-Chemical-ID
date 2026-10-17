@@ -82,16 +82,25 @@ def main():
     (out / "chemicals.js").write_text(chem_js, encoding="utf-8")
     (out / "manufacturers.js").write_text(comp_js, encoding="utf-8")
 
-    html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    import hashlib
+    h = hashlib.sha1()
+    for f in ["styles.css", "app.js", "data/chemicals.js", "data/manufacturers.js", "logo.png"]:
+        h.update((ROOT / "docs" / f).read_bytes())
+    ver = h.hexdigest()[:8]
+    idx = ROOT / "docs" / "index.html"
+    src = idx.read_text(encoding="utf-8")
+    src = re.sub(r'(href="styles\.css|src="app\.js|src="data/chemicals\.js|src="data/manufacturers\.js|src="logo\.png)(\?v=\w+)?"', lambda m: m.group(1) + "?v=" + ver + '"', src)
+    idx.write_text(src, encoding="utf-8")
+    html = src
     css = (ROOT / "docs" / "styles.css").read_text(encoding="utf-8")
     app = (ROOT / "docs" / "app.js").read_text(encoding="utf-8")
-    html = re.sub(r'<link rel="stylesheet" href="styles.css">', lambda m: f"<style>\n{css}\n</style>", html)
-    html = re.sub(r'<script src="data/chemicals.js"></script>', lambda m: f"<script>\n{chem_js}\n</script>", html)
-    html = re.sub(r'<script src="data/manufacturers.js"></script>', lambda m: f"<script>\n{comp_js}\n</script>", html)
-    html = re.sub(r'<script src="app.js"></script>', lambda m: f"<script>\n{app}\n</script>", html)
+    html = re.sub(r'<link rel="stylesheet" href="styles\.css\?v=\w+">', lambda m: f"<style>\n{css}\n</style>", html)
+    html = re.sub(r'<script src="data/chemicals\.js\?v=\w+"></script>', lambda m: f"<script>\n{chem_js}\n</script>", html)
+    html = re.sub(r'<script src="data/manufacturers\.js\?v=\w+"></script>', lambda m: f"<script>\n{comp_js}\n</script>", html)
+    html = re.sub(r'<script src="app\.js\?v=\w+"></script>', lambda m: f"<script>\n{app}\n</script>", html)
     import base64
     logo = base64.b64encode((ROOT / "docs" / "logo.png").read_bytes()).decode()
-    html = html.replace('src="logo.png"', 'src="data:image/png;base64,' + logo + '"')
+    html = re.sub(r'src="logo\.png\?v=\w+"', lambda m: 'src="data:image/png;base64,' + logo + '"', html)
     dist = ROOT / "dist"
     dist.mkdir(exist_ok=True)
     (dist / "precursor-chemical-id.html").write_text(html, encoding="utf-8")
