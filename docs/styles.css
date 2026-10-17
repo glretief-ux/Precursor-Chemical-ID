@@ -122,3 +122,36 @@ th{background:#1a56a0;color:#fff}
 .chip{background:#eef3fa;border-color:#c5d4ea;color:#1a56a0}
 label,.card h3,.res-head h2,.fbody h4{color:#1a56a0}
 tr.click:hover td{background:#eef3fa}
+
+/* ---- Seizure-Watch-style layout ---- */
+:root{--navy:#1b365d;--bg:#f3f5f8}
+body{background:var(--bg)}
+.brand{background:transparent;border:0;text-align:center;padding:max(14px,env(safe-area-inset-top)) 16px 10px}
+.brand .logo{height:84px;display:inline-block}
+.titlecard{background:var(--navy);color:#fff;border-radius:14px;padding:18px 22px;margin:0 0 14px}
+.titlecard h1{margin:0 0 6px;font-size:1.5rem;color:#fff}
+.titlecard p{margin:3px 0;font-size:.85rem;color:#fff}
+.titlecard a{color:#fff;text-decoration:underline}
+.titlecard .tc-sub{opacity:.85}
+.tabsbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:2px 0 8px}
+.tabsbar .tabs{gap:8px}
+.tabsbar .tabs button{background:#fff;border:1px solid var(--line);border-radius:10px;color:var(--navy);opacity:1;padding:9px 14px;font-weight:600;font-size:.85rem;border-bottom:1px solid var(--line)}
+.tabsbar .tabs button[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:0 0 12px}
+@media (max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(27,54,93,.08)}
+.kpi-click{cursor:pointer}
+.kpi-click:hover{border-color:var(--navy)}
+.kpi-l{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#5a6472;font-weight:700}
+.kpi-v{font-size:1.9rem;font-weight:800;color:var(--navy);line-height:1.2;margin:4px 0 2px}
+.kpi-s{font-size:.78rem;color:#5a6472}
+.card{border-radius:12px;border:1px solid var(--line)}
+.card h3,label,.fbody h4{color:var(--navy)}
+.res .res-head{background:var(--navy);color:#fff;padding:12px 16px}
+.res .res-head h2{color:#fff;font-size:1.05rem;margin:0 0 8px}
+.res-body{padding-top:10px}
+button.primary{background:var(--navy)}
+button.secondary{color:var(--navy);border-color:var(--navy)}
+th,.step{background:var(--navy);color:#fff}
+.chip{color:var(--navy)}
+input,select{border-radius:10px;background:#fff}

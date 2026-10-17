@@ -9,15 +9,18 @@
 </head>
 <body>
 <header class="brand">
-  <div class="wrap brand-in">
-    <img src="logo.png" alt="AIRCOP – Container Control Programme (CCP)" class="logo">
-    <div class="brand-txt">Law Enforcement<br><span>Reference Tool</span></div>
-  </div>
+  <img src="logo.png" alt="AIRCOP – Container Control Programme (CCP)" class="logo">
 </header>
-<div class="bar">
-  <div class="wrap">
+<div class="wrap">
+  <div class="titlecard">
     <h1>Precursor Chemical ID</h1>
-    <p class="sub">Identify a chemical by <b>CAS</b>, <b>UN number</b>, <b>HS code</b> or <b>name</b> and check the <b>company on the sticker</b>.</p>
+    <p id="tc-meta"></p>
+    <p class="tc-links"><a href="#" data-goto="browse">Browse all</a> | <a href="#" id="tc-csv">Chemicals (CSV)</a> | <a href="#" data-goto="controls">Controls &amp; permits</a> | <a href="#" data-goto="label">Label check</a></p>
+    <p class="tc-sub">Identify a chemical by CAS, UN number, HS code or name, and check the company on the sticker.</p>
+  </div>
+</div>
+<div class="tabsbar">
+  <div class="wrap">
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">Search</button>
       <button role="tab" id="tab-label" aria-selected="false" aria-controls="panel-label">Label check</button>
@@ -32,6 +35,7 @@
 
   <!-- SEARCH -->
   <section id="panel-search" role="tabpanel" aria-labelledby="tab-search">
+    <div class="kpis" id="kpis"></div>
     <div class="card form">
       <label for="q">Chemical <span class="hint">name, synonym, CAS (108-24-7), UN (UN1715 / 1715), HS (2915.24)</span></label>
       <input id="q" type="search" inputmode="search" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. acetic anhydride · 103-79-7 · UN1090 · P2P · pseudoephedrine">

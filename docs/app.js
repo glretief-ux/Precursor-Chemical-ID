@@ -428,6 +428,18 @@
       try { navigator.clipboard.writeText(v); b.textContent = "copied"; setTimeout(function () { b.textContent = "copy"; }, 1200); } catch (err) { b.textContent = "select & copy"; }
     });
 
+    var nT1 = CHEMS.filter(function (c) { return c._key === "T1"; }).length, nT2 = CHEMS.filter(function (c) { return c._key === "T2"; }).length, nNS = CHEMS.filter(function (c) { return c._key === "NS"; }).length;
+    $("tc-meta").textContent = (META.redListEdition || "INCB Red List") + " | " + CHEMS.length + " chemicals tracked | " + BASE_COMPANIES.length + " companies in sticker check";
+    $("tc-csv").addEventListener("click", function (e) { e.preventDefault(); downloadCsv(); });
+    var kp = [["Scheduled chemicals", nT1 + nT2, "INCB Tables I + II", ""], ["Table I", nT1, "strictest controls", "T1"], ["Table II", nT2, "solvents, acids, others", "T2"], ["Monitored", nNS, "not scheduled", "NS"], ["Companies", BASE_COMPANIES.length, "for sticker check", ""]];
+    $("kpis").innerHTML = kp.map(function (k) {
+      return '<div class="kpi' + (k[3] ? " kpi-click" : "") + '"' + (k[3] ? ' data-kpi="' + k[3] + '" role="button" tabindex="0"' : "") + '><div class="kpi-l">' + esc(k[0]) + '</div><div class="kpi-v">' + k[1] + '</div><div class="kpi-s">' + esc(k[2]) + "</div></div>";
+    }).join("");
+    $("kpis").addEventListener("click", function (e) {
+      var k = e.target.closest("[data-kpi]"); if (!k) return;
+      var v = $("f-regime").value === k.getAttribute("data-kpi") ? "" : k.getAttribute("data-kpi");
+      $("f-regime").value = v; runSearch();
+    });
     $("meta").textContent = (META.redListEdition || "") + (META.built ? " · data built " + META.built : "") + " · " + CHEMS.length + " chemicals · " + (BASE_COMPANIES.length) + " companies";
     renderUser();
     runSearch();
