@@ -1741,6 +1741,58 @@
      "u": "https://www.importlicensing.wto.org/sites/default/files/members/96/Dangerous%20Drugs%20Act%202000_29.12.2000.pdf"
     }
    ]
+  },
+  "GHA": {
+   "coverage": "none",
+   "basis": "Narcotics Control Commission Act, 2020 (Act 1019): precursors are the substances in the Eighth Schedule, which the Minister can revise by regulation.",
+   "extras": [],
+   "notes": "The Eighth Schedule text could not be read from the copies available, so its chemicals are not shown. The Commission's website names acetone, hydrochloric acid and pseudoephedrine as examples only. The Commission has required businesses handling precursor chemicals to register.",
+   "sources": [
+    {
+     "t": "Narcotics Control Commission Act, 2020 (Act 1019)",
+     "u": "https://repository.parliament.gh/items/7e9a78ad-7c70-433b-8bd9-af92ce1b77af"
+    },
+    {
+     "t": "NACOC – Precursor control",
+     "u": "https://www.ncc.gov.gh/precursor-control/"
+    }
+   ]
+  },
+  "BEN": {
+   "coverage": "none",
+   "basis": "Loi n°97-025 du 18 juillet 1997 sur le contrôle des drogues: precursors are in Tableau IV, which is set by ministerial order.",
+   "extras": [],
+   "notes": "The order that lists the Tableau IV substances could not be found online, so its chemicals are not shown.",
+   "sources": [
+    {
+     "t": "Loi n°97-025 (Bénin)",
+     "u": "https://sgg.gouv.bj/doc/loi-1997-025/download"
+    }
+   ]
+  },
+  "TGO": {
+   "coverage": "none",
+   "basis": "Loi n°98-008 sur le contrôle des drogues: precursors are in Tableau IV (art. 6), set and amended by order of the health minister (art. 7).",
+   "extras": [],
+   "notes": "The order that lists the Tableau IV substances could not be found online, so its chemicals are not shown.",
+   "sources": [
+    {
+     "t": "Loi n°98-008 (Togo)",
+     "u": "https://sherloc.unodc.org/cld/uploads/res/document/tgo/loi-no--98-008_html/Togo-Loi_98-008.pdf"
+    }
+   ]
+  },
+  "SEN": {
+   "coverage": "none",
+   "basis": "Loi n°97-18 du 1er décembre 1997 portant Code des drogues.",
+   "extras": [],
+   "notes": "The annexes with the precursor list could not be read (the official copy blocks automated access), so its chemicals are not shown.",
+   "sources": [
+    {
+     "t": "Code des drogues (Sénégal), Loi 97-18",
+     "u": "https://sherloc.unodc.org/cld/uploads/res/document/code-des-drogues_html/CODE_DES_DROGUES_DU_11_NOVEMBRE_1997.pdf"
+    }
+   ]
   }
  }
 }

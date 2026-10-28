@@ -395,7 +395,7 @@
   });
   function covClass(iso) {
     var d = CDATA[iso];
-    if (!d) return "c-none";
+    if (!d || d.coverage === "none") return "c-none";
     if (d.coverage === "partial") return "c-partial";
     return d.extras.length ? "c-extra" : "c-clear";
   }
@@ -461,10 +461,15 @@
     if (c.r) h += '<span class="badge b-id">' + esc(c.sr || c.r) + "</span>";
     if (c.dep) h += '<span class="badge b-id">Dependency / territory</span>';
     h += '<span class="badge cov-' + (d ? d.coverage : "none") + '">' + esc(COV_LABEL[d ? d.coverage : "none"]) + "</span></div>";
-    if (!d) {
+    if (!d || d.coverage === "none") {
       h += '<p class="hint2">No consolidated public list of nationally controlled chemicals could be found for this ' + (c.dep ? "territory" : "country") + '. This does <b>not</b> mean it has none: the INCB says about 50 countries control chemicals beyond Tables I and II but does not publish who. ';
       h += c.dep ? "A territory is often covered by the law of the state that administers it; check that state first. " : "";
       h += 'Ask the national competent authority (the INCB keeps the contact list in its <a href="https://www.incb.org/incb/en/precursors/index.html" target="_blank" rel="noopener">precursors area</a>).</p>';
+      if (d) {
+        if (d.basis) h += '<p class="small"><b>Legal basis:</b> ' + esc(d.basis) + "</p>";
+        if (d.notes) h += '<p class="small"><b>Notes:</b> ' + esc(d.notes) + "</p>";
+        if (d.sources && d.sources.length) h += '<p class="small"><b>Sources:</b></p><ul class="plain small">' + d.sources.map(function (x) { return '<li><a href="' + esc(x[1]) + '" target="_blank" rel="noopener">' + esc(x[0]) + "</a></li>"; }).join("") + "</ul>";
+      }
     } else {
       if (d.via) h += '<p class="hint2">Same list as ' + (BYISO[d.via] ? '<a href="#" data-country="' + d.via + '">' + esc(BYISO[d.via].n) + "</a>" : esc(d.via)) + ".</p>";
       if (d.basis) h += '<p class="small"><b>Basis:</b> ' + esc(d.basis) + "</p>";
