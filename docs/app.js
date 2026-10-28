@@ -403,7 +403,7 @@
     return ids.map(function (i) { return BYISO[i] ? '<button type="button" class="chip" data-country="' + i + '">' + esc(BYISO[i].l) + "</button>" : ""; }).join("");
   }
   var NS = "http://www.w3.org/2000/svg";
-  var MAP = { k: 1, tx: 0, ty: 0, sel: null, ready: false, pending: false, moved: false };
+  var MAP = { region: "", k: 1, tx: 0, ty: 0, sel: null, ready: false, pending: false, moved: false };
 
   function mapScale() { var r = $("m-svg").getBoundingClientRect(); return r.width ? r.width / WORLD.w : 1; }
   function clampView() {
@@ -492,8 +492,28 @@
   }
   function renderMapList() {
     var f = norm($("m-filter").value);
-    var list = WORLD.countries.slice().sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; }).filter(function (c) { return !f || norm(c.n).indexOf(f) >= 0 || c.i.toLowerCase() === f; });
+    var list = WORLD.countries.filter(function (c) { return !MAP.region || c.r === MAP.region; }).sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; }).filter(function (c) { return !f || norm(c.n).indexOf(f) >= 0 || c.i.toLowerCase() === f; });
     $("m-list").innerHTML = list.map(function (c) { return '<button type="button" class="chip ' + covClass(c.i) + '" data-country="' + c.i + '">' + esc(c.n) + "</button>"; }).join("");
+  }
+  function focusRegion(reg) {
+    MAP.region = reg || "";
+    var set = WORLD.countries.filter(function (c) { return c.r === reg; });
+    if (reg && set.length) {
+      var x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      set.forEach(function (c) { x0 = Math.min(x0, c.x); x1 = Math.max(x1, c.x); y0 = Math.min(y0, c.y); y1 = Math.max(y1, c.y); });
+      var w = Math.max(x1 - x0, 40) + 50, h = Math.max(y1 - y0, 40) + 40;
+      MAP.k = Math.min(8, WORLD.w / w, WORLD.h / h);
+      MAP.tx = WORLD.w / 2 - (x0 + x1) / 2 * MAP.k; MAP.ty = WORLD.h / 2 - (y0 + y1) / 2 * MAP.k;
+    } else { MAP.k = 1; MAP.tx = 0; MAP.ty = 0; }
+    $("m-africa").setAttribute("aria-pressed", reg === "Africa" ? "true" : "false");
+    $("m-africa").textContent = reg === "Africa" ? "Show whole world" : "Focus on Africa";
+    applyView(); renderMapList(); mapCount();
+  }
+  function mapCount() {
+    var set = WORLD.countries.filter(function (c) { return !MAP.region || c.r === MAP.region; });
+    var n = { verified: 0, partial: 0, none: 0, extra: 0 };
+    set.forEach(function (c) { var d = CDATA[c.i]; n[d ? d.coverage : "none"]++; if (d && d.extras.length) n.extra++; });
+    $("m-count").textContent = set.length + " countries and territories" + (MAP.region ? " in " + MAP.region : "") + ": " + n.verified + " with a full national list read, " + n.partial + " partial, " + n.none + " with no public list found. " + n.extra + " have chemicals beyond INCB Tables I and II.";
   }
   function initMap() {
     var svg = $("m-svg");
@@ -505,9 +525,7 @@
     WORLD.countries.forEach(function (c) { if (c.p) h += '<circle class="dot ' + covClass(c.i) + '" data-i="' + c.i + '" cx="' + c.x + '" cy="' + c.y + '" r="1.6"><title>' + esc(c.n) + "</title></circle>"; });
     h += '</g></g><g id="m-lab" pointer-events="none"></g>';
     svg.innerHTML = h;
-    var n = { verified: 0, partial: 0, none: 0, extra: 0 };
-    WORLD.countries.forEach(function (c) { var d = CDATA[c.i]; n[d ? d.coverage : "none"]++; if (d && d.extras.length) n.extra++; });
-    $("m-count").textContent = WORLD.countries.length + " countries and territories: " + n.verified + " with a full national list read, " + n.partial + " partial, " + n.none + " with no public list found.";
+    mapCount();
     $("m-legend").innerHTML = [["c-extra", "Extra chemicals (list read)"], ["c-clear", "List read, no extras"], ["c-partial", "Partial list"], ["c-none", "No public list found"]].map(function (x) {
       return '<span><i class="sw ' + x[0] + '"></i>' + x[1] + "</span>";
     }).join("");
@@ -545,8 +563,9 @@
     });
     $("m-in").addEventListener("click", function () { zoomAt(1.6, WORLD.w / 2, WORLD.h / 2); });
     $("m-out").addEventListener("click", function () { zoomAt(1 / 1.6, WORLD.w / 2, WORLD.h / 2); });
-    $("m-reset").addEventListener("click", function () { MAP.k = 1; MAP.tx = 0; MAP.ty = 0; applyView(); });
+    $("m-reset").addEventListener("click", function () { focusRegion(""); });
     $("m-filter").addEventListener("input", renderMapList);
+    $("m-africa").addEventListener("click", function () { focusRegion(MAP.region === "Africa" ? "" : "Africa"); });
     $("m-search").addEventListener("input", function () {
       var v = norm(this.value); if (!v) return;
       var c = WORLD.countries.filter(function (x) { return norm(x.n) === v || x.i.toLowerCase() === v; })[0];

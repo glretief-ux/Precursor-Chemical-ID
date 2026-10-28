@@ -1693,6 +1693,54 @@
      "u": "https://assets.publishing.service.gov.uk/media/6a9e95f99a177a1decf97ec3/PC_Wallchart_Import-_Export__September_2026.pdf"
     }
    ]
+  },
+  "UGA": {
+   "coverage": "verified",
+   "basis": "Narcotic Drugs and Psychotropic Substances (Control) Act, 2024, Schedule 5 (Table I and Table II).",
+   "extras": [],
+   "notes": "All 29 substances in Schedule 5 are in INCB Table I or II, so no additional chemicals were found.",
+   "sources": [
+    {
+     "t": "Uganda NDPS (Control) Act 2024 – Schedule 5",
+     "u": "https://ulii.org/en/akn/ug/act/2024/2/eng@2024-02-23"
+    }
+   ]
+  },
+  "ZMB": {
+   "coverage": "verified",
+   "basis": "Narcotic Drugs and Psychotropic Substances Act, 2021, Fifth Schedule (precursor chemicals, Divisions I and II).",
+   "extras": [],
+   "notes": "All 22 substances are in INCB Table I or II, so no additional chemicals were found. The list follows the original 1988 tables.",
+   "sources": [
+    {
+     "t": "Zambia NDPS Act 2021 – Fifth Schedule",
+     "u": "https://www.zambialii.org/akn/zm/act/2021/35"
+    }
+   ]
+  },
+  "TZA": {
+   "coverage": "partial",
+   "basis": "Drugs Control and Enforcement Act, 2015, Second Schedule (Tables I and II).",
+   "extras": [],
+   "notes": "All 24 substances are in INCB Table I or II. The text read is the 2015 Act; later amendments or regulations may add chemicals.",
+   "sources": [
+    {
+     "t": "Tanzania Drugs Control and Enforcement Act 2015",
+     "u": "https://tanzlii.org/akn/tz/act/2015/5"
+    }
+   ]
+  },
+  "MUS": {
+   "coverage": "partial",
+   "basis": "Dangerous Drugs Act 2000, Schedule IV (precursors).",
+   "extras": [],
+   "notes": "All 22 listed substances are in INCB Table I or II. The text read is the 2000 version; later amendments or regulations may add chemicals.",
+   "sources": [
+    {
+     "t": "Mauritius Dangerous Drugs Act 2000",
+     "u": "https://www.importlicensing.wto.org/sites/default/files/members/96/Dangerous%20Drugs%20Act%202000_29.12.2000.pdf"
+    }
+   ]
   }
  }
 }

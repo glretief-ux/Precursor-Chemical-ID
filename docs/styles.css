@@ -191,3 +191,4 @@ input,select{border-radius:10px;background:#fff}
 #m-panel .table-wrap{margin:8px 0}
 #m-list{max-height:320px;overflow:auto}
 #m-svg #m-dots circle{r:calc(2.4px / var(--k,1))}
+.map-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.map-tools input{flex:1 1 220px;width:auto}.map-tools button.secondary{margin-top:0}
