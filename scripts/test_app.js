@@ -60,6 +60,24 @@ setTimeout(() => {
   r = lab("", "67-64-2", "", "");
   ok(r.includes("check digit invalid"), "bad CAS on label flagged");
 
+  // world map
+  const paths = d.querySelectorAll("#m-svg path.ctry").length;
+  ok(paths > 180, "map draws country shapes (" + paths + ")");
+  ok(w.WORLD.countries.length >= 230, "map has " + w.WORLD.countries.length + " countries/territories");
+  d.querySelector('#m-svg [data-i="USA"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  let mp = d.getElementById("m-panel").textContent;
+  ok(mp.includes("United States") && mp.includes("Ethylamine") && mp.includes("List I"), "clicking USA lists its extra chemicals");
+  d.querySelector('#m-list [data-country="IND"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  mp = d.getElementById("m-panel").textContent;
+  ok(mp.includes("India") && mp.includes("No additional chemicals"), "India shows list read, no extras");
+  d.querySelector('#m-list [data-country="FRA"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  ok(d.getElementById("m-panel").textContent.includes("EAPA"), "France shows EU extras");
+  d.querySelector('#m-list [data-country="TUV"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  ok(d.getElementById("m-panel").textContent.includes("No consolidated public list"), "country with no data says so");
+  ok(Object.keys(w.COUNTRIES).length >= 55, "country data loaded");
+  type("q", "red phosphorus");
+  ok(d.getElementById("results").textContent.includes("Nationally controlled in"), "chemical card lists countries that control it");
+
   // counts
   const t1 = (d.getElementById("results") && 0);
   ok(w.CHEMICALS.length === 104, "104 chemicals loaded");

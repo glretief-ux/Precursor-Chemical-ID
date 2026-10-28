@@ -5,17 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Precursor Chemical ID – Law Enforcement Reference</title>
 <meta name="description" content="Identify drug precursors and chemicals used in illicit drug manufacture by CAS number, UN number, HS code or name, and check a chemical sticker's manufacturer.">
-<link rel="stylesheet" href="styles.css?v=cea89139">
+<link rel="stylesheet" href="styles.css?v=fe3e5cd8">
 </head>
 <body>
 <header class="brand">
-  <img src="logo.png?v=cea89139" alt="AIRCOP – Container Control Programme (CCP)" class="logo">
+  <img src="logo.png?v=fe3e5cd8" alt="AIRCOP – Container Control Programme (CCP)" class="logo">
 </header>
 <div class="wrap">
   <div class="titlecard">
     <h1>Precursor Chemical ID</h1>
     <p id="tc-meta"></p>
-    <p class="tc-links"><a href="#" data-goto="browse">Browse all</a> | <a href="#" id="tc-csv">Chemicals (CSV)</a> | <a href="#" data-goto="controls">Controls &amp; permits</a> | <a href="#" data-goto="label">Label check</a></p>
+    <p class="tc-links"><a href="#" data-goto="map">World map</a> | <a href="#" data-goto="browse">Browse all</a> | <a href="#" id="tc-csv">Chemicals (CSV)</a> | <a href="#" data-goto="controls">Controls &amp; permits</a> | <a href="#" data-goto="label">Label check</a></p>
     <p class="tc-sub">Identify a chemical by CAS, UN number, HS code or name, and check the company on the sticker.</p>
   </div>
 </div>
@@ -23,6 +23,7 @@
   <div class="wrap">
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">Search</button>
+      <button role="tab" id="tab-map" aria-selected="false" aria-controls="panel-map">World map</button>
       <button role="tab" id="tab-label" aria-selected="false" aria-controls="panel-label">Label check</button>
       <button role="tab" id="tab-browse" aria-selected="false" aria-controls="panel-browse">Browse all</button>
       <button role="tab" id="tab-controls" aria-selected="false" aria-controls="panel-controls">Controls &amp; permits</button>
@@ -229,6 +230,34 @@
     </div>
   </section>
 
+  <!-- WORLD MAP -->
+  <section id="panel-map" role="tabpanel" aria-labelledby="tab-map" hidden>
+    <div class="card">
+      <h3>Nationally controlled chemicals by country</h3>
+      <p class="hint2">Click a country to see the chemicals it controls <b>in addition to</b> the INCB Table I and II lists. Scroll or pinch to zoom, drag to pan.</p>
+      <div class="map-tools">
+        <input id="m-search" type="search" list="m-names" placeholder="Find a country" autocomplete="off" aria-label="Find a country">
+        <datalist id="m-names"></datalist>
+      </div>
+      <div class="map-legend" id="m-legend"></div>
+      <div class="map-box">
+        <svg id="m-svg" role="img" aria-label="World map. Click a country for its additional controlled chemicals." xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="map-zoom">
+          <button type="button" id="m-in" aria-label="Zoom in">+</button>
+          <button type="button" id="m-out" aria-label="Zoom out">&minus;</button>
+          <button type="button" id="m-reset" aria-label="Reset view">&#8634;</button>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="m-panel" aria-live="polite"></div>
+    <div class="card">
+      <h3>All countries</h3>
+      <p class="hint2" id="m-count"></p>
+      <input id="m-filter" type="search" placeholder="Filter list" aria-label="Filter country list">
+      <div class="chips" id="m-list"></div>
+    </div>
+  </section>
+
   <!-- ABOUT -->
   <section id="panel-about" role="tabpanel" aria-labelledby="tab-about" hidden>
     <div class="card">
@@ -236,6 +265,7 @@
       <p>A quick-reference tool for officers (customs, police, forensic and regulatory staff) to identify drug precursors and other chemicals frequently used in illicit drug manufacture, and to sanity-check what is printed on a container sticker.</p>
       <p><b>Scheduled chemicals:</b> every substance in Tables I and II of the 1988 UN Convention as listed in the <a href="https://www.incb.org/incb/en/precursors/red-list.html" target="_blank" rel="noopener">INCB Red List</a> (23rd edition, July 2025), with CAS, HS code and – where one exists – UN transport number.</p>
       <p><b>Non-scheduled chemicals:</b> substances widely reported as substitutes or reagents in clandestine laboratories (e.g. red phosphorus, iodine, benzyl cyanide, GBL, common solvents). The INCB's full limited International Special Surveillance List (ISSL) is restricted to governments and is <u>not</u> reproduced here.</p>
+      <p><b>World map:</b> for each country, the chemicals it controls nationally that are <u>not</u> in INCB Table I or II, taken from national legislation with the source linked. The INCB reports that about 50 countries control extra chemicals but publishes no per-country list, so coverage is graded <i>verified</i> (the full national list was read), <i>partial</i> (only part found or possibly out of date) or <i>no public list found</i>. Absence of data is not proof that a country has no extra controls. Corrections and new sources are welcome via <code>data/countries.json</code> in the repository.</p>
       <p id="meta"></p>
     </div>
     <div class="card">
@@ -279,8 +309,10 @@
   Reference aid only – verify by laboratory analysis and national law. Data: INCB Red List (public) and public-domain chemical identifiers.
 </footer>
 
-<script src="data/chemicals.js?v=cea89139"></script>
-<script src="data/manufacturers.js?v=cea89139"></script>
-<script src="app.js?v=cea89139"></script>
+<script src="data/chemicals.js?v=fe3e5cd8"></script>
+<script src="data/countries.js?v=fe3e5cd8"></script>
+<script src="data/world.js?v=fe3e5cd8"></script>
+<script src="data/manufacturers.js?v=fe3e5cd8"></script>
+<script src="app.js?v=fe3e5cd8"></script>
 </body>
 </html>

@@ -72,3 +72,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Corrections to CAS/UN numbers or company
 ## License
 
 Code: MIT (see `LICENSE`). Chemical identifiers (CAS, UN, HS) are facts; the Red List content is published by the INCB for exactly this identification purpose.
+
+## World map (nationally controlled chemicals)
+
+The **World map** tab shows every country and territory with clear borders and names. Clicking one lists the chemicals it controls that are *not* in INCB Table I or II, with CAS numbers and a link to the source law.
+
+- Data: `data/countries.json` (hand-researched from national legislation; every entry has a source). `scripts/build.py` validates it (CAS check digits, nothing INCB-scheduled listed as an extra) and writes `docs/data/countries.js`.
+- Coverage is graded *verified* (full national list read), *partial* or *no public list found*. The INCB publishes no per-country list, so missing data is not proof of no controls. To add or correct a country, edit `data/countries.json` and open a pull request.
+- Borders: Natural Earth 1:50m (public domain) via `scripts/build_map.js`, which writes `docs/data/world.js`. Only needed when changing the map; the output is committed.

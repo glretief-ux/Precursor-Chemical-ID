@@ -1,0 +1,1698 @@
+{
+ "meta": {
+  "asOf": "2026-10-28",
+  "note": "Chemicals a country controls nationally that are NOT in INCB Table I or II (1988 Convention). Built from national legislation and official notices, with a source for every entry. Countries without an entry have no consolidated public list that could be verified."
+ },
+ "regimes": {
+  "EU": {
+   "coverage": "verified",
+   "basis": "EU Regulation (EC) 273/2004 (Annex I) and Regulation (EC) 111/2005, as amended to Delegated Regulation (EU) 2025/1475. The same list applies in all 27 member states.",
+   "extras": [
+    {
+     "n": "IMDPAM (isopropylidene (2-(3,4-methylenedioxyphenyl)acetyl)malonate)",
+     "g": "Category 1",
+     "note": "CN 2932 99 00. No CAS number is given in the regulation."
+    },
+    {
+     "n": "EAPA (ethyl alpha-phenylacetoacetate)",
+     "cas": "5413-05-8",
+     "g": "Category 1"
+    },
+    {
+     "n": "MAMDPA (methyl 3-oxo-2-(3,4-methylenedioxyphenyl)butanoate)",
+     "cas": "1369021-80-6",
+     "g": "Category 1"
+    },
+    {
+     "n": "(1R,2S)-(-)-Chloroephedrine",
+     "cas": "110925-64-9",
+     "g": "Category 1"
+    },
+    {
+     "n": "(1S,2R)-(+)-Chloroephedrine",
+     "cas": "1384199-95-4",
+     "g": "Category 1"
+    },
+    {
+     "n": "(1S,2S)-(+)-Chloropseudoephedrine",
+     "cas": "73393-61-0",
+     "g": "Category 1"
+    },
+    {
+     "n": "(1R,2R)-(-)-Chloropseudoephedrine",
+     "cas": "771434-80-1",
+     "g": "Category 1"
+    },
+    {
+     "db": "red-phosphorus",
+     "g": "Category 2A"
+    }
+   ],
+   "notes": "Member states may add national controls on top of this list; none were checked here. Category 4 and other national rules are not covered.",
+   "sources": [
+    {
+     "t": "Estonian State Agency of Medicines – EU scheduled substances list",
+     "u": "https://www.ravimiamet.ee/en/what-are-drug-precursors"
+    },
+    {
+     "t": "Delegated Regulation (EU) 2024/1331 (IMDPAM)",
+     "u": "https://eur-lex.europa.eu/eli/reg_del/2024/1331/oj/eng"
+    },
+    {
+     "t": "Delegated Regulation (EU) 2025/1475 (4-piperidone, 1-boc-4-piperidone)",
+     "u": "https://eur-lex.europa.eu/eli/reg_del/2025/1475/oj/eng"
+    },
+    {
+     "t": "Delegated Regulation (EU) 2020/1737",
+     "u": "https://www.legislation.gov.uk/eur/2020/1737/data.pdf"
+    }
+   ]
+  }
+ },
+ "countries": {
+  "AUT": {
+   "regime": "EU"
+  },
+  "BEL": {
+   "regime": "EU"
+  },
+  "BGR": {
+   "regime": "EU"
+  },
+  "HRV": {
+   "regime": "EU"
+  },
+  "CYP": {
+   "regime": "EU"
+  },
+  "CZE": {
+   "regime": "EU"
+  },
+  "DNK": {
+   "regime": "EU"
+  },
+  "EST": {
+   "regime": "EU"
+  },
+  "FIN": {
+   "regime": "EU"
+  },
+  "FRA": {
+   "regime": "EU"
+  },
+  "DEU": {
+   "regime": "EU"
+  },
+  "GRC": {
+   "regime": "EU"
+  },
+  "HUN": {
+   "regime": "EU"
+  },
+  "IRL": {
+   "regime": "EU"
+  },
+  "ITA": {
+   "regime": "EU"
+  },
+  "LVA": {
+   "regime": "EU"
+  },
+  "LTU": {
+   "regime": "EU"
+  },
+  "LUX": {
+   "regime": "EU"
+  },
+  "MLT": {
+   "regime": "EU"
+  },
+  "NLD": {
+   "regime": "EU"
+  },
+  "POL": {
+   "regime": "EU"
+  },
+  "PRT": {
+   "regime": "EU"
+  },
+  "ROU": {
+   "regime": "EU"
+  },
+  "SVK": {
+   "regime": "EU"
+  },
+  "SVN": {
+   "regime": "EU"
+  },
+  "ESP": {
+   "regime": "EU"
+  },
+  "SWE": {
+   "regime": "EU"
+  },
+  "USA": {
+   "coverage": "verified",
+   "basis": "US Controlled Substances Act – List I and List II chemicals, 21 CFR 1310.02 (DEA).",
+   "extras": [
+    {
+     "db": "benzyl-cyanide",
+     "g": "List I"
+    },
+    {
+     "db": "methylamine",
+     "g": "List I"
+    },
+    {
+     "n": "Ethylamine",
+     "cas": "75-04-7",
+     "g": "List I"
+    },
+    {
+     "db": "propionic-anhydride",
+     "g": "List I"
+    },
+    {
+     "db": "hydriodic-acid",
+     "g": "List I"
+    },
+    {
+     "db": "benzaldehyde",
+     "g": "List I"
+    },
+    {
+     "db": "nitroethane",
+     "g": "List I"
+    },
+    {
+     "db": "gbl",
+     "g": "List I"
+    },
+    {
+     "db": "red-phosphorus",
+     "g": "List I"
+    },
+    {
+     "db": "white-phosphorus",
+     "g": "List I"
+    },
+    {
+     "db": "hypophosphorous-acid",
+     "g": "List I",
+     "note": "and its salts"
+    },
+    {
+     "db": "iodine",
+     "g": "List I"
+    },
+    {
+     "db": "propionyl-chloride",
+     "g": "List I"
+    },
+    {
+     "n": "N-Methylephedrine",
+     "g": "List I"
+    },
+    {
+     "n": "N-Methylpseudoephedrine",
+     "g": "List I"
+    },
+    {
+     "n": "Norpseudoephedrine (cathine)",
+     "g": "List I"
+    },
+    {
+     "n": "Ergocristine",
+     "g": "List I"
+    },
+    {
+     "n": "Benzylfentanyl",
+     "g": "List I"
+    },
+    {
+     "db": "benzyl-chloride",
+     "g": "List II"
+    },
+    {
+     "n": "Methyl isobutyl ketone (MIBK)",
+     "cas": "108-10-1",
+     "g": "List II"
+    },
+    {
+     "n": "Sodium permanganate",
+     "cas": "10101-50-5",
+     "g": "List II"
+    }
+   ],
+   "notes": "Individual US states add their own controls (for example on pseudoephedrine sales and clandestine-lab chemicals); those are not included here.",
+   "sources": [
+    {
+     "t": "21 CFR 1310.02 – Substances covered",
+     "u": "https://www.law.cornell.edu/cfr/text/21/1310.02"
+    }
+   ]
+  },
+  "PRI": {
+   "inherit": "USA",
+   "notes": "Puerto Rico is a US territory; US federal List I/II chemicals apply. Local rules may add to them."
+  },
+  "GUM": {
+   "inherit": "USA",
+   "notes": "Guam is a US territory; US federal List I/II chemicals apply. Local rules may add to them."
+  },
+  "VIR": {
+   "inherit": "USA",
+   "notes": "US Virgin Islands is a US territory; US federal List I/II chemicals apply. Local rules may add to them."
+  },
+  "ASM": {
+   "inherit": "USA",
+   "notes": "American Samoa is a US territory; US federal List I/II chemicals apply. Local rules may add to them."
+  },
+  "MNP": {
+   "inherit": "USA",
+   "notes": "Northern Mariana Islands is a US territory; US federal List I/II chemicals apply. Local rules may add to them."
+  },
+  "CAN": {
+   "coverage": "verified",
+   "basis": "Controlled Drugs and Substances Act, Schedule VI (Class A and Class B precursors), version in force 12 Apr 2026 – 30 Sep 2026.",
+   "extras": [
+    {
+     "db": "gbl",
+     "g": "Class A"
+    },
+    {
+     "db": "14-butanediol",
+     "g": "Class A"
+    },
+    {
+     "db": "red-phosphorus",
+     "g": "Class A"
+    },
+    {
+     "db": "white-phosphorus",
+     "g": "Class A"
+    },
+    {
+     "db": "hypophosphorous-acid",
+     "g": "Class A",
+     "note": "its salts and derivatives"
+    },
+    {
+     "db": "hydriodic-acid",
+     "g": "Class A"
+    },
+    {
+     "db": "propionyl-chloride",
+     "g": "Class A"
+    },
+    {
+     "db": "propionic-anhydride",
+     "g": "Class A"
+    },
+    {
+     "db": "phenethyl-bromide",
+     "g": "Class A"
+    },
+    {
+     "n": "Phenethyl iodide ((2-iodoethyl)benzene)",
+     "g": "Class A"
+    },
+    {
+     "n": "Phenethyl chloride ((2-chloroethyl)benzene)",
+     "g": "Class A"
+    },
+    {
+     "n": "Benzylfentanyl (and derivatives/analogues)",
+     "g": "Class A"
+    },
+    {
+     "n": "1-Benzyl-4-piperidone",
+     "cas": "3612-20-2",
+     "g": "Class A"
+    },
+    {
+     "n": "3-Methyl-4-piperidone",
+     "g": "Class A"
+    },
+    {
+     "n": "4-Fluoroanilino-1-boc-piperidine",
+     "g": "Class A"
+    },
+    {
+     "n": "N-(4-Fluorophenyl)-4-piperidinamine",
+     "g": "Class A"
+    },
+    {
+     "n": "4-Bromoanilino-1-boc-piperidine",
+     "g": "Class A"
+    },
+    {
+     "n": "N1,N1,N2-Trimethylcyclohexane-1,2-diamine",
+     "g": "Class A"
+    },
+    {
+     "n": "1-Phenethylpiperidin-4-ylidenephenylamine",
+     "g": "Class A"
+    },
+    {
+     "db": "benzyl-chloride",
+     "g": "Class B"
+    }
+   ],
+   "notes": "Canada also lists derivatives and analogues of 1-phenyl-2-propanone, 3,4-MDP-2-P, 4-piperidone and 4-AP, which goes beyond the INCB entries. Check the current consolidated schedule; it changes often.",
+   "sources": [
+    {
+     "t": "Controlled Drugs and Substances Act – Schedule VI",
+     "u": "https://laws.justice.gc.ca/eng/acts/c-38.8/section-sched95823-20260412.html"
+    }
+   ]
+  },
+  "MEX": {
+   "coverage": "verified",
+   "basis": "Ley Federal para el Control de Precursores Químicos, Productos Químicos Esenciales y Máquinas (Art. 4 and the agreements that added substances, last in the version consulted: 2021).",
+   "extras": [
+    {
+     "db": "benzyl-cyanide",
+     "g": "Precursor"
+    },
+    {
+     "db": "nitroethane",
+     "g": "Precursor"
+    },
+    {
+     "n": "Nitromethane",
+     "cas": "75-52-5",
+     "g": "Precursor"
+    },
+    {
+     "db": "benzaldehyde",
+     "g": "Precursor"
+    },
+    {
+     "db": "benzyl-chloride",
+     "g": "Precursor"
+    },
+    {
+     "db": "methylamine",
+     "g": "Precursor"
+    },
+    {
+     "db": "propionic-anhydride",
+     "g": "Precursor"
+    },
+    {
+     "db": "propionyl-chloride",
+     "g": "Precursor"
+    },
+    {
+     "db": "hydriodic-acid",
+     "g": "Essential chemical"
+    },
+    {
+     "db": "red-phosphorus",
+     "g": "Essential chemical"
+    },
+    {
+     "n": "Phenylacetic acid derivatives (esters, salts, phenylacetyl halides, phenylacetaldehyde, phenylethanol, phenylacetamide)",
+     "g": "Phenylacetic acid derivatives",
+     "note": "Covered by the 2009/2010 agreements: about 40 named esters plus potassium and sodium phenylacetate, phenylacetyl chloride/fluoride/bromide, phenylacetaldehyde, 2-phenylethanol and 2-phenylacetamide."
+    },
+    {
+     "db": "ethyl-phenylacetate",
+     "g": "Phenylacetic acid derivatives"
+    },
+    {
+     "db": "methyl-phenylacetate",
+     "g": "Phenylacetic acid derivatives"
+    },
+    {
+     "db": "phenylacetamide",
+     "g": "Phenylacetic acid derivatives"
+    }
+   ],
+   "notes": "The consulted text may not include reforms after 2021. Confirm against the current law and the Mexican authority.",
+   "sources": [
+    {
+     "t": "Ley Federal para el Control de Precursores Químicos (Cámara de Diputados)",
+     "u": "https://www.diputados.gob.mx/LeyesBiblio/ref/lfcpq.htm"
+    }
+   ]
+  },
+  "BRA": {
+   "coverage": "partial",
+   "basis": "Polícia Federal controlled chemicals list (Portaria 204/2022 updated list, Lists I–VII). Brazil also controls through ANVISA and the Federal Police; the list is amended often.",
+   "extras": [
+    {
+     "n": "Anthranilic anhydride",
+     "g": "Lista I – precursors"
+    },
+    {
+     "db": "propionic-anhydride",
+     "g": "Lista I – precursors"
+    },
+    {
+     "db": "gbl",
+     "g": "Lista I – precursors"
+    },
+    {
+     "n": "Etaefedrine (N-ethylephedrine)",
+     "g": "Lista I – precursors"
+    },
+    {
+     "n": "Methylergometrine",
+     "g": "Lista I – precursors"
+    },
+    {
+     "n": "N-Methylephedrine",
+     "g": "Lista I – precursors"
+    },
+    {
+     "n": "N-Methylpseudoephedrine",
+     "g": "Lista I – precursors"
+    },
+    {
+     "n": "Sassafras oil, similar essential oils or preparations containing safrole and/or piperonal",
+     "g": "Lista I – precursors"
+    },
+    {
+     "n": "1,2-Dichloroethane",
+     "cas": "107-06-2",
+     "g": "Lista II – solvents"
+    },
+    {
+     "db": "ethyl-acetate",
+     "g": "Lista II – solvents"
+    },
+    {
+     "n": "Ethyl chloride",
+     "cas": "75-00-3",
+     "g": "Lista II – solvents"
+    },
+    {
+     "db": "dichloromethane",
+     "g": "Lista II – solvents"
+    },
+    {
+     "db": "chloroform",
+     "g": "Lista II – solvents"
+    },
+    {
+     "n": "Aminopyrine",
+     "cas": "58-15-1",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Benzocaine",
+     "cas": "94-09-7",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Caffeine",
+     "cas": "58-08-2",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Diltiazem",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Dipyrone",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Phenacetin",
+     "cas": "62-44-2",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Hydroxyzine",
+     "cas": "68-88-2",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Levamisole",
+     "cas": "14769-73-4",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Lidocaine",
+     "cas": "137-58-6",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Mannitol",
+     "cas": "69-65-8",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Paracetamol",
+     "cas": "103-90-2",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Procaine",
+     "cas": "59-46-1",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Theophylline",
+     "cas": "58-55-9",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Tetracaine",
+     "cas": "94-24-6",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Tetramisole",
+     "g": "Lista III – drugs, adulterants and diluents"
+    },
+    {
+     "n": "Acetic acid",
+     "cas": "64-19-7",
+     "g": "Lista IV – acids"
+    },
+    {
+     "n": "Benzoic acid",
+     "cas": "65-85-0",
+     "g": "Lista IV – acids"
+    },
+    {
+     "n": "Boric acid",
+     "cas": "10043-35-3",
+     "g": "Lista IV – acids"
+    },
+    {
+     "n": "Hydrobromic acid",
+     "cas": "10035-10-6",
+     "g": "Lista IV – acids"
+    },
+    {
+     "n": "Chlorosulfonic acid",
+     "cas": "7790-94-5",
+     "g": "Lista IV – acids"
+    },
+    {
+     "db": "formic-acid",
+     "g": "Lista IV – acids"
+    },
+    {
+     "db": "hypophosphorous-acid",
+     "g": "Lista IV – acids"
+    },
+    {
+     "db": "hydriodic-acid",
+     "g": "Lista IV – acids"
+    },
+    {
+     "n": "Potassium bicarbonate",
+     "cas": "298-14-6",
+     "g": "Lista V – bases"
+    },
+    {
+     "db": "ammonium-formate",
+     "g": "Lista V – bases"
+    },
+    {
+     "n": "Ammonium hydroxide",
+     "cas": "1336-21-6",
+     "g": "Lista V – bases"
+    },
+    {
+     "db": "sodium-borohydride",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Bromobenzene",
+     "cas": "108-86-1",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Butylamine",
+     "cas": "109-73-9",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Sodium cyanoborohydride",
+     "cas": "25895-60-7",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "ammonium-chloride",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "mercuric-chloride",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Potassium chromate",
+     "cas": "7789-00-6",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Potassium dichromate",
+     "cas": "7778-50-9",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Sodium dichromate",
+     "cas": "10588-01-9",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "diethylamine",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Ethylamine",
+     "cas": "75-04-7",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Phenylethanolamine",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "formamide",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "red-phosphorus",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "lithium-aluminium-hydride",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Hydroxylamine",
+     "cas": "7803-49-8",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "methylamine",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "nitroethane",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "db": "n-methylformamide",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Phosphorus pentachloride",
+     "cas": "10026-13-8",
+     "g": "Lista VI – reagents"
+    },
+    {
+     "n": "Isoamyl acetate",
+     "cas": "123-92-2",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Isobutyl acetate",
+     "cas": "110-19-0",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Isopropyl acetate",
+     "cas": "108-21-4",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "n-Butyl acetate",
+     "cas": "123-86-4",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "n-Propyl acetate",
+     "cas": "109-60-4",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "sec-Butyl acetate",
+     "cas": "105-46-4",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Orthophosphoric acid",
+     "cas": "7664-38-2",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Mineral turpentine and similar aliphatic hydrocarbon mixtures",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Ethanol",
+     "cas": "64-17-5",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Isobutanol",
+     "cas": "78-83-1",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "isopropanol",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "methanol",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "n-Butanol",
+     "cas": "71-36-3",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "n-Propanol",
+     "cas": "71-23-8",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "sec-Butanol",
+     "cas": "78-92-2",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "anhydrous-ammonia",
+     "n": "Ammonia",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "benzaldehyde",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Benzene",
+     "cas": "71-43-2",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Sodium bicarbonate",
+     "cas": "144-55-8",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Calcium carbonate",
+     "cas": "471-34-1",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "sodium-carbonate",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Potassium carbonate",
+     "cas": "584-08-7",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Activated carbon",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "benzyl-cyanide",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Bromobenzyl cyanide",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Cyclohexane",
+     "cas": "110-82-7",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "cyclohexanone",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Portland cement",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "acetyl-chloride",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Aluminium chloride",
+     "cas": "7446-70-0",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "benzyl-chloride",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Calcium chloride (anhydrous)",
+     "cas": "10043-52-4",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Diacetone alcohol",
+     "cas": "123-42-2",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Manganese dioxide",
+     "cas": "1313-13-9",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Petroleum ether",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "gasoline",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Calcium hydroxide",
+     "cas": "1305-62-0",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Potassium hydroxide",
+     "cas": "1310-58-3",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "sodium-hydroxide",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Sodium hypochlorite",
+     "cas": "7681-52-9",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Sodium metabisulfite",
+     "cas": "7681-57-4",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Methyl isobutyl ketone (MIBK)",
+     "cas": "108-10-1",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "n-Heptane",
+     "cas": "142-82-5",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "hexane",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Diesel oil",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "calcium-oxide",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Manganese(II) oxide",
+     "cas": "1344-43-0",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Hydrogen peroxide",
+     "cas": "7722-84-1",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Pyridine",
+     "cas": "110-86-1",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "propiophenone",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "kerosene",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Sodium sulfate (anhydrous)",
+     "cas": "7757-82-6",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Tetrachloroethylene",
+     "cas": "127-18-4",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Tetrahydrofuran",
+     "cas": "109-99-9",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Trichloroethylene",
+     "cas": "79-01-6",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "n": "Urea",
+     "cas": "57-13-6",
+     "g": "Lista VII – miscellaneous chemicals"
+    },
+    {
+     "db": "xylene",
+     "g": "Lista VII – miscellaneous chemicals"
+    }
+   ],
+   "notes": "This is the Federal Police list as published in 2022. Entries added since then (for example fentanyl precursors) may be missing here; check the current Federal Police list.",
+   "sources": [
+    {
+     "t": "Polícia Federal – updated controlled chemicals list (Portaria 204/2022)",
+     "u": "https://proinfra.furg.br/images/CGA/QuimicosControlados/PF/port204_Lista_Atualizada223_2022.pdf"
+    }
+   ]
+  },
+  "COL": {
+   "coverage": "partial",
+   "basis": "Consejo Nacional de Estupefacientes, Resolución 0001 de 2015, Art. 4 (33 substances and chemical products). Mixtures that contain a controlled substance need a technical review (Art. 5).",
+   "extras": [
+    {
+     "n": "Fuel oil for motors (ACPM, diesel)",
+     "g": "Resolución 0001/2015, Art. 4",
+     "note": "Substance of mass use"
+    },
+    {
+     "n": "Butyl acetate",
+     "cas": "123-86-4",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "db": "ethyl-acetate",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Isobutyl acetate",
+     "cas": "110-19-0",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Isopropyl acetate",
+     "cas": "108-21-4",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "n-Propyl acetate",
+     "cas": "109-60-4",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "db": "isopropanol",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "db": "anhydrous-ammonia",
+     "n": "Ammonia",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Butanol",
+     "cas": "71-36-3",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "db": "sodium-carbonate",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Cement",
+     "g": "Resolución 0001/2015, Art. 4",
+     "note": "Substance of mass use"
+    },
+    {
+     "db": "chloroform",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Calcium chloride",
+     "cas": "10043-52-4",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Diacetone alcohol",
+     "cas": "123-42-2",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Manganese dioxide",
+     "cas": "1313-13-9",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Solvents No. 1 and 1A",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Solvent No. 2",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Gasoline for motors",
+     "g": "Resolución 0001/2015, Art. 4",
+     "note": "Substance of mass use"
+    },
+    {
+     "db": "hexane",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "db": "sodium-hydroxide",
+     "g": "Resolución 0001/2015, Art. 4",
+     "note": "Substance of mass use"
+    },
+    {
+     "n": "Potassium manganate",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "db": "methanol",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Sodium metabisulfite",
+     "cas": "7681-57-4",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Methyl isobutyl ketone (MIBK)",
+     "cas": "108-10-1",
+     "g": "Resolución 0001/2015, Art. 4"
+    },
+    {
+     "n": "Thinner",
+     "g": "Resolución 0001/2015, Art. 4"
+    }
+   ],
+   "notes": "Later resolutions (for example Resolución 0004 de 2022) changed the list and were not read in full. Check the current text with the Colombian authority.",
+   "sources": [
+    {
+     "t": "CNE Resolución 0001 de 2015",
+     "u": "https://normativa.colpensiones.gov.co/colpens/docs/resolucion_cnestupefacientes_0001_2015.htm"
+    },
+    {
+     "t": "CNE Resolución 0004 de 2022",
+     "u": "https://sidn.ramajudicial.gov.co/SIDN/NORMATIVA/TEXTOS_COMPLETOS/8_RESOLUCIONES/RESOLUCIONES 2022/CNE Resolución 0004 de 2022 (Control sustancias y productos químicos).pdf"
+    }
+   ]
+  },
+  "CHL": {
+   "coverage": "partial",
+   "basis": "Ley 20.000 regulation (Decreto Supremo 867/2007) and its amendments. Only the recent additions below were verified; the full Lista I–III was not retrieved.",
+   "extras": [
+    {
+     "db": "14-butanediol",
+     "g": "Added by the 2021 amendment"
+    },
+    {
+     "n": "Calcium chloride",
+     "cas": "10043-52-4",
+     "g": "Lista III (added 2023–24)"
+    },
+    {
+     "n": "Xylazine",
+     "cas": "7361-61-7",
+     "g": "Lista III (added 2023–24)"
+    }
+   ],
+   "notes": "Chile's Lista III also covers adulterants and bulking agents seen in cocaine seizures. The full list is on the Interior Ministry's controlled chemical substances page.",
+   "sources": [
+    {
+     "t": "Diario Oficial 14 May 2024 – amendment adding 7 substances",
+     "u": "https://www.diariooficial.interior.gob.cl/publicaciones/2024/05/14/43850/01/2491491.pdf"
+    },
+    {
+     "t": "Interior Ministry – 17 new controlled substances (2021)",
+     "u": "https://www.interior.gob.cl/noticias-sqc/2021/06/24/17-nuevas-sustancias-quimicas-sujetas-a-control-actualizacion-del-reglamento-de-la-ley-n-20-000-decreto-supremo-n-1-358/"
+    }
+   ]
+  },
+  "GTM": {
+   "coverage": "partial",
+   "basis": "Acuerdo Ministerial 174-2025 (Ministry of Health): three lists of precursors and chemicals. Only examples from the third list were published in the source consulted.",
+   "extras": [
+    {
+     "n": "Potassium hydroxide",
+     "cas": "1310-58-3",
+     "g": "Third list (examples)"
+    },
+    {
+     "db": "sodium-hydroxide",
+     "g": "Third list (examples)"
+    },
+    {
+     "n": "Sodium sulfate",
+     "cas": "7757-82-6",
+     "g": "Third list (examples)"
+    },
+    {
+     "n": "Potassium carbonate",
+     "cas": "584-08-7",
+     "g": "Third list (examples)"
+    },
+    {
+     "db": "hexane",
+     "g": "Third list (examples)"
+    },
+    {
+     "db": "dichloromethane",
+     "g": "Third list (examples)"
+    },
+    {
+     "db": "calcium-oxide",
+     "g": "Third list (examples)"
+    },
+    {
+     "n": "Ethyl alcohol",
+     "cas": "64-17-5",
+     "g": "Third list (examples)"
+    },
+    {
+     "db": "formamide",
+     "g": "Third list (examples)"
+    }
+   ],
+   "notes": "This is an incomplete list. Read the full Acuerdo Ministerial in the Diario de Centro América.",
+   "sources": [
+    {
+     "t": "AGN – Ministry of Health publishes the list of precursors and chemical substances",
+     "u": "https://agn.gt/ministerio-de-salud-publica-la-lista-de-precursores-y-sustancias-quimicas-sujetas-supervision/"
+    }
+   ]
+  },
+  "ARG": {
+   "coverage": "partial",
+   "basis": "National list of controlled chemicals (Decreto 1161/2000, Annex I, and later changes). Only the item below was verified, from the INCB 2024 precursors report.",
+   "extras": [
+    {
+     "n": "MMDPPA (MDA precursor; abbreviation as given by the INCB)",
+     "g": "Added November 2023"
+    }
+   ],
+   "notes": "The full Argentine list was not retrieved. The Annex I text is in the Boletín Oficial.",
+   "sources": [
+    {
+     "t": "INCB Precursors report 2024, para. 12",
+     "u": "https://www.incb.org/documents/PRECURSORS/TECHNICAL_REPORTS/2024/E/PRE_Report_E.pdf"
+    }
+   ]
+  },
+  "IND": {
+   "coverage": "verified",
+   "basis": "Narcotic Drugs and Psychotropic Substances (Regulation of Controlled Substances) Order, 2013, Schedules A, B and C (as amended to 23 Jan 2025).",
+   "extras": [],
+   "notes": "Every substance in the Order is also in INCB Table I or II, so no additional chemicals were found. India also controls drugs and plant material under the NDPS Act, which is outside this list.",
+   "sources": [
+    {
+     "t": "Controlled Substances Order 2013 with amendments (CBN)",
+     "u": "https://www.cbn.gov.in/pdf/exim/Substances/7.Controlled_Substances_in_India_RCSOrder_2013%29.pdf"
+    }
+   ]
+  },
+  "LKA": {
+   "coverage": "verified",
+   "basis": "Convention on Traffic in Narcotic Drugs and Psychotropic Substances Act No. 1 of 2008 – Tables I and II as printed on the NDDCB dealer licence form (29 chemicals).",
+   "extras": [],
+   "notes": "The 29 chemicals shown match the INCB tables of that period, so no additional chemicals were found. Newer INCB additions (for example 4-AP) are not printed on this form.",
+   "sources": [
+    {
+     "t": "NDDCB dealer licence renewal form (Form 10)",
+     "u": "https://www.nddcb.gov.lk/Docs/Precursor/forms/form10new.pdf"
+    }
+   ]
+  },
+  "ZAF": {
+   "coverage": "partial",
+   "basis": "Drugs and Drug Trafficking Act 140 of 1992, Schedule 1 (scheduled substances Part I and II).",
+   "extras": [],
+   "notes": "The schedule as published online contains only INCB-listed chemicals. It may not reflect later amendments or other regulations.",
+   "sources": [
+    {
+     "t": "Drugs and Drug Trafficking Act – Schedule 1",
+     "u": "https://www.acts.co.za/drugs_and_drug_trafficking_act_1992/schedule_1__scheduled_substanc.php"
+    }
+   ]
+  },
+  "SGP": {
+   "coverage": "verified",
+   "basis": "Misuse of Drugs Act – list of controlled precursor substances (CNB Annex A, 62 entries).",
+   "extras": [
+    {
+     "n": "Norpseudoephedrine (cathine) and its salt",
+     "g": "Controlled precursor"
+    },
+    {
+     "n": "Sassafras oil",
+     "g": "Controlled precursor"
+    },
+    {
+     "n": "Medicaments containing ephedrine, pseudoephedrine or norephedrine",
+     "g": "Controlled precursor",
+     "note": "Both for retail sale and not for retail sale."
+    },
+    {
+     "n": "Poppy seeds",
+     "g": "Controlled precursor",
+     "note": "Plant material."
+    }
+   ],
+   "notes": "Singapore's list is large because it spells out each ester of the P-2-P and 3,4-MDP-2-P glycidic acids. Those are INCB-listed and are not shown as additional.",
+   "sources": [
+    {
+     "t": "CNB – List of controlled precursor substances (Annex A)",
+     "u": "https://www.cnb.gov.sg/singapore-drug-situation/precursor-control/controlled-substances/annex-a/"
+    }
+   ]
+  },
+  "HKG": {
+   "coverage": "verified",
+   "basis": "Control of Chemicals Ordinance (Cap. 145), Schedules 1–3 (38 chemicals).",
+   "extras": [
+    {
+     "db": "acetyl-chloride",
+     "g": "Schedule 1"
+    },
+    {
+     "n": "Acetyl bromide",
+     "cas": "506-96-7",
+     "g": "Schedule 1"
+    },
+    {
+     "n": "1-[(2-Chlorophenyl)(methylimino)methyl]cyclopentanol",
+     "g": "Schedule 2",
+     "note": "A ketamine precursor."
+    }
+   ],
+   "sources": [
+    {
+     "t": "Hong Kong Customs – scheduled chemicals",
+     "u": "https://www.customs.gov.hk/hcms/filemanager/en/content_177/chemical_drug_e.pdf"
+    }
+   ]
+  },
+  "JPN": {
+   "coverage": "partial",
+   "basis": "Japan's controlled substance list (MHLW, December 2024), substances marked SRM (stimulant raw materials). Narcotic raw-material rules were not checked.",
+   "extras": [
+    {
+     "n": "Chloroephedrine / chloropseudoephedrine",
+     "g": "Stimulant raw material"
+    },
+    {
+     "n": "Chloromethylephedrine / chloromethylpseudoephedrine",
+     "g": "Stimulant raw material"
+    },
+    {
+     "n": "Methylephedrine / methylpseudoephedrine",
+     "g": "Stimulant raw material",
+     "note": "Excluded at 10% content or less."
+    },
+    {
+     "n": "Dimethylpropamine (name as shown in the source list)",
+     "g": "Stimulant raw material"
+    },
+    {
+     "n": "Lisdexamfetamine",
+     "g": "Stimulant raw material"
+    },
+    {
+     "n": "Selegiline (deprenyl)",
+     "g": "Stimulant raw material"
+    }
+   ],
+   "notes": "Japan applies content thresholds, for example ephedrine and pseudoephedrine are excluded at 10% or less.",
+   "sources": [
+    {
+     "t": "MHLW – list of controlled substances (Dec 2024)",
+     "u": "https://www.ncd.mhlw.go.jp/dl_data/keitai/cotrolled_substances_list20241212%20.pdf"
+    }
+   ]
+  },
+  "PHL": {
+   "coverage": "verified",
+   "basis": "Dangerous Drugs Board – updated lists of controlled substances, April 2023 (Tables I and II plus controlled chemicals).",
+   "extras": [
+    {
+     "db": "gbl",
+     "g": "Controlled chemicals"
+    },
+    {
+     "n": "1,2-Dimethyl-3-phenylaziridine (cis and trans isomers)",
+     "cas": "23040-89-3",
+     "g": "Controlled chemicals"
+    },
+    {
+     "db": "thionyl-chloride",
+     "g": "Controlled chemicals"
+    }
+   ],
+   "sources": [
+    {
+     "t": "DDB – updated lists of controlled substances (April 2023)",
+     "u": "https://ddb.gov.ph/wp-content/uploads/2023/05/Updated-Lists-of-controlled-substances-as-of-April-2023-1-AutoRecovered.pdf"
+    }
+   ]
+  },
+  "AUS": {
+   "coverage": "partial",
+   "basis": "Criminal Code Regulations 2019 – border controlled precursors and drugs, with the 2020 and 2024 amendments. The base table (s. 16) was not retrieved.",
+   "extras": [
+    {
+     "db": "14-butanediol",
+     "g": "Border controlled drug",
+     "note": "Listed as a border controlled drug from March 2024."
+    },
+    {
+     "n": "Helional (alpha-methyl-1,3-benzodioxole-5-propanal)",
+     "g": "Border controlled precursor"
+    },
+    {
+     "db": "benzaldehyde",
+     "g": "Border controlled precursor"
+    },
+    {
+     "db": "hypophosphorous-acid",
+     "g": "Border controlled precursor"
+    },
+    {
+     "db": "iodine",
+     "g": "Border controlled precursor"
+    },
+    {
+     "n": "Chloroephedrine",
+     "g": "Border controlled precursor"
+    },
+    {
+     "n": "Chloropseudoephedrine",
+     "g": "Border controlled precursor"
+    },
+    {
+     "n": "Phenyl-2-propanone bisulphite",
+     "g": "Border controlled precursor"
+    }
+   ],
+   "notes": "Australian states also control chemicals and equipment under their own laws. The list above shows only what the two amendments name.",
+   "sources": [
+    {
+     "t": "Explanatory statement – 2024 amendment",
+     "u": "https://legislation.gov.au/F2024L00249/asmade/2024-02-29/es/original/pdf"
+    },
+    {
+     "t": "Explanatory statement – 2020 amendment",
+     "u": "https://legislation.gov.au/F2020L01003/asmade/2020-08-10/es/original/pdf"
+    }
+   ]
+  },
+  "CHN": {
+   "coverage": "partial",
+   "basis": "Regulations on the Administration of Precursor Chemicals – Class 1 to 3 catalogue (older consolidated copy) plus the September 2024 additions.",
+   "extras": [
+    {
+     "n": "Hydroxyimine",
+     "g": "Class 1"
+    },
+    {
+     "n": "Methylephedrine",
+     "g": "Class 1"
+    },
+    {
+     "n": "Ephedra extract and ephedra extract powder",
+     "g": "Class 1"
+    },
+    {
+     "n": "Sassafras oil",
+     "g": "Class 1"
+    },
+    {
+     "db": "chloroform",
+     "g": "Class 2"
+    },
+    {
+     "n": "Cannabidiol (CBD)",
+     "cas": "13956-29-1",
+     "g": "Class 2 (from 1 Sep 2024)"
+    },
+    {
+     "n": "3-Oxo-2-phenylbutanoic acid and its esters",
+     "cas": "4433-88-9",
+     "g": "Class 2 (from 1 Sep 2024)",
+     "note": "CAS shown is for the acid."
+    }
+   ],
+   "notes": "The catalogue copy consulted predates some later changes. China also placed P-2-P and 3,4-MDP-2-P glycidic acid esters under control, which are INCB-listed. Hong Kong and Macao have separate rules.",
+   "sources": [
+    {
+     "t": "Precursor chemical catalogue (appendix to the Regulations, university copy)",
+     "u": "https://xxgk.nankai.edu.cn/_upload/article/45/85/bd11ec4d49eca173fc6079f1a3e4/07301a6a-4394-418c-8493-8cb1f897cf08.pdf"
+    },
+    {
+     "t": "ChemRadar – seven substances added from 1 Sep 2024",
+     "u": "https://www.chemradar.com/en/service/detail/dvnbdkl8v0g0"
+    },
+    {
+     "t": "INCB Precursors report 2024, paras 16–17",
+     "u": "https://www.incb.org/documents/PRECURSORS/TECHNICAL_REPORTS/2024/E/PRE_Report_E.pdf"
+    }
+   ]
+  },
+  "RUS": {
+   "coverage": "partial",
+   "basis": "Government Decree 681 of 30 Jun 1998, List IV (precursors). Only recent additions are shown; the full List IV was not retrieved.",
+   "extras": [
+    {
+     "n": "1-(1,3-Benzodioxol-5-yl)pentan-1-one",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "2-Bromo-1-phenylhexan-1-one",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "1-(3,4-Dimethylphenyl)pentan-1-one",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "1-(4-Methylphenyl)pentan-1-one",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "1-(4-Methylphenyl)-2-chloropropan-1-one",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "1-(4-Methoxyphenyl)pentan-1-one",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "(2-Nitrobut-1-en-1-yl)benzene",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "2-(2-Nitroprop-1-en-1-yl)thiophene",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "1-(4-Fluorophenyl)pentan-1-one",
+     "g": "List IV, Table I (2020)"
+    },
+    {
+     "n": "2-Iodo-1-(2,5-dimethylphenyl)propan-1-one",
+     "g": "Added December 2023"
+    },
+    {
+     "n": "1-(1,3-Benzodioxol-5-yl)-2-iodohexan-1-one",
+     "g": "Added December 2023"
+    },
+    {
+     "n": "Benzoic anhydride",
+     "g": "Added December 2023"
+    },
+    {
+     "n": "1-Phenylhexan-1-one",
+     "g": "Added December 2023"
+    },
+    {
+     "n": "EAPA (ethyl alpha-phenylacetoacetate)",
+     "cas": "5413-05-8",
+     "g": "Added December 2023"
+    }
+   ],
+   "notes": "Russia's List IV is long and changes often. Treat this as a minimum, not the full list.",
+   "sources": [
+    {
+     "t": "Government Decree 2007 of 3 Dec 2020 (amends List IV)",
+     "u": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-03.12.2020-N-2007/"
+    },
+    {
+     "t": "INCB Precursors report 2024, para. 23",
+     "u": "https://www.incb.org/documents/PRECURSORS/TECHNICAL_REPORTS/2024/E/PRE_Report_E.pdf"
+    }
+   ]
+  },
+  "KAZ": {
+   "coverage": "partial",
+   "basis": "Kazakhstan's precursor list (List I of the precursor table, with Table III thresholds not read). Plus the January 2024 control reported by the INCB.",
+   "extras": [
+    {
+     "n": "Ephedra herb (containing ephedrine)",
+     "g": "List I"
+    },
+    {
+     "n": "2-Bromo-1-(4-methylphenyl)propan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "2-Bromo-1-phenylpentan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "1-Phenylpentan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "1-(1,3-Benzodioxol-5-yl)pentan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "2-Bromo-1-phenylhexan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "2-Bromo-1-phenylpropan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "2-Iodo-1-(4-methylphenyl)propan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "1-(4-Methylphenyl)pentan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "1-(4-Methoxyphenyl)pentan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "1-(3,4-Dimethylphenyl)pentan-1-one",
+     "g": "List I"
+    },
+    {
+     "n": "1-(4-Fluorophenyl)pentan-1-one",
+     "g": "List I"
+    },
+    {
+     "db": "4-methylpropiophenone",
+     "g": "Added January 2024"
+    }
+   ],
+   "sources": [
+    {
+     "t": "Kazakhstan precursor list (resolution text)",
+     "u": "https://zakon.uchet.kz/rus/docs/P2100000677"
+    },
+    {
+     "t": "INCB Precursors report 2024, para. 21",
+     "u": "https://www.incb.org/documents/PRECURSORS/TECHNICAL_REPORTS/2024/E/PRE_Report_E.pdf"
+    }
+   ]
+  },
+  "UZB": {
+   "coverage": "partial",
+   "basis": "Uzbekistan List IV – precursors whose circulation is restricted (29 entries). The publication date of the copy consulted was not shown.",
+   "extras": [
+    {
+     "db": "propionic-anhydride",
+     "g": "List IV"
+    },
+    {
+     "db": "red-phosphorus",
+     "g": "List IV"
+    },
+    {
+     "n": "Ephedra herb (containing ephedrine)",
+     "g": "List IV"
+    }
+   ],
+   "sources": [
+    {
+     "t": "Norma.uz – List IV precursors",
+     "u": "https://www.norma.uz/raznoe/spisok_prekursorov_oborot_kotoryh_v_respublike_uzbekistan_ogranichen_spisok_iv"
+    }
+   ]
+  },
+  "TWN": {
+   "coverage": "partial",
+   "basis": "Narcotics Hazard Prevention Act – Category 4 narcotics precursors. Only the July 2024 addition was verified.",
+   "extras": [
+    {
+     "n": "N-Methylpseudoephedrine",
+     "g": "Added 16 July 2024"
+    }
+   ],
+   "notes": "Taiwan also keeps a separate industrial precursor chemicals list. Its contents were not retrieved.",
+   "sources": [
+    {
+     "t": "ChemRadar – Taiwan adds new narcotics and precursors (July 2024)",
+     "u": "https://www.chemradar.com/en/service/detail/ds02z8n7ezuo"
+    }
+   ]
+  },
+  "VNM": {
+   "coverage": "partial",
+   "basis": "Decree 28/2026/ND-CP (lists of narcotic substances and precursors). The appendices were behind a login and were not read; only what the decree text names is shown.",
+   "extras": [
+    {
+     "db": "14-butanediol",
+     "g": "Precursor",
+     "note": "Must comply with the precursor rules by 31 Dec 2026."
+    }
+   ],
+   "sources": [
+    {
+     "t": "Decree 28/2026/ND-CP (English summary)",
+     "u": "https://english.luatvietnam.vn/decree-no-28-2026-nd-cp-dated-january-19-2026-of-the-government-prescribing-the-lists-of-narcotic-substances-and-precursors-424376-doc1.html"
+    }
+   ]
+  },
+  "GBR": {
+   "coverage": "partial",
+   "basis": "UK drug precursors control (Home Office wallchart, September 2026), Categories 2A, 2B, 3 and 4. The Category 1 list was not legible in the copy consulted.",
+   "extras": [
+    {
+     "db": "red-phosphorus",
+     "g": "Category 2A",
+     "note": "Registration is needed above 200 g per year."
+    },
+    {
+     "n": "Medicinal preparations of ephedrine and pseudoephedrine",
+     "g": "Category 4"
+    }
+   ],
+   "notes": "The UK scheme follows the EU category system. Whether the Category 1 additions listed for the EU (IMDPAM, EAPA, MAMDPA, chloro-ephedrines) also apply in Great Britain was not checked here.",
+   "sources": [
+    {
+     "t": "Home Office precursor chemicals wallchart (September 2026)",
+     "u": "https://assets.publishing.service.gov.uk/media/6a9e95f99a177a1decf97ec3/PC_Wallchart_Import-_Export__September_2026.pdf"
+    }
+   ]
+  }
+ }
+}
