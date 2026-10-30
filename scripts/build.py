@@ -202,6 +202,11 @@ def main():
     html = re.sub(r'<script src="data/countries\.js\?v=\w+"></script>', lambda m: f"<script>\n{cty_js}\n</script>", html)
     html = re.sub(r'<script src="data/world\.js\?v=\w+"></script>', lambda m: f"<script>\n{world_js}\n</script>", html)
     html = re.sub(r'<script src="app\.js\?v=\w+"></script>', lambda m: f"<script>\n{app}\n</script>", html)
+    for _f in ("byte-config.js", "byte.js"):  # Byte, the help helper: inline it so the offline file works too
+        _p = ROOT / "docs" / _f
+        if _p.exists():
+            _js = _p.read_text(encoding="utf-8").replace("</script>", "<\\/script>")
+            html = html.replace(f'<script src="{_f}"></script>', "<script>\n" + _js + "\n</script>")
     import base64
     logo = base64.b64encode((ROOT / "docs" / "logo.png").read_bytes()).decode()
     html = re.sub(r'src="logo\.png\?v=\w+"', lambda m: 'src="data:image/png;base64,' + logo + '"', html)
