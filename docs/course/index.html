@@ -1,0 +1,1172 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}html{color-scheme:light dark}</style>
+<title>PCCP Precursor Chemicals Course</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+
+/* Layout: continuous-scroll lessons (Rise style). Navy band + sticky progress bar on top, white canvas, contents rail on wide screens, drawer on phones. */
+:root{
+  --bg:#FFFFFF; --ink:#12263F; --muted:#4A5F78; --blue:#0B5CAD; --navy:#0A2A52; --onnavy:#FFFFFF;
+  --tint:#EEF5FC; --line:#D0DFEF; --btn:#0B5CAD; --onbtn:#FFFFFF;
+  --ok:#17693F; --okbg:#E6F5EC; --warn:#85500A; --warnbg:#FFF3DC; --bad:#A8231B; --badbg:#FDEBEA;
+  --font:Verdana,Geneva,"DejaVu Sans",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C1828; --ink:#E7EFF9; --muted:#A3B6CC; --blue:#6DB1F5; --navy:#0A2A52; --onnavy:#FFFFFF;
+  --tint:#13263E; --line:#27425F; --btn:#6DB1F5; --onbtn:#07203F;
+  --ok:#6AD09B; --okbg:#10301F; --warn:#F0B14F; --warnbg:#35280F; --bad:#F59A93; --badbg:#3A1815; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1828; --ink:#E7EFF9; --muted:#A3B6CC; --blue:#6DB1F5; --navy:#0A2A52; --onnavy:#FFFFFF;
+  --tint:#13263E; --line:#27425F; --btn:#6DB1F5; --onbtn:#07203F;
+  --ok:#6AD09B; --okbg:#10301F; --warn:#F0B14F; --warnbg:#35280F; --bad:#F59A93; --badbg:#3A1815; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.65}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--navy);z-index:10}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--font);line-height:1.25;text-wrap:balance;margin:0}
+p{margin:0 0 14px}
+a{color:var(--blue)}
+button{font-family:var(--font);font-size:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+/* banner + progress bar */
+.banner{background:var(--navy);color:var(--onnavy);border-bottom:4px solid #2B86D1}
+.banner .wrap{display:flex;gap:16px;align-items:center;justify-content:space-between;padding-block:18px;flex-wrap:wrap}
+.mark{font-weight:700;letter-spacing:.02em;font-size:15px;line-height:1.3}
+.mark small{display:block;font-weight:400;letter-spacing:.14em;text-transform:uppercase;font-size:10px;opacity:.8;margin-bottom:3px}
+.banner .tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.85}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--navy);color:var(--onnavy)}
+.bar .wrap{display:flex;align-items:center;gap:14px;padding-block:9px}
+.bar button.menu{background:transparent;border:1px solid rgba(255,255,255,.45);color:var(--onnavy);border-radius:5px;padding:6px 10px;cursor:pointer;font-size:12px}
+.track{flex:1;height:8px;background:rgba(255,255,255,.22);border-radius:99px;overflow:hidden;min-width:60px}
+.track i{display:block;height:100%;width:0;background:#7CC0F7;transition:width .4s}
+.pct{font-size:12px;white-space:nowrap}
+
+/* layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:40px;padding-block:8px 60px}
+.toc{display:none}
+.toc.open{display:block;position:fixed;z-index:25;top:calc(env(safe-area-inset-top,0px) + 50px);left:0;right:0;bottom:0;overflow:auto;background:var(--bg);padding:16px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+.toc h2{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.toc button.t{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:9px 10px;cursor:pointer;line-height:1.35;font-size:13px}
+.toc button.t:hover{background:var(--tint)}
+.toc button.t.cur{background:var(--tint);font-weight:700;color:var(--blue)}
+.toc .n{flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--muted)}
+.toc .done .n{background:var(--ok);border-color:var(--ok);color:#fff}
+.toc .done .n::before{content:"\2713"}
+.toc .done .n span{display:none}
+@media (min-width:960px){
+  .layout{grid-template-columns:250px minmax(0,1fr)}
+  .toc{display:block;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);align-self:start;max-height:calc(100vh - 80px);overflow:auto;padding-top:36px}
+  .bar button.menu{display:none}
+}
+
+/* lessons */
+main{min-width:0}
+.hero{padding-block:40px 28px}
+.hero h1{font-size:clamp(1.55rem,4.6vw,2.2rem);color:var(--navy);margin-bottom:14px}
+:root[data-theme="dark"] .hero h1{color:var(--ink)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hero h1{color:var(--ink)}}
+.lede{font-size:16px;max-width:60ch;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.meta li{background:var(--tint);border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-size:12px}
+section.lesson{padding-block:40px;border-top:1px solid var(--line);scroll-margin-top:60px}
+.kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:8px}
+section.lesson>h2{font-size:clamp(1.3rem,3.6vw,1.65rem);margin-bottom:16px}
+h3{font-size:16px;margin:26px 0 10px}
+.prose{max-width:62ch}
+ul.plain{padding-left:20px;margin:0 0 14px}
+ul.plain li{margin-bottom:6px}
+.callout{background:var(--tint);border:1px solid var(--line);border-radius:6px;padding:16px 18px;margin:20px 0;max-width:68ch}
+.callout.warn{background:var(--warnbg);border-color:var(--warn)}
+.callout .lab{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:6px;color:var(--blue)}
+.callout.warn .lab{color:var(--warn)}
+.callout p:last-child{margin-bottom:0}
+.btn{background:var(--btn);color:var(--onbtn);border:0;border-radius:6px;padding:10px 18px;font-weight:700;cursor:pointer;font-size:13px}
+.btn.ghost{background:transparent;color:var(--blue);border:1.5px solid var(--blue)}
+.btn:disabled{opacity:.5;cursor:default}
+.foot{margin-top:34px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.foot .ok{color:var(--ok);font-weight:700;font-size:13px}
+
+/* flip cards */
+.flipgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:20px 0}
+.flip{background:none;border:0;padding:0;text-align:left;cursor:pointer;perspective:900px;min-width:0}
+.flip-in{display:grid;transition:transform .5s;transform-style:preserve-3d}
+.flip[aria-pressed="true"] .flip-in{transform:rotateY(180deg)}
+.face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:8px;padding:18px;border:1px solid var(--line);display:flex;flex-direction:column;gap:8px;min-height:170px}
+.front{background:var(--navy);color:var(--onnavy)}
+.front strong{font-size:16px}
+.front em{margin-top:auto;font-size:11px;font-style:normal;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.back{background:var(--tint);transform:rotateY(180deg);font-size:13px;line-height:1.55}
+@media (prefers-reduced-motion:reduce){.flip-in{transition:none}.track i{transition:none}}
+
+/* tabs */
+.tabs{margin:20px 0;max-width:760px}
+.tablist{display:flex;flex-wrap:wrap;gap:4px;border-bottom:2px solid var(--line)}
+.tablist button{background:none;border:0;border-bottom:3px solid transparent;margin-bottom:-2px;padding:10px 14px;cursor:pointer;font-weight:700;font-size:13px;color:var(--muted)}
+.tablist button[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+.tabs .panel{padding:18px 2px 4px}
+.tabs .panel[hidden]{display:none}
+
+/* accordion */
+details.acc{border:1px solid var(--line);border-radius:6px;margin-bottom:8px;max-width:760px;background:var(--bg)}
+details.acc summary{cursor:pointer;padding:13px 16px;font-weight:700;font-size:14px;list-style:none;display:flex;justify-content:space-between;gap:12px}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::after{content:"+";color:var(--blue);font-size:18px;line-height:1}
+details.acc[open] summary::after{content:"\2212"}
+details.acc[open]{background:var(--tint)}
+details.acc .in{padding:0 16px 14px}
+
+/* timeline */
+.tl{list-style:none;margin:20px 0;padding:0;max-width:700px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 18px 22px}
+.tl li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid var(--bg)}
+.tl time{display:block;font-weight:700;font-size:13px;color:var(--blue)}
+
+/* chain steps */
+.chain{margin:20px 0;max-width:820px}
+.steps{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0 0 14px;list-style:none}
+.steps button{display:flex;gap:8px;align-items:center;border:1.5px solid var(--line);background:var(--bg);border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12.5px;font-weight:700;text-align:left}
+.steps button b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--tint);color:var(--blue);font-size:11px;flex:none}
+.steps button[aria-current="true"]{background:var(--btn);color:var(--onbtn);border-color:var(--btn)}
+.steps button[aria-current="true"] b{background:var(--onbtn);color:var(--btn)}
+.stepdetail{background:var(--tint);border:1px solid var(--line);border-radius:6px;padding:18px}
+.stepdetail h4{font-size:15px;margin-bottom:8px}
+.stepdetail ul{margin:8px 0 0;padding-left:20px}
+
+/* explorer */
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:18px 0 8px;max-width:820px}
+.tools label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.tools input,.tools select{width:100%;font-family:var(--font);font-size:14px;padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.count{font-size:12px;color:var(--muted);margin:6px 0 12px}
+.chems{display:grid;gap:10px;max-width:820px}
+.chem{border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:grid;gap:6px;min-width:0}
+.chem .top{display:flex;gap:8px;align-items:baseline;justify-content:space-between;flex-wrap:wrap}
+.chem h4{font-size:14px;overflow-wrap:anywhere}
+.pill{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:2px 9px;background:var(--tint);border:1px solid var(--line);color:var(--blue);white-space:nowrap}
+.pill.d{background:var(--warnbg);border-color:var(--warn);color:var(--warn)}
+.chem .row{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.chem .row b{color:var(--ink)}
+.chem .ids{font-variant-numeric:tabular-nums}
+
+/* quiz */
+.quiz{margin:26px 0;max-width:720px}
+.quiz .qh{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--blue);margin-bottom:8px}
+fieldset.q{border:1px solid var(--line);border-radius:6px;padding:16px 18px 14px;margin:0 0 12px;min-width:0}
+fieldset.q legend{font-weight:700;padding:0 6px;max-width:100%}
+.opts{display:grid;gap:8px;margin-top:8px}
+.opt{text-align:left;background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:10px 12px;cursor:pointer;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--blue);background:var(--tint)}
+.opt.right{background:var(--okbg);border-color:var(--ok)}
+.opt.wrong{background:var(--badbg);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.fb{margin-top:10px;font-size:13px;padding:10px 12px;border-radius:6px;background:var(--tint)}
+.fb.good{background:var(--okbg);color:var(--ok)}
+.fb.bad{background:var(--badbg);color:var(--bad)}
+.fb b{display:block;margin-bottom:2px}
+.fb span{color:var(--ink)}
+
+/* scenarios */
+.scn{border:1px solid var(--line);border-radius:8px;margin:22px 0;max-width:760px;overflow:hidden}
+.scn header{background:var(--navy);color:var(--onnavy);padding:12px 18px}
+.scn header small{display:block;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.scn header strong{font-size:15px}
+.scn .body{padding:18px}
+.scn .sit{background:var(--tint);border-radius:6px;padding:12px 14px;margin-bottom:14px;font-size:13.5px}
+.scn .q{font-weight:700;margin-bottom:8px}
+
+/* flag cards */
+.flags{display:grid;gap:10px;margin:18px 0;max-width:760px}
+.fc{border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.fc p{margin:0 0 10px;font-size:13.5px}
+.fc .btns{display:flex;gap:8px;flex-wrap:wrap}
+.fc .btns button{border:1.5px solid var(--line);background:var(--bg);border-radius:6px;padding:7px 14px;cursor:pointer;font-weight:700;font-size:12.5px}
+.fc .btns button:disabled{cursor:default}
+.fc .btns button.right{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+.fc .btns button.wrong{background:var(--badbg);border-color:var(--bad);color:var(--bad)}
+.score{font-weight:700;margin-top:6px}
+
+/* certificate */
+.cert{border:2px solid var(--navy);border-radius:8px;padding:28px 22px;margin:22px 0;max-width:620px;text-align:center;background:var(--tint)}
+.cert small{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:10.5px;color:var(--muted)}
+.cert h3{font-size:20px;margin:10px 0}
+.cert .nm{font-size:22px;font-weight:700;color:var(--blue);margin:10px 0;min-height:30px;overflow-wrap:anywhere}
+.namefield{max-width:360px;margin:14px 0}
+.namefield label{display:block;font-size:12px;margin-bottom:4px;color:var(--muted)}
+.namefield input{width:100%;font-family:var(--font);font-size:14px;padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.src{font-size:12px;color:var(--muted);max-width:68ch}
+.src li{margin-bottom:6px}
+
+/* registration + results */
+body.gated .layout{grid-template-columns:minmax(0,1fr)}
+body.gated .toc{display:none!important}
+body.gated .bar button.menu{display:none}
+.reg{border:1px solid var(--line);border-radius:8px;padding:20px;margin:6px 0 8px;max-width:760px;background:var(--tint)}
+.reg h2{font-size:17px;margin-bottom:8px}
+.reg .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0 8px}
+.reg label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.reg input{width:100%;font-family:var(--font);font-size:14px;padding:10px;border:1.5px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.reg .sub,.adm .sub{font-size:12.5px;color:var(--muted);margin:0 0 12px}
+.reg .acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.err{color:var(--bad);font-size:12.5px;margin:6px 0}
+.adm{margin:22px 0;max-width:900px;border:1px solid var(--line);border-radius:8px;padding:18px}
+.adm h2{font-size:17px;margin-bottom:4px}
+.mets{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+.met{background:var(--tint);border-radius:6px;padding:12px}
+.met b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.met span{font-size:12px;color:var(--muted)}
+.scroll{overflow-x:auto;margin-top:12px}
+table.res{border-collapse:collapse;width:100%;min-width:640px;font-size:12.5px}
+table.res th,table.res td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.res th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+table.res td.num{font-variant-numeric:tabular-nums}
+.pill.ok{background:var(--okbg);border-color:var(--ok);color:var(--ok)}
+
+:root{--logoband:#FFFFFF}
+.banner{background:var(--logoband);color:#12263F;border-bottom:4px solid #2B86D1}
+.banner .wrap{padding-block:14px;justify-content:center}
+.logo{display:block;margin:0 auto;width:min(420px,100%);height:auto}
+
+
+.langsw{display:flex;gap:0;border:1px solid rgba(255,255,255,.45);border-radius:5px;overflow:hidden}
+.langsw button{background:transparent;border:0;color:var(--onnavy);padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700}
+.langsw button[aria-pressed="true"]{background:#fff;color:#0A2A52}
+.bar .wrap .spacer{flex:0}
+.vid video{width:100%;max-width:860px;display:block;border-radius:8px;background:#000;aspect-ratio:16/9}
+.vid .sub{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.chaps{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;max-width:860px}
+.chap{display:flex;gap:10px;align-items:baseline;text-align:left;border:1.5px solid var(--line);background:var(--bg);border-radius:6px;padding:8px 12px;cursor:pointer;font-size:12.5px;min-width:0}
+.chap:hover{border-color:var(--blue);background:var(--tint)}
+.chap b{color:var(--blue);font-variant-numeric:tabular-nums;flex:none}
+.cert .clogo{display:block;margin:0 auto 12px;max-width:200px;height:auto;border-radius:4px;background:#fff;padding:4px}
+.finres{margin-top:14px;max-width:720px}
+.tabs .panel .scroll{margin-top:8px}
+.tabs{max-width:900px}
+.tablist button{font-size:12.5px;padding:9px 11px}
+
+</style>
+<header class="banner"><div class="wrap"><img class="logo" alt="AIRCOP and Container Control Programme" width="689" height="279" src="data:image/jpeg;base64,/9j/4QEoRXhpZgAATU0AKgAAAAgABwESAAMAAAABAAEAAAEaAAUAAAABAAAAYgEbAAUAAAABAAAAagEoAAMAAAABAAIAAAEyAAIAAAAUAAAAcgITAAMAAAABAAEAAIdpAAQAAAABAAAAhgAAAAAAAACQAAAAAQAAAJAAAAABMjAyNjoxMDowOSAwNzo0MjozOQAACZAAAAcAAAAEMDIyMZADAAIAAAAUAAAA+JEBAAcAAAAEAQIDAJKGAAcAAAASAAABDKAAAAcAAAAEMDEwMKABAAMAAAABAAEAAKACAAQAAAABAAAIMaADAAQAAAABAAABF6QGAAMAAAABAAAAAAAAAAAyMDI2OjEwOjA5IDA3OjQyOjM5AEFTQ0lJAAAAU2NyZWVuc2hvdAAA/+EJ0Gh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1QIENvcmUgNi4wLjAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgcGhvdG9zaG9wOkRhdGVDcmVhdGVkPSIyMDI2LTEwLTA5VDA3OjQyOjM5IiB4bXA6TW9kaWZ5RGF0ZT0iMjAyNi0xMC0wOVQwNzo0MjozOSIvPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDw/eHBhY2tldCBlbmQ9InciPz4A/+ICKElDQ19QUk9GSUxFAAEBAAACGGFwcGwEAAAAbW50clJHQiBYWVogB+YAAQABAAAAAAAAYWNzcEFQUEwAAAAAQVBQTAAAAAAAAAAAAAAAAAAAAAAAAPbWAAEAAAAA0y1hcHBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKZGVzYwAAAPwAAAAwY3BydAAAASwAAABQd3RwdAAAAXwAAAAUclhZWgAAAZAAAAAUZ1hZWgAAAaQAAAAUYlhZWgAAAbgAAAAUclRSQwAAAcwAAAAgY2hhZAAAAewAAAAsYlRSQwAAAcwAAAAgZ1RSQwAAAcwAAAAgbWx1YwAAAAAAAAABAAAADGVuVVMAAAAUAAAAHABEAGkAcwBwAGwAYQB5ACAAUAAzbWx1YwAAAAAAAAABAAAADGVuVVMAAAA0AAAAHABDAG8AcAB5AHIAaQBnAGgAdAAgAEEAcABwAGwAZQAgAEkAbgBjAC4ALAAgADIAMAAyADJYWVogAAAAAAAA9tUAAQAAAADTLFhZWiAAAAAAAACD3wAAPb////+7WFlaIAAAAAAAAEq/AACxNwAACrlYWVogAAAAAAAAKDgAABELAADIuXBhcmEAAAAAAAMAAAACZmYAAPKnAAANWQAAE9AAAApbc2YzMgAAAAAAAQxCAAAF3v//8yYAAAeTAAD9kP//+6L///2jAAAD3AAAwG7/2wCEAAEBAQEBAQIBAQIDAgICAwQDAwMDBAUEBAQEBAUGBQUFBQUFBgYGBgYGBgYHBwcHBwcICAgICAkJCQkJCQkJCQkBAQEBAgICBAICBAkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCf/dAAQALP/AABEIARcCsQMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/AP7+KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0P7+KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/0f7+KKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/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wrvwF/0BLD/wGj/+JrsqKOdgcb/wrvwF/wBASw/8Bo//AImj/hXfgL/oCWH/AIDR/wDxNdlRRzMDjf8AhXfgL/oCWH/gNH/8TR/wrvwF/wBASw/8Bo//AImuyopXA43/AIV34C/6Alh/4DR//E0f8K78Bf8AQEsP/AaP/wCJrsqKfOwON/4V34C/6Alh/wCA0f8A8TR/wrvwF/0BLD/wGj/+JrsqKOdgcb/wrvwF/wBASw/8Bo//AImj/hXfgL/oCWH/AIDR/wDxNdlRRzsDjD8O/AWP+QJYf+A0f/xNdDpml6bo9qtjpNvHawr0jiUIv5CtKilcAooopAFFFFABRRRQAUUUUAFFFFABRRRQB//W/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/X/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Q/v4ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAP/Z"></div></header>
+<div class="bar"><div class="wrap">
+<button class="menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+<div class="track" role="progressbar" aria-label="Course progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="prog"><i id="progFill"></i></div>
+<div class="pct" id="pct"></div>
+<div class="langsw" id="langSw" role="group" aria-label="Language / Langue"><button type="button" data-l="en" aria-pressed="true">EN</button><button type="button" data-l="fr" aria-pressed="false">FR</button></div>
+</div></div>
+<div class="wrap layout">
+<nav class="toc" id="toc" aria-label="Course contents"><h2>Contents</h2><div id="tocList"></div></nav>
+<main>
+<div class="hero"><div class="kicker" id="kick"></div><h1 id="title"></h1><p class="lede" id="lede"></p><ul class="meta" id="meta"></ul></div>
+<section class="reg" id="reg" aria-labelledby="regh"></section>
+<section class="adm" id="admin" hidden aria-live="polite"></section>
+<div id="lessons"></div>
+</main></div>
+<script src="config.js"></script>
+<script>
+var CHAPTERS={"en": [["Why precursors matter", 0.0], ["The 1988 Convention and the Red List", 35.6], ["Table I and Table II", 70.6], ["Cocaine", 104.2], ["Heroin", 142.0], ["Methamphetamine and amphetamine", 170.4], ["MDMA (ecstasy)", 218.0], ["LSD", 251.5], ["Fentanyl and its analogues", 276.3], ["Methaqualone and PCP", 315.4], ["Table II at a glance", 334.3], ["Warning signs for officers", 362.1], ["What to do", 396.6]], "fr": [["Pourquoi les précurseurs comptent", 0.0], ["La Convention de 1988 et la Liste rouge", 33.7], ["Tableau I et Tableau II", 67.1], ["La cocaïne", 98.5], ["L'héroïne", 134.4], ["Méthamphétamine et amphétamine", 159.3], ["MDMA (ecstasy)", 206.2], ["Le LSD", 237.9], ["Le fentanyl et ses analogues", 260.1], ["Méthaqualone et PCP", 300.9], ["Le Tableau II en un coup d'œil", 319.4], ["Signaux d'alerte pour les agents", 344.5], ["Que faire", 378.8]]};
+/* ---------- language + UI strings ---------- */
+var LANGS=["en","fr"];
+var LI=0;
+var UI={
+ contents:["Contents","Sommaire"],lessons:["lessons","leçons"],of:["of","sur"],
+ flip:["Tap to flip","Touchez pour retourner"],flipHint:["Tap each card to turn it over.","Touchez chaque carte pour la retourner."],
+ check:["Knowledge check","Test de connaissances"],assess:["Assessment","Évaluation"],
+ right:["Correct","Correct"],notq:["Not quite","Pas tout à fait"],notbest:["Not the best choice","Ce n'est pas le meilleur choix"],
+ scn:["Scenario","Scénario"],next:["Next decision","Décision suivante"],finish:["Finish","Terminer"],replay:["Replay","Rejouer"],scnDone:["Scenario complete","Scénario terminé"],
+ showing:["Showing","Affichage de"],entriesOf:["of","sur"],rows:["rows","lignes"],nomatch:["No match. Try a shorter name or clear a filter.","Aucun résultat. Essayez un nom plus court ou retirez un filtre."],
+ search:["Search","Recherche"],searchPh:["Name, CAS or UN number","Nom, numéro CAS ou ONU"],table:["Table","Tableau"],both:["Both tables","Les deux tableaux"],linked:["Linked to","Lié à"],anyDrug:["Any drug","Toutes les drogues"],
+ legit:["Legitimate use","Usage légitime"],inDrug:["Role in drug making","Rôle dans la fabrication"],designer:["Designer precursor","Précurseur de synthèse"],
+ flagB:["Red flag","Signal d'alerte"],routineB:["Routine","Normal"],youGot:["You got","Vous avez"],rightOf:["right.","bonne(s) réponse(s) sur"],
+ mark:["Mark complete and continue","Terminer la leçon et continuer"],cont:["Continue","Continuer"],lessonDone:["Lesson complete","Leçon terminée"],
+ watch:["Watch the video","Regarder la vidéo"],chapters:["Chapters","Chapitres"],vidFail:["The video could not be loaded. Reload the page or try another connection.","La vidéo n'a pas pu être chargée. Rechargez la page ou essayez une autre connexion."],
+ before:["Before you start","Avant de commencer"],welcome:["Welcome,","Bienvenue,"],regAs:["Registered as","Inscrit(e) sous le nom"],dateDone:["Date completed:","Date de fin :"],notYet:["not completed yet","pas encore terminé"],best:["Best score:","Meilleur score :"],
+ changeName:["Change name","Changer de nom"],enterName:["Enter your name as it should appear on your certificate.","Saisissez votre nom tel qu'il doit apparaître sur votre certificat."],
+ first:["First name","Prénom"],last:["Surname","Nom de famille"],dateAuto:["Date completed is filled in automatically when you pass the assessment.","La date de fin est ajoutée automatiquement lorsque vous réussissez l'évaluation."],
+ start:["Start course","Commencer le cours"],saveName:["Save name","Enregistrer le nom"],cancel:["Cancel","Annuler"],checking:["Checking for saved progress","Recherche de la progression enregistrée"],
+ preview:["Preview the course without registering","Aperçu du cours sans inscription"],bothNames:["Enter both your first name and your surname.","Saisissez votre prénom et votre nom de famille."],
+ scoresRec:["Your result is sent to your trainer when you finish.","Votre résultat est transmis à votre formateur à la fin."],scoresLocal:["Your progress is saved on this device. At the end you can send your result to your trainer.","Votre progression est enregistrée sur cet appareil. À la fin, vous pourrez envoyer votre résultat à votre formateur."],
+ recOk:["Your result has been sent to your trainer.","Votre résultat a été envoyé à votre formateur."],recFail:["Your result could not be sent automatically. Use the button below to send it to your trainer.","Votre résultat n'a pas pu être envoyé automatiquement. Utilisez le bouton ci-dessous pour l'envoyer à votre formateur."],recLocal:["Use the button below to send your result to your trainer.","Utilisez le bouton ci-dessous pour envoyer votre résultat à votre formateur."],
+ passed:["Passed","Réussi"],notPassed:["Not passed yet","Pas encore réussi"],answered:["You answered","Vous avez répondu correctement à"],correctOf:["correctly","question(s) sur"],reviewTry:[" Review the lessons and try again."," Revoyez les leçons et réessayez."],
+ certOrg:["UNODC · WCO Container Control Programme","ONUDC · OMD Programme de contrôle des conteneurs"],certTitle:["Certificate of completion","Certificat de réussite"],certThat:["This certifies that","Ceci certifie que"],
+ certBody:["completed the course Precursor Chemicals: Detect, Control, Prevent with a score of","a suivi le cours Produits chimiques précurseurs : détecter, contrôler, prévenir avec un score de"],certOut:["out of","sur"],certShot:["Take a screenshot to keep your certificate.","Faites une capture d'écran pour conserver votre certificat."],
+ retake:["Retake assessment","Repasser l'évaluation"],
+ admTitle:["Course results","Résultats du cours"],admSub:["Only you and other editors see this. Each learner appears once, with their best score.","Vous seul et les autres éditeurs voyez ceci. Chaque participant apparaît une fois, avec son meilleur score."],
+ admNone:["Results are not available in this view.","Les résultats ne sont pas disponibles dans cette vue."],csv:["Download results (CSV)","Télécharger les résultats (CSV)"],
+ mReg:["Registered","Inscrits"],mPass:["Passed","Réussis"],mAvg:["Average best score","Score moyen (meilleur essai)"],noRes:["No results yet. They appear here as people register and finish.","Aucun résultat pour l'instant. Ils apparaissent ici à mesure que les personnes s'inscrivent et terminent."],
+ thName:["Name","Nom"],thLessons:["Lessons","Leçons"],thAtt:["Attempts","Essais"],thBest:["Best","Meilleur"],thLast:["Last","Dernier"],thDate:["Date completed","Date de fin"],thStatus:["Status","Statut"],inProg:["In progress","En cours"],noName:["(no name)","(sans nom)"],loadFail:["Could not load results.","Impossible de charger les résultats."],
+ srcTitle:["Sources and currency","Sources et mise à jour"],
+ trainerL:["Trainer or group (optional)","Formateur ou groupe (facultatif)"],sendRes:["Send my result to my trainer","Envoyer mon résultat à mon formateur"],copyRes:["Copy my result","Copier mon résultat"],copied:["Result copied. Paste it in an email to your trainer.","Résultat copié. Collez-le dans un e-mail à votre formateur."],
+ byEnd:["By the end you can","À la fin, vous saurez"]
+};
+function u(k){return UI[k][LI]}
+function x(p){return p[LI]}
+
+/* ---------- lessons ---------- */
+var TERMS=[
+ [["Precursor","Précurseur"],["A chemical that is built into the structure of the drug molecule. Removing it from supply stops that drug route.","Un produit chimique qui entre dans la structure de la molécule de la drogue. Le retirer de l'approvisionnement bloque cette filière."]],
+ [["Reagent or solvent","Réactif ou solvant"],["Used to process or purify, but not part of the final drug. Acetone, toluene and acids are common examples, and all have huge legitimate markets.","Sert à transformer ou à purifier, mais ne fait pas partie de la drogue finale. L'acétone, le toluène et les acides en sont des exemples courants, avec d'immenses marchés légitimes."]],
+ [["Pre-precursor","Pré-précurseur"],["A chemical easily converted into a scheduled precursor. Often used to step around a control.","Un produit chimique facilement transformé en précurseur classé. Souvent utilisé pour contourner un contrôle."]],
+ [["Designer precursor","Précurseur de synthèse"],["Made to evade controls, with no known legitimate use. Its appearance in trade is a strong signal.","Conçu pour échapper aux contrôles, sans usage légitime connu. Son apparition dans le commerce est un signal fort."]]
+];
+
+var DRUGS=[
+ {t:["Cocaine","Cocaïne"],intro:["The chemicals below are used in the extraction and refining of cocaine. Most have huge legitimate markets, so volume and destination matter more than the chemical alone.","Les produits ci-dessous servent à extraire et à raffiner la cocaïne. La plupart ont d'immenses marchés légitimes : le volume et la destination comptent donc plus que le produit seul."],
+  rows:[
+   [["Potassium permanganate","Permanganate de potassium"],"I",["Water treatment, disinfectant","Traitement de l'eau, désinfectant"],["Used to purify cocaine","Sert à purifier la cocaïne"]],
+   [["Acetone","Acétone"],"II",["Solvent, paints, cleaning","Solvant, peintures, nettoyage"],["Solvent in extraction and refining","Solvant d'extraction et de raffinage"]],
+   [["Ethyl ether","Éther éthylique"],"II",["Solvent, laboratories","Solvant, laboratoires"],["Solvent in extraction and refining","Solvant d'extraction et de raffinage"]],
+   [["Methyl ethyl ketone","Méthyléthylcétone"],"II",["Solvent, coatings, adhesives","Solvant, revêtements, colles"],["Solvent in extraction and refining","Solvant d'extraction et de raffinage"]],
+   [["Toluene","Toluène"],"II",["Solvent, fuels, paints","Solvant, carburants, peintures"],["Solvent in extraction and refining","Solvant d'extraction et de raffinage"]],
+   [["Hydrochloric acid","Acide chlorhydrique"],"II",["Metal treatment, food, water","Traitement des métaux, alimentation, eau"],["Acid used to extract and refine","Acide utilisé pour extraire et raffiner"]],
+   [["Sulphuric acid","Acide sulfurique"],"II",["Fertilisers, batteries, industry","Engrais, batteries, industrie"],["Acid used to extract and refine","Acide utilisé pour extraire et raffiner"]]
+  ]},
+ {t:["Heroin","Héroïne"],intro:["Acetic anhydride is the key chemical and one of the most closely watched in the world. The same Table II solvents and acids also appear in heroin production.","L'anhydride acétique est le produit clé et l'un des plus surveillés au monde. Les mêmes solvants et acides du Tableau II apparaissent aussi dans la production d'héroïne."],
+  rows:[
+   [["Acetic anhydride","Anhydride acétique"],"I",["Plastics, textiles, medicines such as aspirin","Plastiques, textiles, médicaments comme l'aspirine"],["Turns morphine into heroin","Transforme la morphine en héroïne"]],
+   [["Acetone, ethyl ether, methyl ethyl ketone","Acétone, éther éthylique, méthyléthylcétone"],"II",["Common industrial solvents","Solvants industriels courants"],["Solvents in processing","Solvants de transformation"]],
+   [["Hydrochloric acid, sulphuric acid","Acide chlorhydrique, acide sulfurique"],"II",["Wide industrial use","Large usage industriel"],["Acids in processing","Acides de transformation"]]
+  ]},
+ {t:["Methamphetamine and amphetamine","Méthamphétamine et amphétamine"],intro:["The largest group. Some chemicals come through the medicine route, others skip it. A medicine customs code does not guarantee that tablets are medicines.","Le groupe le plus important. Certains produits passent par la voie des médicaments, d'autres l'évitent. Un code douanier de médicament ne garantit pas que les comprimés en sont."],
+  rows:[
+   [["Ephedrine","Éphédrine"],"I",["Cold and asthma medicines","Médicaments contre le rhume et l'asthme"],["Can be used to make methamphetamine","Peut servir à fabriquer de la méthamphétamine"]],
+   [["Pseudoephedrine","Pseudoéphédrine"],"I",["Cold and allergy medicines","Médicaments contre le rhume et l'allergie"],["Can be used to make methamphetamine","Peut servir à fabriquer de la méthamphétamine"]],
+   [["Norephedrine","Noréphédrine"],"I",["Medicines, veterinary use","Médicaments, usage vétérinaire"],["Can lead to amphetamine","Peut mener à l'amphétamine"]],
+   [["Phenylacetic acid","Acide phénylacétique"],"I",["Perfume, penicillin","Parfum, pénicilline"],["Amphetamine-type stimulants","Stimulants de type amphétamine"]],
+   [["P-2-P (1-phenyl-2-propanone)","P-2-P (1-phényl-2-propanone)"],"I",["Limited industrial use","Usage industriel limité"],["Leads to amphetamine and methamphetamine","Mène à l'amphétamine et à la méthamphétamine"]],
+   [["APAAN, APAA, MAPA","APAAN, APAA, MAPA"],"I",["None known (designer precursors)","Aucun connu (précurseurs de synthèse)"],["Lead to amphetamine and methamphetamine","Mènent à l'amphétamine et à la méthamphétamine"]],
+   [["P-2-P methyl glycidic acid and 8 esters","Acide P-2-P méthylglycidique et 8 esters"],"I",["None known (designer precursors)","Aucun connu (précurseurs de synthèse)"],["Added to Table I in December 2024","Ajoutés au Tableau I en décembre 2024"]]
+  ]},
+ {t:["MDMA (ecstasy)","MDMA (ecstasy)"],intro:["MDMA has its own chemical family, from natural oils to direct chemical links.","La MDMA a sa propre famille chimique, des huiles naturelles aux liens chimiques directs."],
+  rows:[
+   [["Safrole","Safrole"],"I",["Natural oils, perfumes, flavours","Huiles naturelles, parfums, arômes"],["Starting material for MDMA","Matière de départ pour la MDMA"]],
+   [["Isosafrole","Isosafrole"],"I",["Natural oils, perfumes, flavours","Huiles naturelles, parfums, arômes"],["Starting material for MDMA","Matière de départ pour la MDMA"]],
+   [["Piperonal","Pipéronal"],"I",["Perfumes, insect products","Parfums, produits contre les insectes"],["Starting material for MDMA","Matière de départ pour la MDMA"]],
+   [["3,4-MDP-2-P","3,4-MDP-2-P"],"I",["Limited industrial use","Usage industriel limité"],["Direct link to MDMA","Lien direct avec la MDMA"]],
+   [["3,4-MDP-2-P methyl glycidic acid and methyl glycidate","Acide méthylglycidique du 3,4-MDP-2-P et méthylglycidate"],"I",["None known (designer precursors)","Aucun connu (précurseurs de synthèse)"],["Added to Table I in 2019","Ajoutés au Tableau I en 2019"]],
+   [["Ethyl ester and 6 other esters of the acid","Ester éthylique et 6 autres esters de l'acide"],"I",["None known (designer precursors)","Aucun connu (précurseurs de synthèse)"],["Added to Table I in December 2024","Ajoutés au Tableau I en décembre 2024"]]
+  ]},
+ {t:["LSD","LSD"],intro:["LSD comes from the ergot family. The quantities involved are very small, so documents and end users matter even more.","Le LSD provient de la famille de l'ergot. Les quantités en jeu sont très faibles : les documents et les destinataires finaux comptent donc encore plus."],
+  rows:[
+   [["Lysergic acid","Acide lysergique"],"I",["Pharmaceutical research","Recherche pharmaceutique"],["Direct chemical link to LSD","Lien chimique direct avec le LSD"]],
+   [["Ergometrine","Ergométrine"],"I",["Stops bleeding after childbirth","Arrête les saignements après un accouchement"],["Can lead to LSD","Peut mener au LSD"]],
+   [["Ergotamine","Ergotamine"],"I",["Migraine medicine","Médicament contre la migraine"],["Can lead to LSD","Peut mener au LSD"]]
+  ]},
+ {t:["Fentanyl and analogues","Fentanyl et analogues"],intro:["The list has grown quickly. All of these are used in legitimate pharmaceutical research and manufacture, and all can lead to fentanyl and its analogues. Fentanyl is powerful in tiny amounts, so even small seizures are serious.","La liste s'est allongée rapidement. Tous ces produits servent à la recherche et à la fabrication pharmaceutiques légitimes, et tous peuvent mener au fentanyl et à ses analogues. Le fentanyl est puissant en quantités infimes : même de petites saisies sont graves."],
+  rows:[
+   [["ANPP","ANPP"],"I",["Pharmaceutical and research chemical","Produit pharmaceutique et de recherche"],["Already listed before 2019","Déjà listé avant 2019"]],
+   [["NPP (N-phenethyl-4-piperidone)","NPP (N-phénéthyl-4-pipéridone)"],"I",["Research and pharmaceutical use","Recherche et usage pharmaceutique"],["Already listed before 2019","Déjà listé avant 2019"]],
+   [["4-AP","4-AP"],"I",["Pharmaceutical and research chemical","Produit pharmaceutique et de recherche"],["Added in November 2022","Ajouté en novembre 2022"]],
+   [["1-boc-4-AP","1-boc-4-AP"],"I",["None known (designer precursor)","Aucun connu (précurseur de synthèse)"],["Added in November 2022","Ajouté en novembre 2022"]],
+   [["Norfentanyl","Norfentanyl"],"I",["Analytical and research use","Usage analytique et de recherche"],["Added in November 2022","Ajouté en novembre 2022"]],
+   [["4-Piperidone","4-Pipéridone"],"I",["Pharmaceutical intermediate","Intermédiaire pharmaceutique"],["Added in December 2024","Ajouté en décembre 2024"]],
+   [["1-boc-4-piperidone","1-boc-4-pipéridone"],"I",["Pharmaceutical intermediate","Intermédiaire pharmaceutique"],["Added in December 2024","Ajouté en décembre 2024"]]
+  ]},
+ {t:["Methaqualone and PCP","Méthaqualone et PCP"],intro:["Two older drugs close the list.","Deux drogues plus anciennes terminent la liste."],
+  rows:[
+   [["N-Acetylanthranilic acid","Acide N-acétylanthranilique"],"I",["Chemical intermediate","Intermédiaire chimique"],["Leads to methaqualone","Mène à la méthaqualone"]],
+   [["Anthranilic acid","Acide anthranilique"],"II",["Dyes, perfumes, pharmaceuticals","Colorants, parfums, produits pharmaceutiques"],["Leads to methaqualone","Mène à la méthaqualone"]],
+   [["Piperidine","Pipéridine"],"II",["Chemistry and medicines","Chimie et médicaments"],["Can lead to PCP","Peut mener à la PCP"]]
+  ]}
+];
+
+var QUIZ={
+ q1:{items:[
+  {q:["A company orders 20 tonnes of toluene, a Table II solvent. What is the best reading?","Une entreprise commande 20 tonnes de toluène, un solvant du Tableau II. Quelle est la meilleure lecture ?"],o:[["Proof of diversion, so seize it","Preuve de détournement : il faut saisir"],["Not suspicious on its own, because solvents trade in huge legitimate volumes; judge the whole context","Pas suspect en soi, car les solvants s'échangent en énormes volumes légitimes ; jugez l'ensemble du contexte"],["Table II chemicals never need checks","Les produits du Tableau II n'exigent jamais de contrôle"],["Only Table I chemicals can be misused","Seuls les produits du Tableau I peuvent être détournés"]],a:1,w:["Most solvents and acids have large legitimate markets. Documents, parties, routing and end use say more than volume.","La plupart des solvants et acides ont de grands marchés légitimes. Les documents, les parties, l'itinéraire et l'utilisation finale en disent plus que le volume."]},
+  {q:["Which term describes a chemical made to avoid controls, with no known legitimate use?","Quel terme désigne un produit chimique conçu pour échapper aux contrôles, sans usage légitime connu ?"],o:[["Reagent","Réactif"],["Designer precursor","Précurseur de synthèse"],["Excipient","Excipient"],["Essential solvent","Solvant essentiel"]],a:1,w:["Designer precursors are created to sidestep scheduling. The INCB flags several of them in Table I.","Les précurseurs de synthèse sont créés pour contourner le classement. L'OICS en signale plusieurs dans le Tableau I."]}
+ ]},
+ q2:{items:[
+  {q:["Who decides whether a substance is added to Table I or Table II?","Qui décide d'ajouter une substance au Tableau I ou au Tableau II ?"],o:[["The WCO Council","Le Conseil de l'OMD"],["The Commission on Narcotic Drugs","La Commission des stupéfiants"],["Customs at each port","La douane de chaque port"],["Interpol","Interpol"]],a:1,w:["The INCB assesses substances, and the Commission on Narcotic Drugs decides on scheduling.","L'OICS évalue les substances et la Commission des stupéfiants décide du classement."]},
+  {q:["A consignment is declared as pseudoephedrine hydrochloride. Is it covered by Table I?","Un envoi est déclaré comme chlorhydrate de pseudoéphédrine. Est-il couvert par le Tableau I ?"],o:[["No, only the base form is listed","Non, seule la forme base est listée"],["Yes, salts are covered whenever such salts can exist","Oui, les sels sont couverts lorsqu'ils peuvent exister"],["Only above one kilogram","Seulement au-dessus d'un kilogramme"],["Only when exported","Seulement à l'exportation"]],a:1,w:["Both tables cover salts. The exception is salts of hydrochloric and sulphuric acid in Table II.","Les deux tableaux couvrent les sels. L'exception : les sels de l'acide chlorhydrique et de l'acide sulfurique dans le Tableau II."]}
+ ]},
+ qv:{items:[
+  {q:["According to the video, what matters most for common Table II solvents and acids?","Selon la vidéo, qu'est-ce qui compte le plus pour les solvants et acides courants du Tableau II ?"],o:[["The colour of the drum","La couleur du fût"],["Volume and destination, not only the chemical","Le volume et la destination, pas seulement le produit"],["The weekday of arrival","Le jour d'arrivée"],["Nothing, they are never misused","Rien, ils ne sont jamais détournés"]],a:1,w:["Because these chemicals are so common, volume, destination and documents are the key.","Comme ces produits sont très courants, le volume, la destination et les documents sont la clé."]},
+  {q:["Which chemical does the video describe as one of the most closely watched in the world?","Quel produit chimique la vidéo décrit-elle comme l'un des plus surveillés au monde ?"],o:[["Toluene","Toluène"],["Acetic anhydride","Anhydride acétique"],["Piperonal","Pipéronal"],["Anthranilic acid","Acide anthranilique"]],a:1,w:["Acetic anhydride turns morphine into heroin and is closely monitored worldwide.","L'anhydride acétique transforme la morphine en héroïne et il est surveillé de près dans le monde entier."]}
+ ]},
+ qd:{items:[
+  {q:["Potassium permanganate, a Table I chemical, is linked to which drug?","Le permanganate de potassium, produit du Tableau I, est lié à quelle drogue ?"],o:[["Cocaine","Cocaïne"],["LSD","LSD"],["PCP","PCP"],["Methaqualone","Méthaqualone"]],a:0,w:["It has water-treatment uses and is used to purify cocaine.","Il sert au traitement de l'eau et à purifier la cocaïne."]},
+  {q:["Ergometrine and ergotamine are medicines. Which drug are they linked to?","L'ergométrine et l'ergotamine sont des médicaments. À quelle drogue sont-elles liées ?"],o:[["Fentanyl","Fentanyl"],["MDMA","MDMA"],["LSD","LSD"],["Heroin","Héroïne"]],a:2,w:["Both belong to the ergot family and lead to LSD. Quantities are tiny, so documents and end users matter.","Toutes deux appartiennent à la famille de l'ergot et mènent au LSD. Les quantités sont infimes : documents et destinataires finaux comptent."]}
+ ]},
+ q3:{items:[
+  {q:["Which of these is listed in Table II?","Lequel de ces produits figure au Tableau II ?"],o:[["Acetic anhydride","Anhydride acétique"],["Piperidine","Pipéridine"],["Safrole","Safrole"],["4-AP","4-AP"]],a:1,w:["Piperidine is one of the eight Table II chemicals. The other three are in Table I.","La pipéridine est l'un des huit produits du Tableau II. Les trois autres sont au Tableau I."]},
+  {q:["Which pair was added to Table I on 3 December 2024?","Quelle paire a été ajoutée au Tableau I le 3 décembre 2024 ?"],o:[["APAAN and APAA","APAAN et APAA"],["4-piperidone and 1-boc-4-piperidone","4-pipéridone et 1-boc-4-pipéridone"],["Norfentanyl and 4-AP","Norfentanyl et 4-AP"],["MAPA and ANPP","MAPA et ANPP"]],a:1,w:["4-piperidone and 1-boc-4-piperidone joined in December 2024. Norfentanyl and 4-AP came in 2022.","La 4-pipéridone et la 1-boc-4-pipéridone ont été ajoutées en décembre 2024. Le norfentanyl et la 4-AP datent de 2022."]}
+ ]},
+ q4:{items:[
+  {q:["A chemical is in neither Table I nor Table II. What does that mean?","Un produit chimique ne figure ni au Tableau I ni au Tableau II. Qu'est-ce que cela signifie ?"],o:[["No monitoring is possible","Aucune surveillance n'est possible"],["It may still be nationally controlled or monitored, for example on the INCB special surveillance list","Il peut tout de même être contrôlé ou surveillé au niveau national, par exemple sur la liste de surveillance spéciale de l'OICS"],["It can be exported anywhere freely","Il peut être exporté librement partout"],["It cannot be a precursor","Il ne peut pas être un précurseur"]],a:1,w:["Non-scheduled does not mean harmless. Countries add their own controls and the INCB tracks non-scheduled chemicals.","Non classé ne veut pas dire inoffensif. Les pays ajoutent leurs propres contrôles et l'OICS suit les produits non classés."]},
+  {q:["What is PEN Online Light?","Qu'est-ce que PEN Online Light ?"],o:[["A mandatory system for Table I","Un système obligatoire pour le Tableau I"],["Voluntary exchange of notifications on non-scheduled chemicals","Un échange volontaire de notifications sur les produits non classés"],["A public seizure database","Une base de données publique des saisies"],["A customs declaration portal","Un portail de déclaration en douane"]],a:1,w:["It extends the notification idea to chemicals outside the Convention, on a voluntary basis.","Il étend l'idée de notification aux produits hors Convention, sur une base volontaire."]}
+ ]},
+ q5:{items:[
+  {q:["Who can use PEN Online?","Qui peut utiliser PEN Online ?"],o:[["Any exporter","Tout exportateur"],["Competent national authorities only","Les autorités nationales compétentes uniquement"],["Any customs broker","Tout commissionnaire en douane"],["The general public","Le grand public"]],a:1,w:["Access is limited to competent national authorities. Officers go through their national authority.","L'accès est limité aux autorités nationales compétentes. Les agents passent par leur autorité nationale."]},
+  {q:["What does a pre-export notification do?","À quoi sert une notification préalable à l'exportation ?"],o:[["Pays the export duty","Elle paie les droits d'exportation"],["Tells the importing country about a planned export so it can verify and respond before shipment","Elle informe le pays importateur d'une exportation prévue afin qu'il vérifie et réponde avant l'expédition"],["Replaces the export licence","Elle remplace la licence d'exportation"],["Classifies the chemical","Elle classe le produit chimique"]],a:1,w:["It gives the importing authority a chance to check the buyer and the need before goods move.","Elle donne à l'autorité importatrice la possibilité de vérifier l'acheteur et le besoin avant le départ des marchandises."]}
+ ]},
+ q8:{items:[
+  {q:["You find a leaking, unlabelled drum in a container. What first?","Vous trouvez un fût qui fuit, sans étiquette, dans un conteneur. Que faites-vous en premier ?"],o:[["Open it to identify the contents","L'ouvrir pour identifier le contenu"],["Smell it to guess the chemical","Le sentir pour deviner le produit"],["Keep clear, isolate the area and call trained hazmat support under your procedure","Vous éloigner, isoler la zone et appeler un soutien formé aux matières dangereuses selon votre procédure"],["Pour it into another container","Le verser dans un autre récipient"]],a:2,w:["Unknown chemicals can be toxic, corrosive or flammable. Secure the area and let trained staff handle it.","Les produits inconnus peuvent être toxiques, corrosifs ou inflammables. Sécurisez la zone et laissez le personnel formé intervenir."]}
+ ]}
+};
+
+var FINAL=[
+ {q:["Which of these is a Table II chemical?","Lequel de ces produits est du Tableau II ?"],o:[["Ephedrine","Éphédrine"],["Acetone","Acétone"],["Safrole","Safrole"],["APAAN","APAAN"]],a:1,w:["Acetone is in Table II. The other three are in Table I.","L'acétone est au Tableau II. Les trois autres sont au Tableau I."]},
+ {q:["Which statement about recent additions is correct?","Quelle affirmation sur les ajouts récents est correcte ?"],o:[["1-boc-4-piperidone and 4-piperidone were added to Table I on 3 December 2024","La 1-boc-4-pipéridone et la 4-pipéridone ont été ajoutées au Tableau I le 3 décembre 2024"],["Table II was replaced in 2020","Le Tableau II a été remplacé en 2020"],["Salts were excluded from control in 2022","Les sels ont été exclus du contrôle en 2022"],["Nothing has been added since 2019","Rien n'a été ajouté depuis 2019"]],a:0,w:["The December 2024 decision added fentanyl-related chemicals and glycidic derivatives.","La décision de décembre 2024 a ajouté des produits liés au fentanyl et des dérivés glycidiques."]},
+ {q:["A consignment is declared as ephedrine hydrochloride. How is it treated?","Un envoi est déclaré comme chlorhydrate d'éphédrine. Comment est-il traité ?"],o:[["Controlled, because salts are covered when they can exist","Contrôlé, car les sels sont couverts lorsqu'ils peuvent exister"],["Uncontrolled, because only the base is listed","Non contrôlé, car seule la base est listée"],["Controlled only above a set weight","Contrôlé seulement au-dessus d'un certain poids"],["Controlled only when imported","Contrôlé seulement à l'importation"]],a:0,w:["Table I covers salts. No minimum quantity exists in the Convention itself.","Le Tableau I couvre les sels. La Convention elle-même ne fixe aucune quantité minimale."]},
+ {q:["Who has access to PEN Online?","Qui a accès à PEN Online ?"],o:[["All exporters","Tous les exportateurs"],["Competent national authorities","Les autorités nationales compétentes"],["Any customs officer directly","Tout agent des douanes directement"],["Anyone with a licence","Toute personne titulaire d'une licence"]],a:1,w:["Officers reach it through their national competent authority.","Les agents y accèdent par leur autorité nationale compétente."]},
+ {q:["What defines a designer precursor?","Qu'est-ce qui définit un précurseur de synthèse ?"],o:[["A chemical sold in designer packaging","Un produit vendu dans un emballage de marque"],["A chemical made to evade controls, with no known legitimate use","Un produit conçu pour échapper aux contrôles, sans usage légitime connu"],["Any Table II solvent","Tout solvant du Tableau II"],["A pharmaceutical excipient","Un excipient pharmaceutique"]],a:1,w:["Designer precursors exist to sidestep scheduling.","Les précurseurs de synthèse existent pour contourner le classement."]},
+ {q:["Documents say 'cleaning solvent', but drum labels show a different product and CAS number. Best step?","Les documents indiquent « solvant de nettoyage », mais les étiquettes des fûts montrent un autre produit et un autre numéro CAS. Meilleure démarche ?"],o:[["Release it and leave the paperwork to the broker","Le libérer et laisser les papiers au commissionnaire"],["Hold the consignment, verify with the competent authority and follow national procedure","Retenir l'envoi, vérifier auprès de l'autorité compétente et suivre la procédure nationale"],["Ask the driver to relabel the drums","Demander au chauffeur de rétiqueter les fûts"],["Open a drum and smell it","Ouvrir un fût et le sentir"]],a:1,w:["A mismatch between documents and labels is a core red flag. Hold, verify and escalate.","Une différence entre documents et étiquettes est un signal d'alerte majeur. Retenez, vérifiez et signalez."]},
+ {q:["Ten small parcels of the same pharmaceutical intermediate go to ten addresses in one town in a week. What does this most suggest?","Dix petits colis du même intermédiaire pharmaceutique vont à dix adresses d'une même ville en une semaine. Qu'est-ce que cela suggère le plus ?"],o:[["Normal online shopping","Des achats en ligne normaux"],["Splitting to stay under thresholds, so link and assess the parcels together","Un fractionnement pour rester sous les seuils : reliez et évaluez les colis ensemble"],["A tariff error","Une erreur tarifaire"],["A customs system fault","Une panne du système douanier"]],a:1,w:["Splitting is a known tactic. Treat the parcels as one pattern, not ten separate events.","Le fractionnement est une tactique connue. Traitez les colis comme un seul schéma, pas comme dix événements distincts."]},
+ {q:["Which Table I chemical turns morphine into heroin?","Quel produit du Tableau I transforme la morphine en héroïne ?"],o:[["Acetic anhydride","Anhydride acétique"],["Acetone","Acétone"],["Piperidine","Pipéridine"],["Toluene","Toluène"]],a:0,w:["Acetic anhydride is used in plastics and medicines, and in heroin production it turns morphine into heroin.","L'anhydride acétique sert dans les plastiques et les médicaments ; dans la production d'héroïne, il transforme la morphine en héroïne."]},
+ {q:["Which pair of chemicals both lead toward fentanyl-type opioids?","Quelle paire de produits mène vers les opioïdes de type fentanyl ?"],o:[["Safrole and piperonal","Safrole et pipéronal"],["Ergometrine and ergotamine","Ergométrine et ergotamine"],["4-piperidone and 1-boc-4-piperidone","4-pipéridone et 1-boc-4-pipéridone"],["Anthranilic acid and piperidine","Acide anthranilique et pipéridine"]],a:2,w:["Safrole and piperonal point to MDMA, ergot chemicals to LSD, and anthranilic acid and piperidine to methaqualone and PCP.","Safrole et pipéronal mènent à la MDMA, les produits de l'ergot au LSD, l'acide anthranilique et la pipéridine à la méthaqualone et à la PCP."]},
+ {q:["Which Table II chemical can lead to PCP?","Quel produit du Tableau II peut mener à la PCP ?"],o:[["Piperidine","Pipéridine"],["Toluene","Toluène"],["Sulphuric acid","Acide sulfurique"],["Ethyl ether","Éther éthylique"]],a:0,w:["Piperidine is used in chemistry and medicines, and it can lead to PCP.","La pipéridine sert en chimie et dans les médicaments, et peut mener à la PCP."]}
+];
+var TOTAL=FINAL.length,PASS=7;
+
+var CHAIN=[
+ [["Manufacture and licensing","Fabrication et licences"],["Producers of scheduled chemicals operate under national licence and keep production and stock records.","Les producteurs de produits classés travaillent sous licence nationale et tiennent des registres de production et de stock."],[["Does the producer hold a valid licence?","Le producteur détient-il une licence valide ?"],["Do production and sales records match the quantities shipped?","Les registres de production et de vente correspondent-ils aux quantités expédiées ?"]]],
+ [["Trader and distributor registration","Enregistrement des négociants et distributeurs"],["Traders, brokers and distributors must be registered or licensed and keep transaction records.","Les négociants, courtiers et distributeurs doivent être enregistrés ou titulaires d'une licence et tenir des registres de transactions."],[["Is the exporter or broker registered with the competent authority?","L'exportateur ou le courtier est-il enregistré auprès de l'autorité compétente ?"],["Is the trading history consistent with the volumes in question?","L'historique commercial est-il cohérent avec les volumes en question ?"]]],
+ [["Know your customer and end use","Connaître son client et l'utilisation finale"],["Suppliers verify the buyer, the premises and a plausible legitimate use, and report suspicious orders.","Les fournisseurs vérifient l'acheteur, les locaux et un usage légitime plausible, et signalent les commandes suspectes."],[["Is there an end-use or end-user statement?","Existe-t-il une déclaration d'utilisation finale ou d'utilisateur final ?"],["Does the buyer's business explain the quantity?","L'activité de l'acheteur explique-t-elle la quantité ?"]]],
+ [["Export authorisation and pre-export notification","Autorisation d'exportation et notification préalable"],["The exporting authority notifies the importing country through PEN Online, where required, before goods leave.","L'autorité exportatrice notifie le pays importateur via PEN Online, lorsque c'est requis, avant le départ des marchandises."],[["Is there an export authorisation matching the goods?","Existe-t-il une autorisation d'exportation correspondant aux marchandises ?"],["Has a notification been sent and answered by the importer?","Une notification a-t-elle été envoyée et l'importateur a-t-il répondu ?"]]],
+ [["Importing country response","Réponse du pays importateur"],["The importing authority checks its own licences and the buyer, then consents or objects. Annual legitimate requirements help judge whether the amount is reasonable.","L'autorité importatrice vérifie ses propres licences et l'acheteur, puis consent ou s'oppose. Les besoins légitimes annuels aident à juger si la quantité est raisonnable."],[["Is the consent or non-objection on file?","Le consentement ou l'absence d'objection figure-t-il au dossier ?"],["Does the quantity fit the country's legitimate needs?","La quantité correspond-elle aux besoins légitimes du pays ?"]]],
+ [["Customs clearance and verification","Dédouanement et vérification"],["At the border, officers compare documents, labels and goods, use risk targeting, and inspect where indicators appear.","À la frontière, les agents comparent documents, étiquettes et marchandises, utilisent le ciblage des risques et inspectent lorsque des indicateurs apparaissent."],[["Do invoice, licence, labels and goods agree?","Facture, licence, étiquettes et marchandises concordent-elles ?"],["Do CAS and UN numbers fit the declared product?","Les numéros CAS et ONU correspondent-ils au produit déclaré ?"]]],
+ [["Delivery to the end user and records","Livraison à l'utilisateur final et registres"],["The goods reach the declared consignee, and all parties keep records for inspection and audit.","Les marchandises arrivent chez le destinataire déclaré, et toutes les parties conservent des registres pour inspection et audit."],[["Was delivery to the declared premises?","La livraison a-t-elle eu lieu aux locaux déclarés ?"],["Were any quantities redirected or split?","Des quantités ont-elles été détournées ou fractionnées ?"]]]
+];
+
+var FLAGS=[
+ [["A long-established chemical distributor with a valid licence orders its usual monthly volume of toluene from its usual supplier.","Un distributeur de produits chimiques établi de longue date, avec une licence valide, commande son volume mensuel habituel de toluène à son fournisseur habituel."],"routine",["Established parties, normal volume and valid paperwork. Routine.","Parties établies, volume normal et documents valides. Situation normale."]],
+ [["The consignee was registered three weeks ago, shows no premises on the company registry, and orders a Table I substance.","Le destinataire a été enregistré il y a trois semaines, n'a aucun local au registre des sociétés et commande une substance du Tableau I."],"flag",["A new company with no verifiable premises ordering a Table I chemical is a strong indicator.","Une société nouvelle, sans local vérifiable, qui commande un produit du Tableau I est un indicateur fort."]],
+ [["Declared as 'cleaning product', the drums carry a pharmaceutical intermediate name and a CAS number that does not match the declaration.","Déclarés comme « produit de nettoyage », les fûts portent le nom d'un intermédiaire pharmaceutique et un numéro CAS qui ne correspond pas à la déclaration."],"flag",["A mismatch between declaration and labels is a core red flag.","Une différence entre la déclaration et les étiquettes est un signal d'alerte majeur."]],
+ [["The quantity matches the licence and the importing country has answered the pre-export notification.","La quantité correspond à la licence et le pays importateur a répondu à la notification préalable à l'exportation."],"routine",["Documents, notification and quantity agree. Routine.","Documents, notification et quantité concordent. Situation normale."]],
+ [["Payment comes in cash from a third country with no link to buyer or seller.","Le paiement arrive en espèces d'un pays tiers sans lien avec l'acheteur ni le vendeur."],"flag",["Unexplained third-party payment hides who is really buying.","Un paiement inexpliqué par un tiers masque qui achète réellement."]],
+ [["Sulphuric acid for a fertiliser plant arrives with a licence and end-use declaration on file, and the buyer asks for fast clearance.","De l'acide sulfurique destiné à une usine d'engrais arrive avec une licence et une déclaration d'utilisation finale au dossier, et l'acheteur demande un dédouanement rapide."],"routine",["A request for speed alone is not an indicator when everything else checks out.","Une demande de rapidité seule n'est pas un indicateur lorsque tout le reste est en ordre."]],
+ [["The route passes three transit countries with no commercial reason, and the final destination changed after departure.","L'itinéraire traverse trois pays de transit sans raison commerciale, et la destination finale a changé après le départ."],"flag",["Circuitous routing and mid-transit changes are classic diversion signs.","Les itinéraires détournés et les changements en cours de route sont des signes classiques de détournement."]],
+ [["Several small parcels of the same intermediate go to different residential addresses in one town within a week.","Plusieurs petits colis du même intermédiaire vont à différentes adresses résidentielles d'une même ville en une semaine."],"flag",["This looks like splitting. Link the parcels and assess them together.","Cela ressemble à du fractionnement. Reliez les colis et évaluez-les ensemble."]]
+];
+
+var SCN={
+ s1:{title:["The solvent container","Le conteneur de solvant"],intro:["A 40-foot container arrives declared as 'industrial cleaning solvent', 20 drums. The consignee is a company registered a month ago. There is no chemicals licence on file. The CAS number printed on the drum label does not match the declared product.","Un conteneur de 40 pieds arrive, déclaré comme « solvant de nettoyage industriel », 20 fûts. Le destinataire est une société enregistrée il y a un mois. Aucune licence pour produits chimiques n'est au dossier. Le numéro CAS imprimé sur l'étiquette des fûts ne correspond pas au produit déclaré."],
+  steps:[
+   {q:["What is your first action?","Quelle est votre première action ?"],o:[
+     [["Release the container on the strength of the invoice","Libérer le conteneur sur la foi de la facture"],0,["The documents are already inconsistent. Releasing now leaves no way to correct it.","Les documents sont déjà incohérents. Libérer maintenant ne laisse aucun moyen de corriger."]],
+     [["Hold the consignment, verify the licence with the competent authority and run the label and CAS check","Retenir l'envoi, vérifier la licence auprès de l'autorité compétente et contrôler l'étiquette et le numéro CAS"],1,["Correct. Holding and verifying keeps every option open and follows the chain of control.","Correct. Retenir et vérifier laisse toutes les options ouvertes et suit la chaîne de contrôle."]],
+     [["Open a drum and smell it to identify the liquid","Ouvrir un fût et le sentir pour identifier le liquide"],0,["Unsafe and unreliable. Unknown chemicals can be toxic or corrosive. Sampling belongs to trained staff.","Dangereux et peu fiable. Les produits inconnus peuvent être toxiques ou corrosifs. Le prélèvement revient au personnel formé."]],
+     [["Phone the shipper and ask for an explanation","Appeler l'expéditeur et demander une explication"],0,["This can alert the network and lead to destruction of evidence. Escalate internally first.","Cela peut alerter le réseau et entraîner la destruction de preuves. Remontez d'abord en interne."]]]},
+   {q:["The competent authority confirms that no valid licence exists for this consignee. What next?","L'autorité compétente confirme qu'aucune licence valide n'existe pour ce destinataire. Et ensuite ?"],o:[
+     [["Return the container to the shipper","Renvoyer le conteneur à l'expéditeur"],0,["Sending it back moves the problem elsewhere and may destroy leads.","Le renvoyer déplace le problème ailleurs et peut détruire des pistes."]],
+     [["Detain under national chemical control law, brief investigators, preserve evidence and let them consider options such as a controlled delivery","Retenir en vertu de la loi nationale sur le contrôle des produits chimiques, informer les enquêteurs, préserver les preuves et les laisser étudier des options comme une livraison surveillée"],1,["Correct. Use your legal powers, document everything and involve investigators and the competent authority.","Correct. Utilisez vos pouvoirs légaux, documentez tout et associez enquêteurs et autorité compétente."]],
+     [["Let the consignee collect it and follow them","Laisser le destinataire le récupérer et le suivre"],0,["A controlled delivery needs legal authorisation and a plan. It cannot be improvised at the gate.","Une livraison surveillée exige une autorisation légale et un plan. Elle ne s'improvise pas à la barrière."]]]}
+  ],end:["You held the goods, verified, and escalated through the right channel without alerting the network.","Vous avez retenu les marchandises, vérifié et remonté par la bonne voie sans alerter le réseau."]},
+ s2:{title:["The express parcels","Les colis express"],intro:["Over one week, nine small parcels arrive by express courier, each declared 'pharmaceutical intermediate' at about 5 kg and low value. They come from different shippers in different countries and go to nine residential addresses in the same town.","En une semaine, neuf petits colis arrivent par courrier express, chacun déclaré « intermédiaire pharmaceutique », environ 5 kg, de faible valeur. Ils viennent d'expéditeurs différents dans différents pays et vont à neuf adresses résidentielles de la même ville."],
+  steps:[
+   {q:["What does this pattern suggest?","Que suggère ce schéma ?"],o:[
+     [["Ordinary e-commerce, so clear each parcel on its own","Du commerce en ligne ordinaire : dédouaner chaque colis séparément"],0,["Judging each parcel separately misses the pattern. The shared product, town and timing connect them.","Juger chaque colis séparément fait manquer le schéma. Le produit, la ville et le calendrier communs les relient."]],
+     [["Possible splitting to stay below thresholds, so link the parcels and assess them together","Un possible fractionnement pour rester sous les seuils : relier les colis et les évaluer ensemble"],1,["Correct. Splitting is a known way to avoid attention on a single large shipment.","Correct. Le fractionnement est un moyen connu d'éviter l'attention sur un seul gros envoi."]],
+     [["A tariff classification error","Une erreur de classement tarifaire"],0,["The pattern across shippers and addresses is not explained by a coding mistake.","Le schéma à travers expéditeurs et adresses ne s'explique pas par une erreur de codage."]]]},
+   {q:["What is the best next move?","Quelle est la meilleure suite ?"],o:[
+     [["Target the parcels for inspection by trained staff, record the addresses and shippers, and share the pattern with the competent authority and intelligence unit","Cibler les colis pour une inspection par du personnel formé, relever adresses et expéditeurs, et partager le schéma avec l'autorité compétente et le service de renseignement"],1,["Correct. Inspection plus intelligence sharing helps map the network behind the parcels.","Correct. L'inspection et le partage du renseignement aident à cartographier le réseau derrière les colis."]],
+     [["Destroy the parcels at once","Détruire les colis immédiatement"],0,["Destroying them loses evidence and the chance to identify the buyers.","Les détruire fait perdre des preuves et la chance d'identifier les acheteurs."]],
+     [["Ignore them because each is under a kilogram threshold you assume exists","Les ignorer car chacun est sous un seuil d'un kilogramme que vous supposez exister"],0,["The Convention sets no minimum quantity, and splitting is designed to exploit assumed thresholds.","La Convention ne fixe aucune quantité minimale, et le fractionnement vise à exploiter des seuils supposés."]]]}
+  ],end:["You treated the parcels as one pattern and passed the intelligence on.","Vous avez traité les colis comme un seul schéma et transmis le renseignement."]}
+};
+
+/* name EN, name FR, table, CAS, UN, links, use EN, use FR, designer */
+var CHEMS=[
+["Acetic anhydride","Anhydride acétique","I","108-24-7","1715","Heroin, Methaqualone","Textiles, plastics, pharmaceuticals, dyes","Textiles, plastiques, produits pharmaceutiques, colorants"],
+["N-Acetylanthranilic acid","Acide N-acétylanthranilique","I","89-52-1","—","Methaqualone","Chemical intermediate","Intermédiaire chimique"],
+["ANPP (4-Anilino-N-phenethylpiperidine)","ANPP (4-anilino-N-phénéthylpipéridine)","I","21409-26-7","—","Fentanyl-type","Pharmaceutical and research chemical","Produit pharmaceutique et de recherche"],
+["1-boc-4-piperidone","1-boc-4-pipéridone","I","79099-07-3","—","Fentanyl-type","Pharmaceutical intermediate","Intermédiaire pharmaceutique"],
+["1-boc-4-AP","1-boc-4-AP","I","125541-22-2","—","Fentanyl-type","None known (INCB designer precursor)","Aucun connu (précurseur de synthèse signalé par l'OICS)",1],
+["Ephedrine","Éphédrine","I","299-42-3","—","ATS","Medicines: decongestants, bronchodilators","Médicaments : décongestionnants, bronchodilatateurs"],
+["Ergometrine","Ergométrine","I","60-79-7","—","LSD","Medicines: obstetrics","Médicaments : obstétrique"],
+["Ergotamine","Ergotamine","I","113-15-5","—","LSD","Medicines: migraine","Médicaments : migraine"],
+["Isosafrole","Isosafrole","I","120-58-1","—","MDMA-type","Fragrances, chemical intermediate","Parfums, intermédiaire chimique"],
+["Lysergic acid","Acide lysergique","I","82-58-6","—","LSD","Pharmaceutical research","Recherche pharmaceutique"],
+["3,4-MDP-2-P methyl glycidate, methyl glycidic acid and 7 listed esters","Méthylglycidate, acide méthylglycidique du 3,4-MDP-2-P et 7 esters listés","I","various","—","MDMA-type","None known (designer precursors)","Aucun connu (précurseurs de synthèse)",1],
+["3,4-Methylenedioxyphenyl-2-propanone (3,4-MDP-2-P)","3,4-Méthylènedioxyphényl-2-propanone (3,4-MDP-2-P)","I","4676-39-5","—","MDMA-type","Limited industrial use","Usage industriel limité"],
+["MAPA (methyl alpha-phenylacetoacetate)","MAPA (alpha-phénylacétoacétate de méthyle)","I","16648-44-5","—","ATS","None known (INCB designer precursor)","Aucun connu (précurseur de synthèse signalé par l'OICS)",1],
+["Norephedrine","Noréphédrine","I","14838-15-4","—","ATS","Medicines, veterinary use","Médicaments, usage vétérinaire"],
+["Norfentanyl","Norfentanyl","I","1609-66-1","—","Fentanyl-type","Analytical and research use","Usage analytique et de recherche"],
+["NPP (N-Phenethyl-4-piperidone)","NPP (N-phénéthyl-4-pipéridone)","I","39742-60-4","—","Fentanyl-type","Research and pharmaceutical use","Recherche et usage pharmaceutique"],
+["Phenylacetic acid","Acide phénylacétique","I","103-82-2","—","ATS","Fragrances, pharmaceuticals","Parfums, produits pharmaceutiques"],
+["APAA (alpha-Phenylacetoacetamide)","APAA (alpha-phénylacétoacétamide)","I","4433-77-6","—","ATS","None known (INCB designer precursor)","Aucun connu (précurseur de synthèse signalé par l'OICS)",1],
+["APAAN (alpha-Phenylacetoacetonitrile)","APAAN (alpha-phénylacétoacétonitrile)","I","4468-48-8","—","ATS","None known (INCB designer precursor)","Aucun connu (précurseur de synthèse signalé par l'OICS)",1],
+["4-AP (N-Phenyl-4-piperidinamine)","4-AP (N-phényl-4-pipéridinamine)","I","23056-29-3","—","Fentanyl-type","Pharmaceutical and research chemical","Produit pharmaceutique et de recherche"],
+["1-Phenyl-2-propanone (P2P)","1-Phényl-2-propanone (P2P)","I","103-79-7","—","ATS","Limited industrial use","Usage industriel limité"],
+["P-2-P methyl glycidic acid and 8 listed esters","Acide P-2-P méthylglycidique et 8 esters listés","I","various","—","ATS","None known (designer precursors)","Aucun connu (précurseurs de synthèse)",1],
+["4-Piperidone","4-Pipéridone","I","41661-47-6","—","Fentanyl-type","Pharmaceutical intermediate","Intermédiaire pharmaceutique"],
+["Piperonal","Pipéronal","I","120-57-0","—","MDMA-type","Fragrances, flavourings","Parfums, arômes"],
+["Potassium permanganate","Permanganate de potassium","I","7722-64-7","1490","Cocaine","Water treatment, disinfection, industry","Traitement de l'eau, désinfection, industrie"],
+["Pseudoephedrine","Pseudoéphédrine","I","90-82-4","—","ATS","Medicines: cold and allergy","Médicaments : rhume et allergie"],
+["Safrole","Safrole","I","94-59-7","—","MDMA-type","Fragrances; occurs in sassafras oil","Parfums ; présent dans l'huile de sassafras"],
+["Acetone","Acétone","II","67-64-1","1090","Cocaine, Heroin","Solvent, paints, cleaning, cosmetics","Solvant, peintures, nettoyage, cosmétiques"],
+["Anthranilic acid","Acide anthranilique","II","118-92-3","—","Methaqualone","Dyes, perfumes, pharmaceuticals","Colorants, parfums, produits pharmaceutiques"],
+["Ethyl ether","Éther éthylique","II","60-29-7","1155","Cocaine, Heroin","Solvent, laboratories","Solvant, laboratoires"],
+["Hydrochloric acid","Acide chlorhydrique","II","7647-01-0","1789","Cocaine, Heroin, ATS","Metal treatment, food, water, chemicals","Traitement des métaux, alimentation, eau, produits chimiques"],
+["Methyl ethyl ketone","Méthyléthylcétone","II","78-93-3","1193","Cocaine, Heroin","Solvent, coatings, adhesives","Solvant, revêtements, colles"],
+["Piperidine","Pipéridine","II","110-89-4","2401","PCP","Pharmaceutical and rubber chemicals","Produits pharmaceutiques et du caoutchouc"],
+["Sulphuric acid","Acide sulfurique","II","7664-93-9","1830","Cocaine, Heroin, ATS","Fertilisers, batteries, industry","Engrais, batteries, industrie"],
+["Toluene","Toluène","II","108-88-3","1294","Cocaine, ATS","Solvent, fuels, paints, chemicals","Solvant, carburants, peintures, produits chimiques"]
+];
+var LINKNAMES={"ATS":["Amphetamine-type stimulants","Stimulants de type amphétamine"],"MDMA-type":["MDMA-type (ecstasy)","Type MDMA (ecstasy)"],"Heroin":["Heroin","Héroïne"],"Cocaine":["Cocaine","Cocaïne"],"Fentanyl-type":["Fentanyl-type opioids","Opioïdes de type fentanyl"],"LSD":["LSD","LSD"],"Methaqualone":["Methaqualone","Méthaqualone"],"PCP":["PCP","PCP"]};
+
+var LESSONS=[
+ {id:"l1",min:4,title:["Why precursors matter","Pourquoi les précurseurs comptent"],blocks:[
+  {k:"p",t:[["A precursor chemical is a substance used to make illicit drugs. Most of them also have large legitimate uses: medicines, fragrances, cleaning products, paints, fertiliser, water treatment. The same drum can serve a pharmacy plant or a clandestine laboratory.","Un produit précurseur est une substance utilisée pour fabriquer des drogues illicites. La plupart ont aussi de larges usages légitimes : médicaments, parfums, produits de nettoyage, peintures, engrais, traitement de l'eau. Le même fût peut servir une usine pharmaceutique ou un laboratoire clandestin."],["That is why borders matter. A drug that has not been made yet cannot be sold. Stopping the chemical on the way in or out cuts production at its source.","C'est pourquoi les frontières comptent. Une drogue qui n'a pas encore été fabriquée ne peut pas être vendue. Arrêter le produit chimique à l'entrée ou à la sortie coupe la production à la source."]]},
+  {k:"h",t:["Four terms you will hear","Quatre termes que vous entendrez"]},
+  {k:"flips"},
+  {k:"co",warn:1,lab:["Keep in mind","À retenir"],ps:[["Volume alone rarely tells you much. Large legitimate trades in solvents and acids are normal. Look at the whole picture: who, what, how much, how paid, how routed.","Le volume seul en dit rarement beaucoup. De grands échanges légitimes de solvants et d'acides sont normaux. Regardez l'ensemble : qui, quoi, combien, comment payé, quel itinéraire."]]},
+  {k:"quiz",id:"q1"}
+ ]},
+ {id:"l2",min:5,title:["The legal framework","Le cadre juridique"],blocks:[
+  {k:"p",t:[["Article 12 of the 1988 UN Convention against Illicit Traffic in Narcotic Drugs and Psychotropic Substances sets the rules for precursor control. It lists substances in two tables and obliges States to monitor, license and record their trade.","L'article 12 de la Convention des Nations Unies de 1988 contre le trafic illicite de stupéfiants et de substances psychotropes fixe les règles du contrôle des précurseurs. Il liste des substances dans deux tableaux et oblige les États à surveiller, autoriser et enregistrer leur commerce."],["The International Narcotics Control Board (INCB) monitors how States apply the rules and assesses substances. The Commission on Narcotic Drugs (CND) decides on adding a substance to a table. The INCB publishes the Red List, the current list of controlled precursors.","L'Organe international de contrôle des stupéfiants (OICS) surveille la manière dont les États appliquent les règles et évalue les substances. La Commission des stupéfiants (CND) décide d'ajouter une substance à un tableau. L'OICS publie la Liste rouge, la liste actuelle des précurseurs contrôlés."]]},
+  {k:"tabs",items:[
+   {t:["Table I","Tableau I"],p:[["Table I holds the substances most directly tied to drug manufacture. It carries the strictest obligations, including pre-export notification to the importing country. The Red List (23rd edition, July 2025) lists 43 entries in Table I, counting each ester separately. They include ephedrine, pseudoephedrine, safrole, acetic anhydride, potassium permanganate and a growing group of fentanyl-related chemicals.","Le Tableau I contient les substances les plus directement liées à la fabrication de drogues. Il porte les obligations les plus strictes, dont la notification préalable au pays importateur. La Liste rouge (23e édition, juillet 2025) compte 43 entrées au Tableau I, en comptant chaque ester séparément. Elles comprennent l'éphédrine, la pseudoéphédrine, le safrole, l'anhydride acétique, le permanganate de potassium et un groupe croissant de produits liés au fentanyl."]]},
+   {t:["Table II","Tableau II"],p:[["Table II holds eight widely used industrial chemicals that are also needed in drug processing: acetone, anthranilic acid, ethyl ether, hydrochloric acid, methyl ethyl ketone, piperidine, sulphuric acid and toluene. Trade is huge, so controls rely on monitoring and good intelligence rather than blocking trade.","Le Tableau II contient huit produits industriels très utilisés, aussi nécessaires à la transformation des drogues : acétone, acide anthranilique, éther éthylique, acide chlorhydrique, méthyléthylcétone, pipéridine, acide sulfurique et toluène. Le commerce est énorme : les contrôles reposent donc sur la surveillance et le renseignement plutôt que sur le blocage du commerce."]]},
+   {t:["Salts and limits","Sels et limites"],p:[["Both tables cover the salts of listed substances whenever such salts can exist. Pseudoephedrine hydrochloride is therefore controlled just as pseudoephedrine is. The one exception: salts of hydrochloric acid and sulphuric acid are excluded from Table II.","Les deux tableaux couvrent les sels des substances listées chaque fois que de tels sels peuvent exister. Le chlorhydrate de pseudoéphédrine est donc contrôlé tout comme la pseudoéphédrine. Seule exception : les sels de l'acide chlorhydrique et de l'acide sulfurique sont exclus du Tableau II."],["The Convention sets no minimum quantity. National law may add thresholds, exemptions for certain preparations, or extra chemicals.","La Convention ne fixe aucune quantité minimale. Le droit national peut ajouter des seuils, des exemptions pour certaines préparations, ou des produits supplémentaires."]]}
+  ]},
+  {k:"h",t:["Recent additions to Table I","Ajouts récents au Tableau I"]},
+  {k:"tl",items:[
+   [["19 November 2019","19 novembre 2019"],["3,4-MDP-2-P methyl glycidic acid and its methyl ester; APAA","Acide méthylglycidique du 3,4-MDP-2-P et son ester méthylique ; APAA"]],
+   [["3 November 2020","3 novembre 2020"],["MAPA (methyl alpha-phenylacetoacetate)","MAPA (alpha-phénylacétoacétate de méthyle)"]],
+   [["23 November 2022","23 novembre 2022"],["4-AP, 1-boc-4-AP and norfentanyl, all linked to fentanyl-type opioids","4-AP, 1-boc-4-AP et norfentanyl, tous liés aux opioïdes de type fentanyl"]],
+   [["3 December 2024","3 décembre 2024"],["1-boc-4-piperidone and 4-piperidone; seven further esters of 3,4-MDP-2-P methyl glycidic acid; P-2-P methyl glycidic acid and eight of its esters","1-boc-4-pipéridone et 4-pipéridone ; sept autres esters de l'acide méthylglycidique du 3,4-MDP-2-P ; acide P-2-P méthylglycidique et huit de ses esters"]]
+  ]},
+  {k:"quiz",id:"q2"}
+ ]},
+ {id:"l3",min:8,title:["Video: every chemical in Table I and II","Vidéo : chaque produit des Tableaux I et II"],blocks:[
+  {k:"p",t:[["The video walks through every substance in Table I and Table II: what it is used for and which drug it can lead to. It is built for law enforcement and customs training. Captions are in the picture. Use the chapter buttons to jump to a drug.","La vidéo passe en revue chaque substance des Tableaux I et II : à quoi elle sert et à quelle drogue elle peut mener. Elle est conçue pour la formation des services de police et de douane. Les sous-titres sont dans l'image. Utilisez les boutons de chapitre pour aller à une drogue."]]},
+  {k:"video"},
+  {k:"co",lab:["Level of detail","Niveau de détail"],ps:[["The video is at recognition level. It helps you know what to look for and why. It does not describe how to make any drug.","La vidéo est au niveau de la reconnaissance. Elle aide à savoir quoi chercher et pourquoi. Elle ne décrit pas comment fabriquer une drogue."]]},
+  {k:"quiz",id:"qv"}
+ ]},
+ {id:"l4",min:8,title:["Drug by drug","Drogue par drogue"],blocks:[
+  {k:"p",t:[["The same chemicals, grouped by the drug they can lead to. Select a drug to see the chemicals, what each is legitimately used for, and its role. The Red List itself does not map chemicals to drugs, so treat these links as general guidance and check the UNODC and INCB references for each substance.","Les mêmes produits, regroupés par drogue à laquelle ils peuvent mener. Choisissez une drogue pour voir les produits, leur usage légitime et leur rôle. La Liste rouge elle-même n'associe pas les produits aux drogues : considérez ces liens comme indicatifs et consultez les références de l'ONUDC et de l'OICS pour chaque substance."]]},
+  {k:"drugs"},
+  {k:"quiz",id:"qd"}
+ ]},
+ {id:"l5",min:7,title:["Chemical explorer","Explorateur de produits chimiques"],blocks:[
+  {k:"p",t:[["Every substance in both tables, with CAS number, UN transport number where one applies, the main illicit use and legitimate uses. Filter by table or by the drug it is linked to, or search by name or number.","Chaque substance des deux tableaux, avec le numéro CAS, le numéro de transport ONU lorsqu'il existe, le principal usage illicite et les usages légitimes. Filtrez par tableau ou par drogue liée, ou cherchez par nom ou numéro."]]},
+  {k:"explorer"},
+  {k:"co",lab:["How to read this","Comment lire ceci"],ps:[["Ester families are grouped into one row, so the 43 Table I entries of the Red List appear as 27 rows. A dash in the UN column means no dedicated number is confirmed here. Stereoisomers and salts carry different CAS numbers than the base, so a mismatch does not clear a consignment on its own. Always confirm against the current INCB Red List before acting on a result.","Les familles d'esters sont regroupées en une ligne : les 43 entrées du Tableau I de la Liste rouge apparaissent donc en 27 lignes. Un tiret dans la colonne ONU signifie qu'aucun numéro dédié n'est confirmé ici. Les stéréoisomères et les sels ont des numéros CAS différents de la base : une différence ne suffit donc pas à écarter un envoi. Confirmez toujours avec la Liste rouge actuelle de l'OICS avant d'agir."]]},
+  {k:"quiz",id:"q3"}
+ ]},
+ {id:"l6",min:5,title:["Beyond the tables","Au-delà des tableaux"],blocks:[
+  {k:"p",t:[["Traffickers adapt. When one chemical is controlled they move to a close relative that is not. Frontline officers need to know that a chemical outside Table I and II may still matter.","Les trafiquants s'adaptent. Quand un produit est contrôlé, ils passent à un proche parent qui ne l'est pas. Les agents en première ligne doivent savoir qu'un produit hors des Tableaux I et II peut quand même compter."]]},
+  {k:"acc",items:[
+   {open:1,t:["Non-scheduled chemicals","Produits non classés"],p:["The INCB keeps a Limited International Special Surveillance List of non-scheduled chemicals used in making synthetic drugs, cocaine and heroin. It comes with recommended actions for authorities and industry. Recent additions cover precursors of new psychoactive substances, cutting agents and excipients, and nitazene precursors.","L'OICS tient une Liste internationale restreinte de surveillance spéciale de produits non classés utilisés pour fabriquer des drogues de synthèse, la cocaïne et l'héroïne. Elle s'accompagne de mesures recommandées pour les autorités et l'industrie. Les ajouts récents couvrent des précurseurs de nouvelles substances psychoactives, des agents de coupage et excipients, et des précurseurs de nitazènes."]},
+   {t:["Designer precursors","Précurseurs de synthèse"],p:["These are chemicals made to get around controls and with no known legitimate use. The INCB flags several in Table I, including APAAN, APAA, MAPA, the glycidic acid derivatives and 1-boc-4-AP. Their appearance in trade almost always warrants a closer look.","Ce sont des produits conçus pour contourner les contrôles, sans usage légitime connu. L'OICS en signale plusieurs au Tableau I, dont l'APAAN, l'APAA, le MAPA, les dérivés de l'acide glycidique et la 1-boc-4-AP. Leur apparition dans le commerce justifie presque toujours un examen plus attentif."]},
+   {t:["Pre-precursors and chemical relatives","Pré-précurseurs et parents chimiques"],p:["A pre-precursor is easily converted into a scheduled chemical. The INCB publishes a list of chemical relatives of controlled precursors. A consignment of an unfamiliar chemical with a name or structure close to a listed one deserves a question to the competent authority.","Un pré-précurseur se transforme facilement en un produit classé. L'OICS publie une liste de parents chimiques des précurseurs contrôlés. Un envoi d'un produit inconnu dont le nom ou la structure est proche d'un produit listé mérite une question à l'autorité compétente."]},
+   {t:["Mixtures, preparations and mislabelling","Mélanges, préparations et faux étiquetage"],p:["Precursors may travel inside medicines, products or mixtures, or under another name or description. National rules differ on which preparations are exempt. The label, the invoice and the goods should all tell the same story.","Les précurseurs peuvent voyager dans des médicaments, des produits ou des mélanges, ou sous un autre nom ou une autre description. Les règles nationales diffèrent sur les préparations exemptées. L'étiquette, la facture et les marchandises doivent raconter la même histoire."]},
+   {t:["PEN Online Light","PEN Online Light"],p:["Launched in 2022, PEN Online Light lets authorities exchange notifications on a voluntary basis for chemicals not controlled under the 1988 Convention. About 80 countries and territories use it.","Lancé en 2022, PEN Online Light permet aux autorités d'échanger des notifications, sur une base volontaire, pour des produits non contrôlés par la Convention de 1988. Environ 80 pays et territoires l'utilisent."]}
+  ]},
+  {k:"quiz",id:"q4"}
+ ]},
+ {id:"l7",min:6,title:["Chain of control","Chaîne de contrôle"],blocks:[
+  {k:"p",t:[["Legitimate trade passes through seven checkpoints. Select each step to see what is checked and what you can verify at the border.","Le commerce légitime passe par sept points de contrôle. Sélectionnez chaque étape pour voir ce qui est vérifié et ce que vous pouvez contrôler à la frontière."]]},
+  {k:"chain"},
+  {k:"co",lab:["PEN Online","PEN Online"],ps:[["The INCB runs PEN Online, a secure system for exchanging pre-export notifications. Only competent national authorities can use it, and users come from about 170 countries and territories. It monitored nearly 28,000 shipments in 2024. Customs officers reach it through their national competent authority, not directly.","L'OICS gère PEN Online, un système sécurisé d'échange de notifications préalables à l'exportation. Seules les autorités nationales compétentes peuvent l'utiliser ; les utilisateurs viennent d'environ 170 pays et territoires. Il a suivi près de 28 000 expéditions en 2024. Les agents des douanes y accèdent par leur autorité nationale compétente, pas directement."]]},
+  {k:"quiz",id:"q5"}
+ ]},
+ {id:"l8",min:7,title:["Spotting red flags","Repérer les signaux d'alerte"],blocks:[
+  {k:"p",t:[["No single indicator proves diversion. A cluster of indicators, or one that cannot be explained, is what turns a routine consignment into a targeted check.","Aucun indicateur isolé ne prouve un détournement. Un ensemble d'indicateurs, ou un indicateur inexplicable, transforme un envoi ordinaire en contrôle ciblé."]]},
+  {k:"tabs",items:[
+   {t:["Documents","Documents"],ul:[["Product description does not match the labels, CAS or UN number.","La description du produit ne correspond pas aux étiquettes, au numéro CAS ou ONU."],["Licence, permit or end-use certificate missing, expired or cannot be verified.","Licence, permis ou certificat d'utilisation finale manquant, périmé ou invérifiable."],["Tariff code does not fit the product named.","Le code tarifaire ne correspond pas au produit nommé."],["Altered, re-issued or inconsistent documents.","Documents modifiés, rééditiés ou incohérents."]]},
+   {t:["Commercial","Commercial"],ul:[["Newly formed company, no visible premises or trading history.","Société récente, sans local visible ni historique commercial."],["Quantity far out of line with the size or business of the buyer.","Quantité très disproportionnée par rapport à la taille ou à l'activité de l'acheteur."],["Payment by a third party, in cash, or through an unrelated country.","Paiement par un tiers, en espèces, ou via un pays sans rapport."],["Buyer will not explain end use or shows no technical knowledge of the product.","L'acheteur n'explique pas l'utilisation finale ou ne montre aucune connaissance technique du produit."]]},
+   {t:["Goods","Marchandises"],ul:[["Labels removed, covered, handwritten or in an unexpected language.","Étiquettes retirées, couvertes, manuscrites ou dans une langue inattendue."],["Chemicals hidden among unrelated cargo or in unmarked drums and bags.","Produits chimiques cachés parmi une cargaison sans rapport ou dans des fûts et sacs non marqués."],["Repackaged goods with a manufacturer name that is not known to make that product.","Marchandises reconditionnées avec un nom de fabricant qui n'est pas connu pour ce produit."],["Packaging unsuited to the declared product.","Emballage inadapté au produit déclaré."]]},
+   {t:["Route and behaviour","Itinéraire et comportement"],ul:[["Circuitous routing with no commercial reason; destination changed in transit.","Itinéraire détourné sans raison commerciale ; destination changée en cours de route."],["Many small consignments to different addresses (splitting).","Nombreux petits envois vers différentes adresses (fractionnement)."],["Pressure for fast clearance or to skip inspection.","Pression pour un dédouanement rapide ou pour éviter l'inspection."],["Parties linked to earlier seizures or alerts.","Parties liées à des saisies ou alertes antérieures."]]}
+  ]},
+  {k:"co",lab:["Three-minute label check","Contrôle d'étiquette en trois minutes"],ul:[["Name and CAS number on the label against the invoice and declaration.","Nom et numéro CAS de l'étiquette comparés à la facture et à la déclaration."],["UN number and hazard class against the transport document.","Numéro ONU et classe de danger comparés au document de transport."],["Does the manufacturer on the sticker exist, and does it make this product?","Le fabricant de l'étiquette existe-t-il, et fabrique-t-il ce produit ?"],["Batch number, date, seals and packaging condition.","Numéro de lot, date, scellés et état de l'emballage."]]},
+  {k:"h",t:["Flag or routine?","Signal d'alerte ou normal ?"]},
+  {k:"p",t:[["Decide for each situation. Feedback appears after you choose.","Décidez pour chaque situation. Le retour apparaît après votre choix."]]},
+  {k:"flags"}
+ ]},
+ {id:"l9",min:6,title:["Scenarios","Scénarios"],blocks:[
+  {k:"p",t:[["Two situations, one decision at a time. Wrong choices explain themselves and you can try again.","Deux situations, une décision à la fois. Les mauvais choix s'expliquent d'eux-mêmes et vous pouvez réessayer."]]},
+  {k:"scn",id:"s1"},{k:"scn",id:"s2"}
+ ]},
+ {id:"l10",min:4,title:["Safety and reporting","Sécurité et signalement"],blocks:[
+  {k:"co",warn:1,lab:["Safety first","La sécurité d'abord"],ps:[["Many precursors are corrosive, flammable, toxic or strong oxidisers. Never smell, taste or open unknown containers, and never mix substances. Only trained personnel with the right equipment should sample or handle them.","Beaucoup de précurseurs sont corrosifs, inflammables, toxiques ou fortement oxydants. Ne sentez, ne goûtez et n'ouvrez jamais des conteneurs inconnus, et ne mélangez jamais des substances. Seul du personnel formé, avec le bon équipement, doit les échantillonner ou les manipuler."]]},
+  {k:"h",t:["If you suspect a diversion","Si vous soupçonnez un détournement"]},
+  {k:"acc",items:[
+   {open:1,t:["Stop and secure","Arrêtez et sécurisez"],p:["Keep the consignment where it is. Keep people clear if there is a leak, spill or odour. Follow your national hazardous materials procedure.","Gardez l'envoi où il est. Éloignez les personnes en cas de fuite, de déversement ou d'odeur. Suivez votre procédure nationale pour les matières dangereuses."]},
+   {t:["Record what you see","Consignez ce que vous voyez"],p:["Photograph labels, seals, documents and packaging in place. Note container and seal numbers, parties, times and who handled what. This keeps the chain of custody intact.","Photographiez les étiquettes, scellés, documents et emballages sur place. Notez les numéros de conteneur et de scellé, les parties, les heures et qui a manipulé quoi. Cela préserve la chaîne de conservation."]},
+   {t:["Escalate through the right channel","Remontez par le bon canal"],p:["Inform your supervisor and your national competent authority for precursor control. Customs intelligence and investigators decide on seizure, detention or a controlled delivery under national law. Do not warn the consignee or shipper.","Informez votre supérieur et votre autorité nationale compétente en matière de contrôle des précurseurs. Le renseignement douanier et les enquêteurs décident de la saisie, de la rétention ou d'une livraison surveillée selon le droit national. N'avertissez pas le destinataire ni l'expéditeur."]},
+   {t:["International cooperation","Coopération internationale"],p:["Competent authorities exchange information through the INCB and PEN Online. Customs administrations also use WCO networks such as CENcomm and regional intelligence liaison offices. The INCB runs operational projects on synthetic drug precursors and opioid precursors that support real-time exchange between countries.","Les autorités compétentes échangent des informations via l'OICS et PEN Online. Les administrations douanières utilisent aussi les réseaux de l'OMD comme CENcomm et les bureaux régionaux de liaison pour le renseignement. L'OICS mène des projets opérationnels sur les précurseurs de drogues de synthèse et d'opioïdes qui soutiennent l'échange en temps réel entre pays."]}
+  ]},
+  {k:"quiz",id:"q8"}
+ ]},
+ {id:"l11",min:6,title:["Final assessment","Évaluation finale"],blocks:[
+  {k:"p",t:[["Ten questions. You need 7 correct to pass.","Dix questions. Il faut 7 bonnes réponses pour réussir."]]},
+  {k:"final"},
+  {k:"sources"}
+ ]}
+];
+
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+var KEY="pccp-precursor-course-bi-v1";
+document.body.classList.add("gated");
+var st={done:[],first:"",last:"",trainer:"",name:"",attempts:0,best:null,lastScore:null,completedAt:null,startedAt:null,lang:null};
+var db=null,uid=null,ref=null,userNs=null,dl=null,ready=false,recState="",isAdmin=false,editing=false,unlocked=false;
+var NL=LESSONS.length;
+
+/* ---------- persistence ---------- */
+function applyRecord(r){
+  if(!r||typeof r!=="object")return;
+  st.first=typeof r.first==="string"?r.first:"";st.last=typeof r.last==="string"?r.last:"";
+  st.trainer=typeof r.trainer==="string"?r.trainer:"";st.name=typeof r.name==="string"?r.name:(st.first+" "+st.last).trim();
+  st.done=Array.isArray(r.lessonsDone)?r.lessonsDone.filter(function(x){return typeof x==="string"}):[];
+  st.attempts=typeof r.attempts==="number"?r.attempts:0;
+  st.best=typeof r.best==="number"?r.best:null;
+  st.lastScore=typeof r.lastScore==="number"?r.lastScore:null;
+  st.completedAt=typeof r.completedAt==="string"?r.completedAt:null;
+  st.startedAt=typeof r.startedAt==="string"?r.startedAt:null;
+  if(r.lang==="en"||r.lang==="fr")st.lang=r.lang;
+}
+function loadLocal(){try{var raw=localStorage.getItem(KEY);if(raw)applyRecord(JSON.parse(raw))}catch(e){}}
+function docBody(){return {first:st.first,last:st.last,trainer:st.trainer,name:st.name,lang:LANGS[LI],lessonsDone:st.done.slice(),lessonsCount:NL,attempts:st.attempts,best:st.best,lastScore:st.lastScore,total:TOTAL,passMark:PASS,passed:!!st.completedAt,startedAt:st.startedAt,completedAt:st.completedAt,updatedAt:new Date().toISOString()}}
+function recText(){
+  if(recState==="ok")return u("recOk");
+  if(recState==="fail")return u("recFail");
+  if(recState==="local")return u("recLocal");
+  return "";
+}
+function setRec(v){recState=v;$$(".recnote").forEach(function(n){n.textContent=recText()})}
+var wBusy=false,wDirty=false;
+function pushRemote(){
+  if(!st.name){return}
+  if(!(db&&uid&&ref)){setRec("local");return}
+  wDirty=true;if(wBusy)return;wBusy=true;
+  (function run(){
+    wDirty=false;
+    ref.set(docBody()).then(function(){if(wDirty){run()}else{wBusy=false;setRec("ok")}},function(){wBusy=false;setRec("fail")});
+  })();
+}
+function save(){
+  if(!(db&&uid)){try{localStorage.setItem(KEY,JSON.stringify(docBody()))}catch(e){}}
+  pushRemote();
+}
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function fmtDate(iso){try{return new Date(iso).toLocaleDateString(LI?"fr-BE":"en-GB",{day:"numeric",month:"long",year:"numeric"})}catch(e){return String(iso).slice(0,10)}}
+function shuf(n){var a=[],i,j,t;for(i=0;i<n;i++)a.push(i);for(i=n-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=a[i];a[i]=a[j];a[j]=t}return a}
+
+/* ---------- content builders ---------- */
+function paras(parent,list){list.forEach(function(p){parent.appendChild(el("p","",x(p)))})}
+function ulist(parent,list,cls){var ul=el("ul",cls||"plain");list.forEach(function(p){ul.appendChild(el("li","",x(p)))});parent.appendChild(ul);return ul}
+function callout(b){
+  var c=el("div","callout"+(b.warn?" warn":""));c.appendChild(el("span","lab",x(b.lab)));
+  if(b.ps)paras(c,b.ps);if(b.ul)ulist(c,b.ul);return c;
+}
+function flips(){
+  var g=el("div","flipgrid");
+  TERMS.forEach(function(t){
+    var b=el("button","flip");b.type="button";b.setAttribute("aria-pressed","false");
+    var inn=el("div","flip-in"),f=el("div","face front"),k=el("div","face back");
+    f.appendChild(el("strong","",x(t[0])));f.appendChild(el("em","",u("flip")));
+    k.appendChild(el("span","",x(t[1])));
+    inn.appendChild(f);inn.appendChild(k);b.appendChild(inn);
+    b.addEventListener("click",function(){b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true")});
+    g.appendChild(b);
+  });
+  return g;
+}
+function tabs(items){
+  var wrap=el("div","tabs"),list=el("div","tablist");list.setAttribute("role","tablist");wrap.appendChild(list);
+  var btns=[],panels=[];
+  items.forEach(function(it,i){
+    var b=el("button","",x(it.t));b.type="button";b.setAttribute("role","tab");b.setAttribute("aria-selected",i===0?"true":"false");
+    var p=el("div","panel");p.setAttribute("role","tabpanel");p.hidden=i!==0;
+    if(it.p)paras(p,it.p);if(it.ul)ulist(p,it.ul);
+    b.addEventListener("click",function(){btns.forEach(function(o,j){o.setAttribute("aria-selected",j===i?"true":"false");panels[j].hidden=j!==i})});
+    btns.push(b);panels.push(p);list.appendChild(b);wrap.appendChild(p);
+  });
+  return wrap;
+}
+function acc(items){
+  var w=el("div");
+  items.forEach(function(it){
+    var d=el("details","acc");if(it.open)d.open=true;
+    d.appendChild(el("summary","",x(it.t)));var i=el("div","in");i.appendChild(el("p","",x(it.p)));d.appendChild(i);w.appendChild(d);
+  });
+  return w;
+}
+function timeline(items){
+  var ul=el("ul","tl");
+  items.forEach(function(it){var li=el("li");li.appendChild(el("time","",x(it[0])));li.appendChild(el("span","",x(it[1])));ul.appendChild(li)});
+  return ul;
+}
+function chain(){
+  var w=el("div","chain"),steps=el("ol","steps"),detail=el("div","stepdetail");detail.setAttribute("aria-live","polite");
+  var btns=[];
+  function show(i){
+    btns.forEach(function(b,j){if(j===i)b.setAttribute("aria-current","true");else b.removeAttribute("aria-current")});
+    var s=CHAIN[i];detail.textContent="";
+    detail.appendChild(el("h4","",x(s[0])));detail.appendChild(el("p","",x(s[1])));
+    detail.appendChild(el("strong","",u("check")==="x"?"":(LI?"Que vérifier à la frontière :":"What to check at the border:")));
+    var ul=el("ul");s[2].forEach(function(q){ul.appendChild(el("li","",x(q)))});detail.appendChild(ul);
+  }
+  CHAIN.forEach(function(s,i){
+    var li=el("li"),b=el("button");b.type="button";b.appendChild(el("b","",String(i+1)));b.appendChild(el("span","",x(s[0])));
+    b.addEventListener("click",function(){show(i)});btns.push(b);li.appendChild(b);steps.appendChild(li);
+  });
+  w.appendChild(steps);w.appendChild(detail);show(0);return w;
+}
+function quiz(id,heading){
+  var data=QUIZ[id],box=el("div","quiz");
+  box.appendChild(el("div","qh",heading||u("check")));
+  data.items.forEach(function(it){
+    var fs=el("fieldset","q");fs.appendChild(el("legend","",x(it.q)));
+    var opts=el("div","opts"),fb=el("div","fb");fb.hidden=true;fb.setAttribute("aria-live","polite");
+    var order=shuf(it.o.length),btns=[];
+    order.forEach(function(oi){
+      var b=el("button","opt",x(it.o[oi]));b.type="button";btns.push([b,oi]);
+      b.addEventListener("click",function(){
+        var ok=oi===it.a;
+        btns.forEach(function(p){p[0].disabled=true;if(p[1]===it.a)p[0].classList.add("right")});
+        if(!ok)b.classList.add("wrong");
+        fb.hidden=false;fb.className="fb "+(ok?"good":"bad");fb.textContent="";
+        fb.appendChild(el("b","",ok?u("right"):u("notq")));fb.appendChild(el("span","",x(it.w)));
+      });
+      opts.appendChild(b);
+    });
+    fs.appendChild(opts);fs.appendChild(fb);box.appendChild(fs);
+  });
+  return box;
+}
+function flags(){
+  var g=el("div","flags"),sc=el("div","score"),n=0,right=0;
+  FLAGS.forEach(function(f){
+    var c=el("div","fc");c.appendChild(el("p","",x(f[0])));
+    var bt=el("div","btns"),fb=el("div","fb");fb.hidden=true;
+    var bf=el("button","",u("flagB")),br=el("button","",u("routineB"));bf.type=br.type="button";
+    function pick(val,btn){
+      var ok=val===f[1];bf.disabled=br.disabled=true;
+      (f[1]==="flag"?bf:br).classList.add("right");if(!ok)btn.classList.add("wrong");
+      fb.hidden=false;fb.className="fb "+(ok?"good":"bad");fb.textContent="";
+      fb.appendChild(el("b","",ok?u("right"):u("notq")));fb.appendChild(el("span","",x(f[2])));
+      n++;if(ok)right++;
+      if(n===FLAGS.length)sc.textContent=u("youGot")+" "+right+" "+(LI?"sur":"of")+" "+FLAGS.length+".";
+    }
+    bf.addEventListener("click",function(){pick("flag",bf)});br.addEventListener("click",function(){pick("routine",br)});
+    bt.appendChild(bf);bt.appendChild(br);c.appendChild(bt);c.appendChild(fb);g.appendChild(c);
+  });
+  g.appendChild(sc);return g;
+}
+function scenario(id,idx){
+  var s=SCN[id],box=el("div","scn"),hd=el("header");
+  hd.appendChild(el("small","",u("scn")+" "+idx));hd.appendChild(el("strong","",x(s.title)));box.appendChild(hd);
+  var body=el("div","body");box.appendChild(body);
+  var step=0;
+  function render(){
+    body.textContent="";
+    var sit=el("div","sit",x(s.intro));body.appendChild(sit);
+    if(step>=s.steps.length){
+      var d=el("div","fb good");d.appendChild(el("b","",u("scnDone")));d.appendChild(el("span","",x(s.end)));body.appendChild(d);
+      var r=el("button","btn ghost",u("replay"));r.type="button";r.style.marginTop="12px";r.addEventListener("click",function(){step=0;render()});body.appendChild(r);return;
+    }
+    var q=s.steps[step];body.appendChild(el("div","q",(step+1)+"/"+s.steps.length+"  "+x(q.q)));
+    var opts=el("div","opts"),fb=el("div","fb");fb.hidden=true;fb.setAttribute("aria-live","polite");
+    shuf(q.o.length).forEach(function(oi){
+      var o=q.o[oi],b=el("button","opt",x(o[0]));b.type="button";
+      b.addEventListener("click",function(){
+        fb.hidden=false;fb.textContent="";
+        if(o[1]){
+          $$(".opt",opts).forEach(function(p){p.disabled=true});b.classList.add("right");
+          fb.className="fb good";fb.appendChild(el("b","",u("right")));fb.appendChild(el("span","",x(o[2])));
+          var nx=el("button","btn",step+1<s.steps.length?u("next"):u("finish"));nx.type="button";nx.style.marginTop="10px";
+          nx.addEventListener("click",function(){step++;render()});fb.appendChild(el("div")).appendChild(nx);
+        }else{
+          b.classList.add("wrong");b.disabled=true;
+          fb.className="fb bad";fb.appendChild(el("b","",u("notbest")));fb.appendChild(el("span","",x(o[2])));
+        }
+      });
+      opts.appendChild(b);
+    });
+    body.appendChild(opts);body.appendChild(fb);
+  }
+  render();return box;
+}
+function explorer(){
+  var w=el("div"),tools=el("div","tools");
+  function fld(label,ctl){var d=el("div"),l=el("label","",label);l.appendChild(document.createElement("span"));d.appendChild(l);d.appendChild(ctl);tools.appendChild(d);return ctl}
+  var inp=el("input");inp.type="search";inp.placeholder=u("searchPh");inp.setAttribute("aria-label",u("search"));
+  var sel=el("select"),sel2=el("select");
+  [["",u("both")],["I",u("table")+" I"],["II",u("table")+" II"]].forEach(function(o){var op=el("option","",o[1]);op.value=o[0];sel.appendChild(op)});
+  var o0=el("option","",u("anyDrug"));o0.value="";sel2.appendChild(o0);
+  Object.keys(LINKNAMES).forEach(function(k){var op=el("option","",x(LINKNAMES[k]));op.value=k;sel2.appendChild(op)});
+  fld(u("search"),inp);fld(u("table"),sel);fld(u("linked"),sel2);
+  var cnt=el("div","count");cnt.setAttribute("aria-live","polite");var list=el("div","chems");
+  w.appendChild(tools);w.appendChild(cnt);w.appendChild(list);
+  function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+  function draw(){
+    var q=norm(inp.value.trim()),t=sel.value,d=sel2.value,n=0;
+    list.textContent="";
+    CHEMS.forEach(function(c){
+      if(t&&c[2]!==t)return;
+      var keys=c[5].split(/,\s*/);
+      if(d&&keys.indexOf(d)<0)return;
+      var name=c[LI];
+      if(q&&norm(c[0]+" "+c[1]+" "+c[3]+" "+c[4]).indexOf(q)<0)return;
+      n++;
+      var card=el("div","chem"),top=el("div","top");
+      top.appendChild(el("h4","",name));
+      var pills=el("span");pills.appendChild(el("span","pill",u("table")+" "+c[2]));
+      if(c[8]){var p2=el("span","pill d",u("designer"));p2.style.marginLeft="6px";pills.appendChild(p2)}
+      top.appendChild(pills);card.appendChild(top);
+      var r1=el("div","row ids");r1.appendChild(el("b","","CAS "));r1.appendChild(document.createTextNode(c[3]+"   "));r1.appendChild(el("b","",(LI?"ONU ":"UN ")));r1.appendChild(document.createTextNode(c[4]));card.appendChild(r1);
+      var r2=el("div","row");r2.appendChild(el("b","",u("inDrug")+": "));r2.appendChild(document.createTextNode(keys.map(function(k){return LINKNAMES[k]?x(LINKNAMES[k]):k}).join(", ")));card.appendChild(r2);
+      var r3=el("div","row");r3.appendChild(el("b","",u("legit")+": "));r3.appendChild(document.createTextNode(c[LI+6]));card.appendChild(r3);
+      list.appendChild(card);
+    });
+    cnt.textContent=n?(u("showing")+" "+n+" "+u("entriesOf")+" "+CHEMS.length+" "+u("rows")):u("nomatch");
+  }
+  [inp,sel,sel2].forEach(function(c){c.addEventListener("input",draw);c.addEventListener("change",draw)});
+  draw();return w;
+}
+function drugs(){
+  var w=el("div","tabs"),list=el("div","tablist");list.setAttribute("role","tablist");w.appendChild(list);
+  var btns=[],panels=[];
+  DRUGS.forEach(function(d,i){
+    var b=el("button","",x(d.t));b.type="button";b.setAttribute("role","tab");b.setAttribute("aria-selected",i===0?"true":"false");
+    var p=el("div","panel");p.hidden=i!==0;p.setAttribute("role","tabpanel");
+    p.appendChild(el("p","",x(d.intro)));
+    var sc=el("div","scroll"),t=el("table","res"),th=el("thead"),hr=el("tr");
+    [LI?"Produit":"Chemical",u("table"),u("legit"),LI?"Rôle":"Role"].forEach(function(h){hr.appendChild(el("th","",h))});
+    th.appendChild(hr);t.appendChild(th);var tb=el("tbody");
+    d.rows.forEach(function(r){
+      var tr=el("tr");tr.appendChild(el("td","",x(r[0])));tr.appendChild(el("td","",r[1]));tr.appendChild(el("td","",x(r[2])));tr.appendChild(el("td","",x(r[3])));tb.appendChild(tr);
+    });
+    t.appendChild(tb);sc.appendChild(t);p.appendChild(sc);
+    b.addEventListener("click",function(){btns.forEach(function(o,j){o.setAttribute("aria-selected",j===i?"true":"false");panels[j].hidden=j!==i})});
+    btns.push(b);panels.push(p);list.appendChild(b);w.appendChild(p);
+  });
+  return w;
+}
+function video(){
+  var w=el("div","vid"),lang=LANGS[LI],v=document.createElement("video");
+  v.controls=true;v.preload="metadata";v.setAttribute("playsinline","");v.poster="video/poster_"+lang+".jpg";v.src="video/precursors_"+lang+".mp4";
+  v.setAttribute("aria-label",LI?"Vidéo de formation sur les précurseurs, présentée par Madame Sandra":"Precursor chemicals training video, presented by Mr Minfin");
+  var err=el("p","err",u("vidFail"));err.hidden=true;v.addEventListener("error",function(){err.hidden=false});
+  w.appendChild(v);w.appendChild(err);
+  w.appendChild(el("p","sub",LI?"Présentatrice : Madame Sandra · Version française · environ 7 minutes":"Presenter: Mr Minfin · English version · about 7 minutes"));
+  w.appendChild(el("h3","",u("chapters")));
+  var cl=el("div","chaps");
+  CHAPTERS[lang].forEach(function(c){
+    var b=el("button","chap");b.type="button";
+    b.appendChild(el("b","",fmtT(c[1])));b.appendChild(el("span","",c[0]));
+    b.addEventListener("click",function(){try{v.currentTime=c[1];var pr=v.play();if(pr&&pr.catch)pr.catch(function(){})}catch(e){}});
+    cl.appendChild(b);
+  });
+  w.appendChild(cl);return w;
+}
+function fmtT(s){s=Math.round(s);var m=Math.floor(s/60),r=s%60;return m+":"+(r<10?"0":"")+r}
+
+
+var CFG=window.COURSE_CONFIG||{};
+function resultText(){return ["Precursor Chemicals course","Name: "+st.name,"Trainer/group: "+(st.trainer||"-"),"Language: "+LANGS[LI].toUpperCase(),"Score: "+st.lastScore+" / "+TOTAL+" (best "+st.best+")","Passed: "+(st.completedAt?"yes":"no"),"Date: "+(st.completedAt?st.completedAt.slice(0,10):new Date().toISOString().slice(0,10))].join("\n")}
+function postForm(){
+  if(!CFG.formUrl||!CFG.fields)return Promise.reject(new Error("no form"));
+  var f=CFG.fields,p=new URLSearchParams();
+  var v={name:st.name,first:st.first,last:st.last,trainer:st.trainer,lang:LANGS[LI].toUpperCase(),score:String(st.lastScore),best:String(st.best),total:String(TOTAL),passed:st.completedAt?"yes":"no",date:(st.completedAt?st.completedAt:new Date().toISOString()).slice(0,10)};
+  Object.keys(f).forEach(function(k){if(f[k]&&v[k]!=null)p.append(f[k],v[k])});
+  return fetch(CFG.formUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:p.toString()});
+}
+function sendFallback(box){
+  var b=el("button","btn ghost",u(CFG.mailto?"sendRes":"copyRes"));b.type="button";
+  b.addEventListener("click",function(){
+    var t=resultText();
+    if(CFG.mailto){window.location.href="mailto:"+CFG.mailto+"?subject="+encodeURIComponent("Precursor course result: "+st.name)+"&body="+encodeURIComponent(t);return}
+    function ok(){note.textContent=u("copied")}
+    try{navigator.clipboard.writeText(t).then(ok,function(){window.prompt&&0;note.textContent=t})}catch(e){note.textContent=t}
+  });
+  var note=el("p","sub");box.appendChild(b);box.appendChild(note);
+}
+
+/* ---------- final assessment ---------- */
+function finalBlock(box){
+  var order=shuf(FINAL.length),answered=0,correct=0,res=el("div","finres");res.setAttribute("aria-live","polite");
+  var qs=el("div","quiz");
+  order.forEach(function(qi,k){
+    var it=FINAL[qi],fs=el("fieldset","q");fs.appendChild(el("legend","",(k+1)+". "+x(it.q)));
+    var opts=el("div","opts"),fb=el("div","fb");fb.hidden=true;var btns=[];
+    shuf(it.o.length).forEach(function(oi){
+      var b=el("button","opt",x(it.o[oi]));b.type="button";btns.push([b,oi]);
+      b.addEventListener("click",function(){
+        var ok=oi===it.a;btns.forEach(function(p){p[0].disabled=true;if(p[1]===it.a)p[0].classList.add("right")});
+        if(!ok)b.classList.add("wrong");
+        fb.hidden=false;fb.className="fb "+(ok?"good":"bad");fb.textContent="";
+        fb.appendChild(el("b","",ok?u("right"):u("notq")));fb.appendChild(el("span","",x(it.w)));
+        answered++;if(ok)correct++;
+        if(answered===FINAL.length)finish();
+      });
+      opts.appendChild(b);
+    });
+    fs.appendChild(opts);fs.appendChild(fb);qs.appendChild(fs);
+  });
+  box.appendChild(qs);box.appendChild(res);
+  function finish(){
+    var pass=correct>=PASS;
+    st.attempts++;st.lastScore=correct;if(st.best==null||correct>st.best)st.best=correct;
+    if(pass){if(!st.completedAt)st.completedAt=new Date().toISOString();if(st.done.indexOf("l11")<0)st.done.push("l11")}
+    save();updateProgress();
+    if(CFG.formUrl)postForm().then(function(){setRec("ok")},function(){setRec("fail")});
+    res.textContent="";
+    var s=el("p","score",u("answered")+" "+(LI?(correct+" "+u("correctOf")+" "+TOTAL):(correct+" of "+TOTAL+" "+u("correctOf")))+"."+(pass?"":u("reviewTry")));
+    res.appendChild(s);
+    res.appendChild(el("span","pill"+(pass?" ok":""),pass?u("passed"):u("notPassed")));
+    var note=el("p","sub recnote","");res.appendChild(note);if(!CFG.formUrl)setRec("local");
+    sendFallback(res);
+    if(pass){
+      var c=el("div","cert");
+      var lg=$(".logo");if(lg){var im=el("img","clogo");im.src=lg.src;im.alt="";im.width=200;c.appendChild(im)}
+      c.appendChild(el("small","",u("certOrg")));c.appendChild(el("h3","",u("certTitle")));
+      c.appendChild(el("small","",u("certThat")));c.appendChild(el("div","nm",st.name||"…"));
+      c.appendChild(el("p","",u("certBody")+" "+correct+" "+u("certOut")+" "+TOTAL+"."));
+      c.appendChild(el("small","",fmtDate(st.completedAt)));
+      res.appendChild(c);res.appendChild(el("p","sub",u("certShot")));
+    }
+    var rt=el("button","btn ghost",u("retake"));rt.type="button";rt.addEventListener("click",function(){var h=box.parentNode;var i=box.nextSibling;box.remove();var nb=el("div");h.insertBefore(nb,i);finalBlock(nb)});
+    res.appendChild(rt);
+  }
+}
+function sources(){
+  var d=el("div","src");d.appendChild(el("h3","",u("srcTitle")));
+  var ul=el("ul");
+  [
+   [["INCB: Red List of precursors and chemicals frequently used in the illicit manufacture of narcotic drugs and psychotropic substances, 23rd edition (July 2025). Search for “Red List” at incb.org.","OICS : Liste rouge des précurseurs et produits chimiques fréquemment utilisés dans la fabrication illicite de stupéfiants et de substances psychotropes, 23e édition (juillet 2025). Recherchez « Liste rouge » sur incb.org."],"https://www.incb.org"],
+   [["United Nations Convention against Illicit Traffic in Narcotic Drugs and Psychotropic Substances, 1988, Article 12.","Convention des Nations Unies contre le trafic illicite de stupéfiants et de substances psychotropes, 1988, article 12."],"https://www.unodc.org"],
+   [["UNODC and WCO material on precursor chemicals and the Container Control Programme.","Documentation de l'ONUDC et de l'OMD sur les produits chimiques précurseurs et le Programme de contrôle des conteneurs."],"https://www.wcoomd.org"]
+  ].forEach(function(s){var li=el("li");var a=el("a","",x(s[0]));a.href=s[1];a.target="_blank";a.rel="noopener";li.appendChild(a);ul.appendChild(li)});
+  d.appendChild(ul);
+  d.appendChild(el("p","",LI?"Les tableaux sont modifiés par la Commission des stupéfiants : vérifiez toujours la liste en vigueur avant d'agir. Les liens entre produits et drogues sont indicatifs ; la Liste rouge ne les indique pas."
+    :"The tables are amended by the Commission on Narcotic Drugs, so always check the current list before acting. The links between chemicals and drugs are indicative; the Red List does not state them."));
+  return d;
+}
+
+/* ---------- lessons ---------- */
+function buildBlock(b,lesson){
+  switch(b.k){
+    case "p":{var d=el("div","prose");paras(d,b.t);return d}
+    case "h":return el("h3","",x(b.t));
+    case "flips":return flips();
+    case "co":return callout(b);
+    case "quiz":return quiz(b.id);
+    case "tabs":return tabs(b.items);
+    case "tl":return timeline(b.items);
+    case "acc":return acc(b.items);
+    case "video":return video();
+    case "drugs":return drugs();
+    case "explorer":return explorer();
+    case "chain":return chain();
+    case "flags":return flags();
+    case "scn":return scenario(b.id,b.id==="s1"?1:2);
+    case "final":{var f=el("div");finalBlock(f);return f}
+    case "sources":return sources();
+  }
+  return el("div");
+}
+function renderLessons(){
+  var host=$("#lessons");host.textContent="";
+  LESSONS.forEach(function(l,i){
+    var sec=el("section","lesson");sec.id=l.id;sec.setAttribute("aria-labelledby",l.id+"h");
+    sec.appendChild(el("div","kicker",(LI?"Leçon ":"Lesson ")+(i+1)+" · "+l.min+" min"));
+    var h=el("h2","",x(l.title));h.id=l.id+"h";sec.appendChild(h);
+    l.blocks.forEach(function(b){sec.appendChild(buildBlock(b,l))});
+    if(l.id!=="l11"){
+      var foot=el("div","foot"),btn=el("button","btn",u("mark"));btn.type="button";
+      var okmsg=el("span","ok");
+      function mark(){if(st.done.indexOf(l.id)>=0){btn.hidden=true;okmsg.textContent="✓ "+u("lessonDone")}}
+      btn.addEventListener("click",function(){
+        if(st.done.indexOf(l.id)<0)st.done.push(l.id);save();mark();updateProgress();
+        var nx=LESSONS[i+1];if(nx){var t=document.getElementById(nx.id);if(t)t.scrollIntoView({behavior:reduce?"auto":"smooth"})}
+      });
+      foot.appendChild(btn);foot.appendChild(okmsg);sec.appendChild(foot);mark();
+    }
+    host.appendChild(sec);
+  });
+}
+function renderToc(){
+  var list=$("#tocList");list.textContent="";
+  LESSONS.forEach(function(l,i){
+    var b=el("button","t");b.type="button";b.dataset.id=l.id;
+    var n=el("span","n");n.appendChild(el("span","",String(i+1)));b.appendChild(n);b.appendChild(el("span","",x(l.title)));
+    b.addEventListener("click",function(){
+      var t=document.getElementById(l.id);if(t)t.scrollIntoView({behavior:reduce?"auto":"smooth"});
+      $("#toc").classList.remove("open");$("#menuBtn").setAttribute("aria-expanded","false");
+    });
+    list.appendChild(b);
+  });
+  updateProgress();
+}
+function updateProgress(){
+  var n=st.done.length;
+  $("#progFill").style.width=Math.round(n/NL*100)+"%";
+  $("#prog").setAttribute("aria-valuenow",String(Math.round(n/NL*100)));
+  $("#pct").textContent=n+" "+u("of")+" "+NL+" "+u("lessons");
+  $$("#tocList button").forEach(function(b){b.classList.toggle("done",st.done.indexOf(b.dataset.id)>=0)});
+}
+function renderChrome(){
+  $("#menuBtn").textContent=u("contents");$("#toc h2").textContent=u("contents");
+  $("#kick").textContent=LI?"Cours interactif":"Interactive course";
+  $("#title").textContent=LI?"Produits chimiques précurseurs : détecter, contrôler, prévenir":"Precursor Chemicals: Detect, Control, Prevent";
+  $("#lede").textContent=LI?"Comment fonctionne le système de contrôle international, quels produits sont listés et comment repérer un détournement à la frontière. Conçu pour les agents des douanes, des frontières et des services répressifs."
+    :"How the international control system works, which chemicals are listed, and how to spot diversion at the border. Built for customs, border and law enforcement officers.";
+  var m=$("#meta");m.textContent="";
+  (LI?[NL+" leçons","Environ 70 minutes","Vidéo, tests de connaissances et 2 scénarios","Votre résultat est enregistré à la fin"]
+     :[NL+" lessons","About 70 minutes","Video, knowledge checks and 2 scenarios","Your result is recorded when you finish"]).forEach(function(t){m.appendChild(el("li","",t))});
+  $$("#langSw button").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.l===LANGS[LI]?"true":"false")});
+  document.documentElement.lang=LANGS[LI];
+  renderToc();renderReg();
+}
+function setLang(l){
+  var i=LANGS.indexOf(l);if(i<0||i===LI)return;
+  LI=i;st.lang=l;try{history.replaceState(null,"","#"+l)}catch(e){}
+  var vids=$$("video");vids.forEach(function(v){try{v.pause()}catch(e){}});
+  renderChrome();if(unlocked)renderLessons();
+  if(st.name)save();
+  if(isAdmin)showAdmin();
+}
+
+/* ---------- registration + admin ---------- */
+function showCourse(scrollTop){
+  unlocked=true;document.body.classList.remove("gated");
+  $("#lessons").hidden=false;renderLessons();updateProgress();
+  if(scrollTop){var t=$("#l1");if(t)t.scrollIntoView({behavior:"auto"})}
+}
+function renderReg(){
+  var box=$("#reg");box.textContent="";
+  var registered=st.name&&!editing;
+  var h=el("h2","",registered?u("welcome")+" "+st.first:u("before"));h.id="regh";box.appendChild(h);
+  if(registered){
+    box.appendChild(el("p","",u("regAs")+" "+st.name+"."+(st.trainer?"  ("+st.trainer+")":"")));
+    box.appendChild(el("p","sub",u("dateDone")+" "+(st.completedAt?fmtDate(st.completedAt):u("notYet"))+(st.best!=null?"  ·  "+u("best")+" "+st.best+" / "+TOTAL:"")));
+    var cb=el("button","btn ghost",u("changeName"));cb.type="button";
+    cb.addEventListener("click",function(){editing=true;renderReg()});box.appendChild(cb);
+  }else{
+    box.appendChild(el("p","",u("enterName")));
+    var form=el("form");form.noValidate=true;var grid=el("div","grid");
+    function fld(id,label,val,ac){
+      var d=el("div"),l=el("label","",label),i=el("input");
+      l.setAttribute("for",id);i.id=id;i.type="text";i.maxLength=40;i.value=val||"";i.setAttribute("autocomplete",ac);
+      d.appendChild(l);d.appendChild(i);grid.appendChild(d);return i;
+    }
+    var fi=fld("regfirst",u("first"),st.first,"given-name"),la=fld("reglast",u("last"),st.last,"family-name"),tr=fld("regtrainer",u("trainerL"),st.trainer,"off");
+    form.appendChild(grid);form.appendChild(el("p","sub",u("dateAuto")));
+    var err=el("div","err");err.hidden=true;err.setAttribute("role","alert");form.appendChild(err);
+    [fi,la].forEach(function(i){i.addEventListener("input",function(){err.hidden=true})});
+    var acts=el("div","acts");
+    var sb=el("button","btn",editing?u("saveName"):u("start"));sb.type="submit";sb.disabled=!ready;acts.appendChild(sb);
+    if(!ready)acts.appendChild(el("span","sub",u("checking")));
+    if(editing){var ca=el("button","btn ghost",u("cancel"));ca.type="button";ca.addEventListener("click",function(){editing=false;renderReg()});acts.appendChild(ca)}
+    if(isAdmin&&!editing){var pv=el("button","btn ghost",u("preview"));pv.type="button";pv.addEventListener("click",function(){showCourse(true)});acts.appendChild(pv)}
+    form.appendChild(acts);
+    form.addEventListener("submit",function(ev){
+      ev.preventDefault();
+      var f=fi.value.trim().replace(/\s+/g," "),l=la.value.trim().replace(/\s+/g," ");
+      if(!f||!l){err.hidden=false;err.textContent=u("bothNames");return}
+      var wasEditing=editing;
+      st.first=f;st.last=l;st.trainer=tr.value.trim().replace(/\s+/g," ");st.name=f+" "+l;if(!st.startedAt)st.startedAt=new Date().toISOString();
+      editing=false;save();renderReg();showCourse(!wasEditing);
+    });
+    box.appendChild(form);
+  }
+  if(ready)box.appendChild(el("p","sub",db&&uid?u("scoresRec"):u("scoresLocal")));
+}
+function csvCell(v){
+  var t=v==null?"":String(v);
+  if(/^[=+\-@\t\r]/.test(t))t="'"+t;
+  return /[",\n\r]/.test(t)?'"'+t.replace(/"/g,'""')+'"':t;
+}
+function csvOf(rows){
+  var out=[["Name","First name","Surname","Language","Lessons completed","Attempts","Best score","Last score","Out of","Passed","Date completed","Last activity"].join(",")];
+  rows.forEach(function(r){
+    out.push([r.name,r.first,r.last,r.lang||"",(r.lessonsDone||[]).length,r.attempts,r.best,r.lastScore,r.total||TOTAL,r.passed?"yes":"no",r.completedAt?r.completedAt.slice(0,10):"",r.updatedAt||""].map(csvCell).join(","));
+  });
+  return out.join("\r\n");
+}
+var admUnsub=null;
+function showAdmin(){
+  isAdmin=true;renderReg();
+  var box=$("#admin");box.hidden=false;box.textContent="";
+  box.appendChild(el("h2","",u("admTitle")));box.appendChild(el("p","sub",u("admSub")));
+  if(!db){box.appendChild(el("p","err",u("admNone")));return}
+  var mets=el("div","mets");box.appendChild(mets);
+  var ex=el("button","btn ghost",u("csv"));ex.type="button";ex.hidden=!dl;box.appendChild(ex);
+  var wrap=el("div","scroll");box.appendChild(wrap);
+  var rows=[];
+  ex.addEventListener("click",function(){if(dl)dl.save({filename:"precursor-course-results.csv",data:csvOf(rows)}).catch(function(){})});
+  if(!dl&&window.claude&&window.claude.use){window.claude.use("downloads").then(function(d){dl=d;ex.hidden=!d},function(){})}
+  function metric(v,l){var d=el("div","met");d.appendChild(el("b","",String(v)));d.appendChild(el("span","",l));mets.appendChild(d)}
+  function render(){
+    mets.textContent="";wrap.textContent="";
+    var done=rows.filter(function(r){return r.passed}).length;
+    var sc=rows.filter(function(r){return typeof r.best==="number"});
+    var avg=sc.length?(sc.reduce(function(a,r){return a+r.best},0)/sc.length).toFixed(1):"-";
+    metric(rows.length,u("mReg"));metric(done,u("mPass"));metric(avg,u("mAvg")+" / "+TOTAL);
+    if(!rows.length){wrap.appendChild(el("p","sub",u("noRes")));return}
+    rows.sort(function(a,b){return String(b.updatedAt||"").localeCompare(String(a.updatedAt||""))});
+    var t=el("table","res"),thead=el("thead"),hr=el("tr");
+    [u("thName"),"EN/FR",u("thLessons"),u("thAtt"),u("thBest"),u("thLast"),u("thDate"),u("thStatus")].forEach(function(h){hr.appendChild(el("th","",h))});
+    thead.appendChild(hr);t.appendChild(thead);var tb=el("tbody");
+    rows.forEach(function(r){
+      var tr=el("tr");
+      tr.appendChild(el("td","",r.name||u("noName")));
+      tr.appendChild(el("td","",(r.lang||"").toUpperCase()));
+      tr.appendChild(el("td","num",(r.lessonsDone||[]).length+" / "+NL));
+      tr.appendChild(el("td","num",r.attempts||0));
+      tr.appendChild(el("td","num",typeof r.best==="number"?r.best+" / "+(r.total||TOTAL):"-"));
+      tr.appendChild(el("td","num",typeof r.lastScore==="number"?r.lastScore+" / "+(r.total||TOTAL):"-"));
+      tr.appendChild(el("td","",r.completedAt?fmtDate(r.completedAt):"-"));
+      var td=el("td");td.appendChild(el("span","pill"+(r.passed?" ok":""),r.passed?u("passed"):(r.attempts?u("notPassed"):u("inProg"))));tr.appendChild(td);
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);wrap.appendChild(t);
+  }
+  render();
+  if(admUnsub){try{admUnsub()}catch(e){}admUnsub=null}
+  admUnsub=db.collection("results").onSnapshot(function(snap){rows=snap.docs.map(function(d){return d.data()||{}});render()},function(){wrap.textContent=u("loadFail")});
+}
+
+/* ---------- init ---------- */
+function afterInit(){
+  var hh2=(location.hash||"").replace("#","");if(hh2==="en"||hh2==="fr"){LI=LANGS.indexOf(hh2)}else if(st.lang){var i=LANGS.indexOf(st.lang);if(i>=0)LI=i}
+  ready=true;renderChrome();
+  if(st.name)showCourse(false);
+  if(userNs){userNs.canEdit().then(function(ok){if(ok)showAdmin()},function(){})}
+}
+function init(){
+  var hasClaude=window.claude&&typeof window.claude.use==="function";
+  var loading=hasClaude?Promise.all([
+    window.claude.use("db").then(function(d){db=d},function(){}),
+    window.claude.use("user").then(function(n){userNs=n},function(){}),
+    window.claude.use("downloads").then(function(d){dl=d},function(){})
+  ]):Promise.resolve();
+  var timeout=new Promise(function(r){setTimeout(r,6000)});
+  Promise.race([loading,timeout]).then(function(){
+    return userNs?userNs.id().then(function(i){return i},function(){return null}):null;
+  }).then(function(id){
+    uid=id;
+    if(db&&uid){
+      ref=db.doc("results/"+uid);
+      return ref.get().then(function(sn){if(sn.exists)applyRecord(sn.data())},function(){db=null;ref=null;loadLocal()});
+    }
+    loadLocal();
+  }).then(afterInit,afterInit);
+}
+$$("#langSw button").forEach(function(b){b.addEventListener("click",function(){setLang(b.dataset.l)})});
+$("#menuBtn").addEventListener("click",function(){
+  var t=$("#toc"),o=t.classList.toggle("open");this.setAttribute("aria-expanded",o?"true":"false");
+});
+// highlight current lesson in contents
+window.addEventListener("scroll",function(){
+  if(!unlocked)return;var cur=null;
+  LESSONS.forEach(function(l){var e=document.getElementById(l.id);if(e&&e.getBoundingClientRect().top<140)cur=l.id});
+  $$("#tocList button").forEach(function(b){b.classList.toggle("cur",b.dataset.id===cur)});
+},{passive:true});
+$("#lessons").hidden=true;
+if(navigator.language&&/^fr/i.test(navigator.language))LI=1;
+var hh=(location.hash||"").replace("#","");var hl=hh==="fr"?"fr":hh==="en"?"en":null;if(hl){LI=LANGS.indexOf(hl)}
+renderChrome();
+init();
+})();
+
+</script>
+
+</html>
