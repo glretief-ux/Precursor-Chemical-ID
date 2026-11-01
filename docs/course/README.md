@@ -1,6 +1,6 @@
 # Precursor Chemicals course (EN / FR)
 
-Open `index.html` (published at `.../Precursor-Chemical-ID/course/`). Add `#en` or `#fr` to the link to choose the language.
+Open `index.html` (published at `.../Precursor-Chemical-ID/course/`, bilingual; add `#en` or `#fr`). Single-language versions: `course/en/` and `course/fr/`. Videos only: `videos/`.
 
 ## Collecting results (Google Form)
 1. Create a Google Form with short-answer questions: Name, Trainer, Language, Score, Passed, Date (optional: Best score, Out of).
