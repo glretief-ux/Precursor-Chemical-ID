@@ -6,5 +6,5 @@ window.COURSE_CONFIG={
   },
   mailto:"",    /* optional default trainer email, used when the link has no ?t= trainer address */
   relay:"formsubmit",  /* e-mails every finished result automatically through formsubmit.co */
-  relayId:""    /* private endpoint id from the activation e-mail (hides the real address) */
+  relayId:"717eca28dade7f52a33cb80106c79d9a"    /* private endpoint id from the activation e-mail (hides the real address) */
 };
