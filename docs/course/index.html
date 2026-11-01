@@ -283,7 +283,7 @@ var UI={
  first:["First name","Prénom"],last:["Surname","Nom de famille"],dateAuto:["Date completed is filled in automatically when you pass the assessment.","La date de fin est ajoutée automatiquement lorsque vous réussissez l'évaluation."],
  start:["Start course","Commencer le cours"],saveName:["Save name","Enregistrer le nom"],cancel:["Cancel","Annuler"],checking:["Checking for saved progress","Recherche de la progression enregistrée"],
  preview:["Preview the course without registering","Aperçu du cours sans inscription"],bothNames:["Enter both your first name and your surname.","Saisissez votre prénom et votre nom de famille."],
- scoresRec:["Your result is sent to your trainer when you finish.","Votre résultat est transmis à votre formateur à la fin."],scoresLocal:["Your progress is saved on this device. At the end you can send your result to your trainer.","Votre progression est enregistrée sur cet appareil. À la fin, vous pourrez envoyer votre résultat à votre formateur."],
+ scoresRec:["Your result is sent to your trainer when you finish.","Votre résultat est transmis à votre formateur à la fin."],scoresLocal:["Your progress is not kept after you close this page. When you finish, send your result to your trainer.","Votre progression n'est pas conservée après la fermeture de cette page. À la fin, envoyez votre résultat à votre formateur."],
  recOk:["Your result has been sent to your trainer.","Votre résultat a été envoyé à votre formateur."],recFail:["Your result could not be sent automatically. Use the button below to send it to your trainer.","Votre résultat n'a pas pu être envoyé automatiquement. Utilisez le bouton ci-dessous pour l'envoyer à votre formateur."],recLocal:["Use the button below to send your result to your trainer.","Utilisez le bouton ci-dessous pour envoyer votre résultat à votre formateur."],
  passed:["Passed","Réussi"],notPassed:["Not passed yet","Pas encore réussi"],answered:["You answered","Vous avez répondu correctement à"],correctOf:["correctly","question(s) sur"],reviewTry:[" Review the lessons and try again."," Revoyez les leçons et réessayez."],
  certOrg:["UNODC · WCO Container Control Programme","ONUDC · OMD Programme de contrôle des conteneurs"],certTitle:["Certificate of completion","Certificat de réussite"],certThat:["This certifies that","Ceci certifie que"],
@@ -620,7 +620,7 @@ function applyRecord(r){
   st.startedAt=typeof r.startedAt==="string"?r.startedAt:null;
   if(r.lang==="en"||r.lang==="fr")st.lang=r.lang;
 }
-function loadLocal(){try{var raw=localStorage.getItem(KEY);if(raw)applyRecord(JSON.parse(raw))}catch(e){}}
+function loadLocal(){try{localStorage.removeItem(KEY)}catch(e){}}
 function docBody(){return {first:st.first,last:st.last,trainer:st.trainer,name:st.name,lang:LANGS[LI],lessonsDone:st.done.slice(),lessonsCount:NL,attempts:st.attempts,best:st.best,lastScore:st.lastScore,total:TOTAL,passMark:PASS,passed:!!st.completedAt,startedAt:st.startedAt,completedAt:st.completedAt,updatedAt:new Date().toISOString()}}
 function recText(){
   if(recState==="ok")return u("recOk");
@@ -640,7 +640,7 @@ function pushRemote(){
   })();
 }
 function save(){
-  if(!(db&&uid)){try{localStorage.setItem(KEY,JSON.stringify(docBody()))}catch(e){}}
+  
   pushRemote();
 }
 var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -860,6 +860,8 @@ function fmtT(s){s=Math.round(s);var m=Math.floor(s/60),r=s%60;return m+":"+(r<1
 
 
 var CFG=window.COURSE_CONFIG||{};
+var TEM=(function(){try{var e=(new URLSearchParams(location.search).get("t")||"").trim();return(e.length<120&&/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e))?e:""}catch(x){return""}})();
+var MAILTO=TEM||CFG.mailto||"";
 function resultText(){return ["Precursor Chemicals course","Name: "+st.name,"Trainer/group: "+(st.trainer||"-"),"Language: "+LANGS[LI].toUpperCase(),"Score: "+st.lastScore+" / "+TOTAL+" (best "+st.best+")","Passed: "+(st.completedAt?"yes":"no"),"Date: "+(st.completedAt?st.completedAt.slice(0,10):new Date().toISOString().slice(0,10))].join("\n")}
 function postForm(){
   if(!CFG.formUrl||!CFG.fields)return Promise.reject(new Error("no form"));
@@ -869,10 +871,10 @@ function postForm(){
   return fetch(CFG.formUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:p.toString()});
 }
 function sendFallback(box){
-  var b=el("button","btn ghost",u(CFG.mailto?"sendRes":"copyRes"));b.type="button";
+  var b=el("button","btn ghost",u(MAILTO?"sendRes":"copyRes"));b.type="button";
   b.addEventListener("click",function(){
     var t=resultText();
-    if(CFG.mailto){window.location.href="mailto:"+CFG.mailto+"?subject="+encodeURIComponent("Precursor course result: "+st.name)+"&body="+encodeURIComponent(t);return}
+    if(MAILTO){window.location.href="mailto:"+MAILTO+"?subject="+encodeURIComponent("Precursor course result: "+st.name)+"&body="+encodeURIComponent(t);return}
     function ok(){note.textContent=u("copied")}
     try{navigator.clipboard.writeText(t).then(ok,function(){window.prompt&&0;note.textContent=t})}catch(e){note.textContent=t}
   });
@@ -907,11 +909,12 @@ function finalBlock(box){
     if(pass){if(!st.completedAt)st.completedAt=new Date().toISOString();if(st.done.indexOf("l11")<0)st.done.push("l11")}
     save();updateProgress();
     if(CFG.formUrl)postForm().then(function(){setRec("ok")},function(){setRec("fail")});
+    else if(CFG.relay==="formsubmit"&&TEM)fetch("https://formsubmit.co/ajax/"+encodeURIComponent(TEM),{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({_subject:"Precursor course result: "+st.name,name:st.name,group:st.trainer||"-",language:LANGS[LI].toUpperCase(),score:st.lastScore+" / "+TOTAL,passed:st.completedAt?"yes":"no",date:(st.completedAt||new Date().toISOString()).slice(0,10)})}).then(function(r){setRec(r.ok?"ok":"fail")},function(){setRec("fail")});
     res.textContent="";
     var s=el("p","score",u("answered")+" "+(LI?(correct+" "+u("correctOf")+" "+TOTAL):(correct+" of "+TOTAL+" "+u("correctOf")))+"."+(pass?"":u("reviewTry")));
     res.appendChild(s);
     res.appendChild(el("span","pill"+(pass?" ok":""),pass?u("passed"):u("notPassed")));
-    var note=el("p","sub recnote","");res.appendChild(note);if(!CFG.formUrl)setRec("local");
+    var note=el("p","sub recnote","");res.appendChild(note);if(!CFG.formUrl&&!(CFG.relay==="formsubmit"&&TEM))setRec("local");
     sendFallback(res);
     if(pass){
       var c=el("div","cert");
