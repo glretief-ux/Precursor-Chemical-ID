@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trainer links | Liens formateur</title>
+<style>:root{--blue:#0b3d91;--fg:#14213d;--mut:#51607f}
+body{margin:0;font-family:Verdana,Geneva,sans-serif;background:#fff;color:var(--fg)}
+header{background:var(--blue);padding:12px 16px}header img{height:56px;display:block;margin:0 auto;background:#fff;border-radius:6px;padding:4px}
+main{max-width:760px;margin:0 auto;padding:20px 16px 40px}h1{color:var(--blue);font-size:1.4rem}p,li{color:var(--mut);font-size:.9rem;line-height:1.55}
+input{width:100%;box-sizing:border-box;padding:10px;font:inherit;border:1px solid #9fb0d6;border-radius:8px;margin:6px 0 14px}
+.out{border:1px solid #d5dcef;border-radius:10px;padding:12px;margin:10px 0;background:#f6f8fe;word-break:break-all;font-size:.82rem}
+button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer;margin-top:6px}b{color:var(--fg)}</style></head>
+<body><header><img src="../logo.png" alt="AIRCOP - Container Control Programme"></header>
+<main><h1>Trainer links | Liens formateur</h1>
+<p>Enter your e-mail address. You get links to send to your participants. When a participant finishes, the button "Send my result to my trainer" opens an e-mail to <b>you</b> with their name, score and date. The page is blank for every new visitor.</p>
+<p>Saisissez votre adresse e-mail. Vous obtenez des liens à envoyer à vos participants. À la fin, le bouton « Envoyer mon résultat à mon formateur » ouvre un e-mail adressé à <b>vous</b> avec le nom, le score et la date.</p>
+<label for="em"><b>Your e-mail | Votre e-mail</b></label>
+<input id="em" type="email" placeholder="name@example.org" autocomplete="email">
+<div id="res" hidden>
+<div><b>English</b><div class="out" id="o1"></div><button type="button" data-c="o1">Copy</button></div>
+<div><b>Français</b><div class="out" id="o2"></div><button type="button" data-c="o2">Copier</button></div>
+<div><b>EN / FR (bilingual)</b><div class="out" id="o3"></div><button type="button" data-c="o3">Copy</button></div>
+<p>Note: your address is part of the link, so anyone with the link can see it. | Votre adresse fait partie du lien : toute personne qui le reçoit peut la voir.</p></div>
+<script>
+(function(){var em=document.getElementById("em"),res=document.getElementById("res");
+var base=location.href.replace(/trainer\.html.*$/,"");
+function up(){var v=em.value.trim(),ok=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);res.hidden=!ok;if(!ok)return;var q="?t="+encodeURIComponent(v);
+document.getElementById("o1").textContent=base+"en/"+q;document.getElementById("o2").textContent=base+"fr/"+q;document.getElementById("o3").textContent=base+q}
+em.addEventListener("input",up);
+Array.prototype.forEach.call(document.querySelectorAll("button[data-c]"),function(b){b.addEventListener("click",function(){var t=document.getElementById(b.dataset.c).textContent;try{navigator.clipboard.writeText(t).then(function(){b.textContent="OK"},function(){})}catch(e){}})});
+})();
+</script></main></body></html>

@@ -4,5 +4,6 @@ window.COURSE_CONFIG={
   fields:{      /* entry ids from the Form, e.g. name:"entry.123456789" */
     name:"",trainer:"",lang:"",score:"",best:"",total:"",passed:"",date:""
   },
-  mailto:""     /* trainer email address, used for the "send my result" button */
+  mailto:"",    /* optional default trainer email, used when the link has no ?t= trainer address */
+  relay:""      /* set to "formsubmit" to e-mail results automatically (needs a ?t= trainer link; see README) */
 };
