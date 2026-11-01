@@ -5,5 +5,6 @@ window.COURSE_CONFIG={
     name:"",trainer:"",lang:"",score:"",best:"",total:"",passed:"",date:""
   },
   mailto:"",    /* optional default trainer email, used when the link has no ?t= trainer address */
-  relay:""      /* set to "formsubmit" to e-mail results automatically (needs a ?t= trainer link; see README) */
+  relay:"formsubmit",  /* e-mails every finished result automatically through formsubmit.co */
+  relayId:"717eca28dade7f52a33cb80106c79d9a"    /* private endpoint id from the activation e-mail (hides the real address) */
 };
