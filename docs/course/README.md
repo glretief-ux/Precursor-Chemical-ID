@@ -15,3 +15,6 @@ The course opens **blank for every visitor** (nothing is remembered on the devic
 4. Open the Form's Responses tab, link it to a Google Sheet, and share that Sheet with the trainers.
 
 Without a Form, learners get a button to copy their result (or email it if `mailto` is set in `config.js`).
+
+## Trainer copy
+When a participant opens a link made with `course/trainer.html` (it carries `?t=trainer-email`), each finished result is emailed to the owner's private relay and also copied (cc) to that trainer. Without `?t=` only the owner receives it. The trainer address is visible in the link.
