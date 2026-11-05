@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crime Scene and Physical Evidence Awareness</title>
+<style>
+
+:root{--navy:#0b2a5b;--blue:#1b5fc4;--sky:#e8f0fc;--gold:#f2b705;--green:#17a673;--red:#d64545;--ink:#1c2433;--mut:#5b6678;--card:#fff;--bg:#f3f6fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Verdana,Geneva,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+header{background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:12px 20px;position:sticky;top:0;z-index:10}
+header .logo{height:44px;width:auto;border-radius:6px;background:#fff}
+header h1{font-size:16px;margin:0;flex:1}
+#bar{height:6px;background:#274a85;position:sticky;top:64px;z-index:9}
+#bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .4s}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{width:270px;padding:20px 12px;position:sticky;top:70px;align-self:flex-start;height:calc(100vh - 70px);overflow:auto}
+nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
+nav button:hover:not(:disabled){background:var(--sky)}
+nav button.cur{background:var(--blue);color:#fff}
+nav button:disabled{opacity:.4;cursor:not-allowed}
+nav .dot{width:22px;height:22px;border-radius:50%;background:#cfd8ea;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+nav .done .dot{background:var(--green)}
+main{flex:1;padding:24px 20px 80px;min-width:0}
+section{display:none;max-width:820px;margin:0 auto;animation:in .35s}
+section.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{color:var(--navy);font-size:28px;margin:0 0 8px}
+h3{color:var(--navy);margin:24px 0 8px}
+.lead{font-size:17px;color:var(--mut)}
+.card{background:var(--card);border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(11,42,91,.08);margin:16px 0}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px 22px;font:inherit;font-weight:bold;cursor:pointer}
+.btn:hover{background:#154c9f}.btn.gold{background:var(--gold);color:#222}.btn.ghost{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.nextrow{display:flex;justify-content:space-between;margin-top:28px;gap:10px}
+input[type=text]{width:100%;padding:12px;border:2px solid #c7d3ea;border-radius:10px;font:inherit;margin:6px 0 14px}
+video{width:100%;border-radius:14px;background:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.flip{perspective:800px;height:170px;cursor:pointer}
+.flip>div{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip.f>div{transform:rotateY(180deg)}
+.flip .a,.flip .b{position:absolute;inset:0;border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden}
+.flip .a{background:var(--blue);color:#fff;font-weight:bold;font-size:20px}
+.flip .b{background:#fff;border:3px solid var(--blue);transform:rotateY(180deg);font-size:13px}
+.acc{border:1px solid #d3ddef;border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}
+.acc button{width:100%;text-align:left;background:#fff;border:0;padding:14px 16px;font:inherit;font-weight:bold;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between}
+.acc .p{display:none;padding:0 16px 14px}.acc.o .p{display:block}.acc.o button{background:var(--sky)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tabs button{border:0;background:#dde7f8;padding:10px 16px;border-radius:10px 10px 0 0;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--navy);color:#fff}
+.tp{display:none;background:#fff;padding:18px;border-radius:0 12px 12px 12px;box-shadow:0 2px 10px rgba(11,42,91,.08)}.tp.on{display:block}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.steps button{flex:1;min-width:120px;border:0;border-radius:12px;padding:14px 8px;font:inherit;font-weight:bold;cursor:pointer;background:#dde7f8;color:var(--navy)}
+.steps button.on{background:var(--gold)}
+.callout{border-left:6px solid var(--gold);background:#fff8dc;padding:12px 16px;border-radius:8px;margin:14px 0}
+.warn{border-left-color:var(--red);background:#ffecec}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #cfd9ee;border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--blue)}.opt.ok{background:#e3f7ee;border-color:var(--green)}.opt.no{background:#ffe9e9;border-color:var(--red)}
+.fb{margin-top:8px;font-size:14px}
+.ord{list-style:none;padding:0}.ord li{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #cfd9ee;border-radius:12px;padding:10px 12px;margin:6px 0}
+.ord li span{flex:1}.ord button{border:0;background:var(--sky);border-radius:8px;width:34px;height:34px;cursor:pointer}
+.ord li.ok{border-color:var(--green);background:#e3f7ee}.ord li.no{border-color:var(--red);background:#ffe9e9}
+.mt{display:flex;gap:6px}.chk label{display:flex;gap:10px;padding:8px 0;cursor:pointer}
+.score{font-size:54px;font-weight:bold;color:var(--navy)}
+#cert{background:#fff;border:10px double var(--gold);padding:40px;text-align:center;border-radius:6px}
+#cert h2{font-size:34px}#cert .nm{font-size:30px;margin:18px 0;border-bottom:2px solid var(--navy);display:inline-block;padding:0 30px}
+.hide{display:none!important}
+@media(max-width:820px){nav{display:none}header .logo{display:none}}
+@media print{header,#bar,nav,.nextrow,.noprint{display:none!important}body{background:#fff}section{display:none!important}section#s-cert{display:block!important}}
+
+.sortrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;border:2px solid #cfd9ee;border-radius:12px;padding:10px 12px;margin:8px 0}
+.sortrow span{flex:1;min-width:200px}.sortrow button{border:2px solid var(--blue);background:#fff;color:var(--blue);border-radius:8px;padding:6px 14px;font:inherit;cursor:pointer}
+.sortrow.ok{border-color:var(--green);background:#e3f7ee}.sortrow.no{border-color:var(--red);background:#ffe9e9}
+.sortrow button.sel{background:var(--blue);color:#fff}
+.credit{font-size:12px;color:var(--mut);border-top:1px solid #cfd9ee;margin-top:30px;padding-top:12px;max-width:820px;margin-left:auto;margin-right:auto}
+.crd{background:#fff;border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(11,42,91,.08)}
+</style>
+</head>
+<body>
+<header><img class="logo" src="logo.png" alt="AIRCOP Container Control Programme"><h1>Crime Scene and Physical Evidence Awareness</h1><span id="who" style="font-size:13px"></span></header>
+<div id="bar"><i id="barfill"></i></div>
+<div class="layout"><nav id="nav"></nav><main id="main">
+<div id="secs"></div>
+<p class="credit">Course content adapted from <i>Crime scene and physical evidence awareness for non-forensic personnel</i>, UNODC, Laboratory and Scientific Section, United Nations, 2009. Independent training adaptation; not an official UNODC product.</p>
+</main></div>
+<script src="../course/config.js"></script>
+<script>
+const CFG=window.COURSE_CONFIG||{};const PASS=80;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const SRC_URL='https://www.unodc.org/documents/scientific/Crime_scene_awareness__Ebook.pdf';
+const L=[
+{t:'Why physical evidence matters',b:[
+ {k:'p',h:'Physical evidence can be anything from a large object to a microscopic trace, created as part of a crime and found at the scene or at related places.'},
+ {k:'p',h:'Compared with confessions, witness statements or video, physical evidence offers the best chance of objective and reliable information, but only when it is recognised and handled properly.'},
+ {k:'call',h:'<b>Chain of custody</b> is often the weak link in investigations. It is the chronological, careful record that ties an item to the alleged crime, so you can show every step from the scene to the courtroom.'},
+ {k:'h3',h:'Tap each card'},
+ {k:'flips',items:[['Traceability','You can show where the item came from and who handled it at each step.'],['Continuity','There is no gap in the record between the scene and the courtroom.'],['Value lost','Even perfectly recovered evidence can lose its value if the chain of custody is broken.'],['Interpretation','Physical evidence does not lie. Only its interpretation can go wrong, or the failure to find it.']]}]},
+{t:'The first responder and the process',b:[
+ {k:'p',h:'Forensic services start at the scene with recognising and recovering evidence. They continue with laboratory analysis, evaluation of the results, and presenting the findings to judges, prosecutors and lawyers.'},
+ {k:'p',h:'First responders can be law enforcement officers, human rights officers or anyone else who arrives first. Most are not forensic specialists, so training matters.'},
+ {k:'h3',h:'Open each item'},
+ {k:'acc',items:[['First responder: initial duties','Preserve the integrity of the scene and the evidence, and start early documentation of the scene, the evidence and every activity at the scene.'],['When crime scene investigators arrive','Fully trained investigators quickly take over the work at the scene.'],['When recovery cannot wait','If evidence is at risk of being destroyed, lost or contaminated before investigators arrive, first responders may need to carry out some basic recovery.'],['When no investigators will come','In remote places, or where skilled investigators are not available, the first responder may have to do more than preserve and document.']]}]},
+{t:'Law, ethics and human dignity',b:[
+ {k:'call',h:'<b>Life comes first.</b> If preserving evidence conflicts with saving a life, emergency medical care has priority.'},
+ {k:'h3',h:'Open each tab'},
+ {k:'tabs',items:[['Legal','Local laws and rules govern how you get authority to enter the scene, how you handle and seal evidence, and how you submit it to the laboratory. Breaking them can make evidence unusable in court.'],['Ethics','Codes of conduct call for due diligence and professionalism, objectivity (treat evidence for what it shows, not what you think it shows), open-mindedness and impartiality.'],['Human dignity','Respect people and their dignity when examining or collecting evidence from the living or the dead. Protect victims\' privacy, including managing the media. Screens, curtains or tents may help.']]}]},
+{t:'Health and safety',b:[
+ {k:'p',h:'Health and safety come first when you arrive and stay a priority throughout. Not every hazard is obvious, and new ones can appear as the work goes on. Tap each hazard source.'},
+ {k:'flips',items:[['Chemicals','Present at the scene, for example in clandestine laboratories, or used during the investigation.'],['Biological','Blood and body fluids can carry infection risk.'],['Explosives','Unexploded devices, including booby traps.'],['Firearms','Weapons present at the scene.'],['Environment','Extreme heat or cold.'],['Structures','Unsafe buildings, especially after fires and bombings.'],['Insecure scene','An offender may still be present.'],['Other risks','Sharp objects, radiological, nuclear and electrical risks, gases and more.']]},
+ {k:'call',h:'Protect yourself with first aid kits, suitable protective clothing and equipment, and fire brigade help where needed. Crime scenes can also be emotionally hard, so counselling after the work may be needed.'},
+ {k:'call',h:'<b>Protect the laboratory too.</b> Use appropriate packaging and warning labels so people handling the items later are not exposed to hazards.',w:1}]},
+{t:'Planning and coordination',b:[
+ {k:'p',h:'Good planning means deploying resources that fit the case and using them well. Tick each question you should ask before you go to the scene.'},
+ {k:'chk',items:['What is believed to have happened, and how big is the problem?','Is specialist expertise or medical help needed?','Are there particular dangers?','Is the scene indoors or outdoors, and is it remote?','What local resources, equipment and weather conditions are there?','Who else needs to be informed?']},
+ {k:'h3',h:'Open each item'},
+ {k:'acc',items:[['At the scene','Start with an initial scene evaluation. Set the sequence and priorities, limit access to people essential to the investigation and to medical care, name a leader, assign roles, and agree procedures, tools and communication channels.'],['Stay flexible','Every scene is unique and needs can change as new elements are found, so adapt the organisation of the work.'],['Equipment','Keep standard equipment ready in a kit and replenish it regularly, so you can respond quickly.'],['Why it matters','Arriving unprepared can compromise the whole investigation. An uncoordinated team duplicates effort or assumes someone else is doing a task. Too many or unsuitable people can destroy evidence. Early contact with the laboratory improves the result.']]}]},
+{t:'Preserving the scene',b:[
+ {k:'p',h:'Preservation starts as soon as the incident is reported and ends only when the investigation is finished and the scene is released. The boundary may change as the work unfolds, so re-evaluate it. Cordon the area off with a physical barrier.'},
+ {k:'p',h:'<b>Do or don\'t?</b> Decide for each action at a preserved scene.'},
+ {k:'sort',items:[['Wear protective clothing, gloves and shoe covers','do','Anti-contamination measures run from start to finish.'],['Use a single path to enter the scene','do','This also applies to medical staff caring for victims.'],['Remove non-essential people who entered before the cordon, and record this','do','Non-essential people are also kept out during the whole investigation.'],['Use the toilet, water, towel or telephone at the scene','dont','Do not use any facilities at the scene.'],['Eat, drink or smoke at the scene','dont','These can contaminate the scene.'],['Move things or people when it is not necessary','dont','If something or somebody must be moved, document the original position first.'],['Treat a second related scene with the same team','dont','Each scene is treated separately, with separate teams.']]},
+ {k:'call',h:'Scenes are rarely unaltered. Discovery, weather, medical aid or putting out a fire can all change them. Give clear guidance to minimise further disturbance.'}]},
+{t:'Documentation',b:[
+ {k:'call',h:'Documentation is a permanent, objective record of the scene, the evidence and any changes, and it is the starting point of the chain of custody.'},
+ {k:'p',h:'It starts when the first person arrives, and continues until the laboratory result is available. Open each item.'},
+ {k:'acc',items:[['What to record on arrival','The scene as first found: arrival time, doors, windows and blinds, odours and signs of activity, using notes, photos, video, sketches and measurements.'],['People and changes','Everyone present, entering or leaving, and every change caused by activity you did or saw.'],['Before moving evidence','Document each item in detail before it is moved or recovered, and label every recovered item individually.'],['When someone leaves','Hand over all photos, records and notes to the person coming in, with a briefing.'],['Why it matters','Memory cannot be relied on. Records show the first state of the scene and what was done, when, how and by whom, and they link the item in court to the item recovered.']]}]},
+{t:'Finding and recovering evidence',b:[
+ {k:'p',h:'This is the central part of the work. The most relevant evidence may not be visible to the naked eye, and almost every scene has some evidence that is missed. Use a search strategy that is both methodical and flexible.'},
+ {k:'tabs',items:[['Recognise','Observe the scene first. Consider the context, the likely scenarios and the surfaces that may carry evidence. Search with the eye, magnifiers and hand-held light sources. Basic tests, such as powders for fingermarks, may be needed.'],['Recover','Use suitable methods, such as adhesive tape, tweezers or cotton tips, and suitable packaging, such as bags, boxes or containers for sharp objects. Label and seal each item as local rules require, and record its exact position before recovery.'],['Samples','Substrate and background samples are often needed, for example with fire debris. For very large amounts, such as bulky drug seizures, representative sub-samples are usually taken. Sampling needs experience and training.'],['Select','Choosing what is relevant works best at the scene, in context. In difficult conditions, it may be better to recover more and select later. Recovering everything blindly can overload the laboratory.']]}]},
+{t:'Transport, storage and submission',b:[
+ {k:'p',h:'Put the last phase in the correct order. Use the arrows, then check.'},
+ {k:'order',items:['Decide which items go to the laboratory, with early input from laboratory staff','Choose transport and storage that suit the type of evidence','Keep the evidence cool, dry and under secured, controlled access','Follow local rules for items such as drugs and firearms','Document transport, storage and hand-over','Get a written receipt from the laboratory']},
+ {k:'call',h:'Evidence may need to be kept for years, until the case is decided and all appeals are over. Have a published policy for long-term storage of exhibits.'}]},
+{t:'Types of physical evidence',b:[
+ {k:'p',h:'The manual\'s annex gives examples of evidence found at scenes and what a laboratory can tell from it. It is an illustration, not a complete list. Open each type.'},
+ {k:'acc',items:[['Powders, liquids, tablets and plant material','Can be suspected drugs or precursors. A laboratory can identify them and help determine purity, source and manufacturing methods. Use secured transport and storage so seizures do not disappear, and use safety measures when collecting suspected illicit drugs or precursors.'],['Detonating or deflagrating materials','Can contain explosives or traces. Use safety measures when collecting material suspected to be explosive.'],['Fire debris','Includes substrates that may hold flammable liquid residues. Use specific bags or containers to stop volatile compounds escaping, and collect substrate and background samples.'],['Burn patterns and blast effects','Help show the origin and cause of a fire or explosion. Take photographic records, and watch for booby traps and secondary devices.'],['Fingermarks','Can identify the person who left them, and may also hold material for DNA analysis. They are very fragile. Gloves protect your own marks but do not stop destruction of existing ones, and contamination is easy.'],['Shoemarks and tyre marks','Can show the type of shoe or tyre, and help reconstruct an accident. Outdoor marks can be destroyed by rain or snow.']]}]}
+];
+const Q=[['Which source of information is described as offering the best chance of objective, reliable information?',['Confessions','Witness testimony','Physical evidence, properly recognised and handled','Video surveillance only'],2],
+['What is the chain of custody?',['The route taken by the suspect','The chronological, careful documentation that links evidence to the alleged crime','The list of laboratory equipment','The order of police ranks at the scene'],1],
+['Preserving evidence conflicts with saving a life. What takes priority?',['Preserving the evidence','Emergency medical care','Finishing documentation','Calling the media'],1],
+['What are a first responder\'s initial responsibilities?',['Analyse the evidence and name a suspect','Preserve the scene and evidence, and begin early documentation','Release the scene to the public','Collect personal belongings of victims'],1],
+['How should people enter a preserved scene?',['By any route, quickly','By a single path','Through the nearest window','Only after using the scene\'s toilet'],1],
+['What must you do if something at the scene has to be moved?',['Nothing, moving is always fine','Carefully document its initial location first','Ask the media for photos','Replace it afterwards from memory'],1],
+['Who may enter the scene?',['Anyone interested','Only people essential to the investigation and medical care of victims','Journalists with permission','Neighbours'],1],
+['When does documentation start?',['When the laboratory receives the item','When the first person arrives at the scene','After the scene is released','When the court asks'],1],
+['What conditions suit transport and storage of evidence?',['Warm and humid, open access','Cool and dry, with secured and controlled access','Any place, if it is quick','Your personal vehicle'],1],
+['How is evidence handled in very bulky drug seizures?',['Everything is sent to the laboratory','Representative sub-samples are usually taken, by trained staff','Nothing is sampled','The largest package only'],1]];
+let unlocked=0,cur=0,done=new Set(),state={name:'',score:null};
+const secs=$('#secs'),nav=$('#nav');
+const titles=['Welcome',...L.map(x=>x.t),'Final quiz','Certificate','Credits'];
+const NQ=titles.length-3,NC=titles.length-2,NK=titles.length-1;
+function mk(id,html){const s=document.createElement('section');s.id=id;s.innerHTML=html;secs.appendChild(s);return s}
+mk('s0','<h2>Welcome, officer</h2><p class="lead">A short course on what to do, and not do, at a crime scene, from the first responder to the laboratory. It is written for people who are not forensic specialists.</p><div class="card"><label><b>Your first name and surname</b></label><input id="name" type="text" placeholder="e.g. Jane Smith" autocomplete="off"><p style="font-size:13px;color:var(--mut)">Your name appears on your certificate and with your result. Progress is kept only while this page stays open.</p><button class="btn" id="startbtn">Start course</button></div><div class="card"><b>What you will learn</b><ul><li>Why physical evidence and the chain of custody decide a case</li><li>What a first responder must do, and avoid doing</li><li>Health, safety, law and human dignity at the scene</li><li>How to document, recover, store and submit evidence</li></ul><p style="font-size:13px;color:var(--mut)">About 25 minutes. Pass mark in the final quiz: 80%. This course is an awareness tool and does not replace your local procedures.</p></div>');
+function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1])}
+L.forEach((ls,li)=>{const i=li+1;let h=`<h2>${ls.t}</h2>`;const s=mk('s'+i,h);const req=[];let ok=0;
+ const btn=document.createElement('button');btn.className='btn';btn.textContent='Continue';btn.disabled=true;
+ function need(){req.push(0);return req.length-1}function got(n){if(!req[n]){req[n]=1;if(req.every(Boolean)){btn.disabled=false;complete(i)}}}
+ ls.b.forEach(b=>{const d=document.createElement('div');
+  if(b.k==='p'){d.innerHTML='<p>'+b.h+'</p>'}
+  else if(b.k==='h3'){d.innerHTML='<h3>'+b.h+'</h3>'}
+  else if(b.k==='call'){d.innerHTML='<div class="callout'+(b.w?' warn':'')+'">'+b.h+'</div>'}
+  else if(b.k==='flips'){const g=document.createElement('div');g.className='grid';const seen=new Set();const n=need();b.items.forEach(([a,x],k)=>{const f=document.createElement('div');f.className='flip';f.innerHTML=`<div><div class="a">${a}</div><div class="b">${x}</div></div>`;f.onclick=()=>{f.classList.toggle('f');seen.add(k);if(seen.size==b.items.length)got(n)};g.appendChild(f)});d.appendChild(g)}
+  else if(b.k==='acc'){const seen=new Set();const n=need();b.items.forEach(([t,x],k)=>{const a=document.createElement('div');a.className='acc';a.innerHTML=`<button>${t}<span>+</span></button><div class="p">${x}</div>`;a.firstChild.onclick=()=>{a.classList.toggle('o');seen.add(k);if(seen.size==b.items.length)got(n)};d.appendChild(a)})}
+  else if(b.k==='tabs'){const seen=new Set([0]);const n=need();const tb=document.createElement('div');tb.className='tabs';const pn=document.createElement('div');b.items.forEach(([t,x],k)=>{const bt=document.createElement('button');bt.textContent=t;const p=document.createElement('div');p.className='tp';p.innerHTML=x;bt.onclick=()=>{[...tb.children].forEach(c=>c.classList.remove('on'));[...pn.children].forEach(c=>c.classList.remove('on'));bt.classList.add('on');p.classList.add('on');seen.add(k);if(seen.size==b.items.length)got(n)};tb.appendChild(bt);pn.appendChild(p);if(k==0){bt.classList.add('on');p.classList.add('on')}});d.appendChild(tb);d.appendChild(pn);if(b.items.length==1)got(n)}
+  else if(b.k==='chk'){const c=document.createElement('div');c.className='card chk';const seen=new Set();const n=need();b.items.forEach((t,k)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox"> ${t}`;l.firstChild.onchange=e=>{e.target.checked?seen.add(k):seen.delete(k);if(seen.size==b.items.length)got(n)};c.appendChild(l)});d.appendChild(c)}
+  else if(b.k==='sort'){const n=need();const ans={};const rows=[];b.items.forEach(([t,c,why],k)=>{const r=document.createElement('div');r.className='sortrow';r.innerHTML=`<span>${t}</span><button data-v="do">Do</button><button data-v="dont">Don\'t</button>`;[...r.querySelectorAll('button')].forEach(bt=>bt.onclick=()=>{ans[k]=bt.dataset.v;r.querySelectorAll('button').forEach(z=>z.classList.remove('sel'));bt.classList.add('sel');r.classList.remove('ok','no')});rows.push(r);d.appendChild(r)});
+   const cb=document.createElement('button');cb.className='btn';cb.textContent='Check answers';const fb=document.createElement('p');fb.className='fb';cb.onclick=()=>{let all=true;rows.forEach((r,k)=>{const good=ans[k]===b.items[k][1];r.classList.remove('ok','no');r.classList.add(good?'ok':'no');if(!good)all=false;let w=r.querySelector('small');if(!w){w=document.createElement('small');w.style.width='100%';r.appendChild(w)}w.textContent=good?b.items[k][2]:''});fb.textContent=all?'All correct.':'Some answers are not right. Check the red ones and try again.';if(all)got(n)};d.appendChild(cb);d.appendChild(fb)}
+  else if(b.k==='order'){const n=need();let order=shuffle(b.items.map((t,k)=>k));if(order.every((v,k)=>v==k))order.reverse();const u=document.createElement('ul');u.className='ord';const fb=document.createElement('p');fb.className='fb';
+   function draw(res){u.innerHTML='';order.forEach((v,p)=>{const li=document.createElement('li');if(res)li.className=(v==p)?'ok':'no';li.innerHTML=`<span>${b.items[v]}</span><button>&uarr;</button><button>&darr;</button>`;const [up,dn]=li.querySelectorAll('button');up.onclick=()=>{if(p>0){[order[p-1],order[p]]=[order[p],order[p-1]];draw()}};dn.onclick=()=>{if(p<order.length-1){[order[p+1],order[p]]=[order[p],order[p+1]];draw()}};u.appendChild(li)})}
+   draw();const cb=document.createElement('button');cb.className='btn';cb.textContent='Check order';cb.onclick=()=>{draw(true);if(order.every((v,k)=>v==k)){fb.textContent='Correct order.';got(n)}else fb.textContent='Not yet. Fix the red steps and check again.'};d.appendChild(u);d.appendChild(cb);d.appendChild(fb);d.dataset.solve='1';d._solve=()=>{order=b.items.map((t,k)=>k);draw()}}
+  s.appendChild(d)});
+ const nr=document.createElement('div');nr.className='nextrow';nr.innerHTML='<span></span>';btn.onclick=()=>go(cur+1);nr.appendChild(btn);s.appendChild(nr);
+ if(!req.length){btn.disabled=false}
+});
+mk('s'+NQ,'<h2>Final quiz</h2><p class="lead">Ten questions. You need 80% to pass. You can retry.</p><div id="quiz"></div><div class="nextrow"><span></span><button class="btn" id="submitq" disabled>Submit answers</button></div><div class="card hide" id="qres"></div>');
+mk('s'+NC,'<div id="cert"><img src="logo.png" alt="" style="height:70px;margin-bottom:12px"><p style="letter-spacing:3px;color:var(--mut)">CERTIFICATE OF COMPLETION</p><h2>Crime Scene and Physical Evidence Awareness</h2><p>This certifies that</p><div class="nm" id="cname"></div><p>has completed the course with a score of <b id="cscore"></b></p><p>Date completed: <b id="cdate"></b></p><p style="font-size:11px;color:var(--mut);margin-top:24px">Content based on UNODC, <i>Crime scene and physical evidence awareness for non-forensic personnel</i> (2009)</p></div><div class="card noprint" id="sendbox"><b>Your result</b><p id="sendmsg"></p><button class="btn gold" onclick="window.print()">Print or save certificate as PDF</button> <button class="btn ghost" id="dl">Download result file</button> <button class="btn ghost" id="tocred">Credits</button></div>');
+mk('s'+NK,'<h2>Credits</h2><div class="crd"><p><b>Source material</b></p><p><i>Crime scene and physical evidence awareness for non-forensic personnel</i><br>United Nations Office on Drugs and Crime (UNODC), Laboratory and Scientific Section, Vienna.<br>United Nations, New York, 2009. ST/NAR/39, Sales No. E.09.IV.5, ISBN 978-92-1-130273-8.</p><p>The UNODC manual was prepared with inputs from the International Committee of the Red Cross (ICRC) and the Office of the United Nations High Commissioner for Human Rights (OHCHR), and with contributions from forensic experts from many countries.</p><p>Read the full manual: <a href="'+SRC_URL+'" target="_blank" rel="noopener">unodc.org</a></p><p><b>About this course</b></p><p>This course is an independent training adaptation of the manual for awareness purposes. It is not an official UNODC product and does not reflect the views of UNODC. The manual itself states that it is not a guide for crime scene investigation. Follow your local laws, procedures and the advice of competent authorities and forensic scientists.</p><p><b>Programme</b></p><p>AIRCOP and the Container Control Programme (CCP).</p></div>');
+function drawNav(){nav.innerHTML='';titles.forEach((t,i)=>{const b=document.createElement('button');b.disabled=i>unlocked;b.className=(i==cur?'cur ':'')+(done.has(i)?'done':'');b.innerHTML=`<span class="dot">${done.has(i)?'&#10003;':i+1}</span>${t}`;b.onclick=()=>go(i);nav.appendChild(b)});$('#barfill').style.width=(Math.min(done.size,NC)/NC*100)+'%'}
+function go(i){cur=i;$$('#secs section').forEach(s=>s.classList.remove('on'));$('#s'+i).classList.add('on');drawNav();scrollTo(0,0)}
+function complete(i){done.add(i);unlocked=Math.max(unlocked,i+1);drawNav()}
+$('#s0').classList.add('on');
+$('#startbtn').onclick=()=>{const v=$('#name').value.trim();if(v.split(/\s+/).length<2){alert('Please enter your first name and surname.');return}state.name=v;$('#who').textContent=v;complete(0);go(1)};
+$('#name').addEventListener('keydown',e=>{if(e.key==='Enter')$('#startbtn').click()});
+let ans=[];
+function drawQuiz(){const q=$('#quiz');q.innerHTML='';ans=Array(Q.length).fill(null);Q.forEach(([t,o,c],i)=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<b>${i+1}. ${t}</b>`;shuffle(o.map((x,k)=>({x,k}))).forEach(({x,k})=>{const b=document.createElement('button');b.className='opt';b.textContent=x;b.onclick=()=>{ans[i]=k;[...d.querySelectorAll('.opt')].forEach(z=>{z.style.borderColor='#cfd9ee';z.style.background='#fff'});b.style.borderColor='var(--blue)';b.style.background='var(--sky)';$('#submitq').disabled=ans.includes(null)};d.appendChild(b)});q.appendChild(d)})}
+drawQuiz();
+$('#submitq').onclick=()=>{let s=0;Q.forEach((x,i)=>{if(ans[i]===x[2])s++});const pct=Math.round(s/Q.length*100);const r=$('#qres');r.classList.remove('hide');
+ if(pct>=PASS){state.score=pct;state.correct=s;r.innerHTML=`<div class="score">${pct}%</div><p>You passed with ${s} of ${Q.length} correct.</p><button class="btn gold" id="tocert">Get my certificate</button>`;$('#tocert').onclick=finish}
+ else{r.innerHTML=`<div class="score" style="color:var(--red)">${pct}%</div><p>You got ${s} of ${Q.length} correct. You need ${PASS}% to pass. Review the lessons and try again.</p><button class="btn" id="retry">Try again</button>`;$('#retry').onclick=()=>{r.classList.add('hide');drawQuiz();$('#submitq').disabled=true;scrollTo(0,0)}}
+ r.scrollIntoView({behavior:'smooth'})};
+function fmt(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}
+async function finish(){complete(NQ);complete(NC);complete(NK);const now=new Date();state.date=fmt(now);state.iso=now.toISOString();
+ $('#cname').textContent=state.name;$('#cscore').textContent=state.score+'%';$('#cdate').textContent=state.date;go(NC);
+ const q=new URLSearchParams(location.search);const TEM=(q.get('t')||'').trim();const group=q.get('trainer')||TEM||'-';
+ let sub;try{sub=new Date().toLocaleString('en-GB',{timeZone:'Europe/Brussels',dateStyle:'short',timeStyle:'short'})+' (Belgium)'}catch(e){sub=state.iso}
+ const payload={course:'Crime Scene and Physical Evidence Awareness',name:state.name,group:group,score:state.score+'%',correct:state.correct+' of '+Q.length,passed:'yes',submitted:sub,date:state.iso.slice(0,10)};state.payload=payload;
+ const fail='Your result could not be sent. Download the result file below and send it to your trainer.';
+ if(CFG.relay==='formsubmit'&&CFG.relayId){try{const body=Object.assign(TEM?{_cc:TEM}:{},{_subject:'Crime scene course result: '+state.name,_template:'table'},payload);const r=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(CFG.relayId),{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(body)});$('#sendmsg').textContent=r.ok?'Your result was sent to your trainer.':fail}catch(e){$('#sendmsg').textContent=fail}}
+ else $('#sendmsg').textContent='Download your result file below and send it to your trainer.'}
+$('#dl').onclick=()=>{const t=Object.entries(state.payload).map(([k,v])=>k+': '+v).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='result_'+state.name.replace(/\s+/g,'_')+'.txt';a.click()};
+$('#tocred').onclick=()=>go(NK);
+drawNav();
+</script>
+</body></html>
