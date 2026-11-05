@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evidence Handling: From Detection to Destruction</title>
+<style>
+:root{--navy:#0b2a5b;--blue:#1b5fc4;--sky:#e8f0fc;--gold:#f2b705;--green:#17a673;--red:#d64545;--ink:#1c2433;--mut:#5b6678;--card:#fff;--bg:#f3f6fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Verdana,Geneva,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+header{background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:12px 20px;position:sticky;top:0;z-index:10}
+header .logo{height:44px;width:auto;border-radius:6px;background:#fff}
+header h1{font-size:16px;margin:0;flex:1}
+#bar{height:6px;background:#274a85;position:sticky;top:64px;z-index:9}
+#bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .4s}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{width:270px;padding:20px 12px;position:sticky;top:70px;align-self:flex-start;height:calc(100vh - 70px);overflow:auto}
+nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
+nav button:hover:not(:disabled){background:var(--sky)}
+nav button.cur{background:var(--blue);color:#fff}
+nav button:disabled{opacity:.4;cursor:not-allowed}
+nav .dot{width:22px;height:22px;border-radius:50%;background:#cfd8ea;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+nav .done .dot{background:var(--green)}
+main{flex:1;padding:24px 20px 80px;min-width:0}
+section{display:none;max-width:820px;margin:0 auto;animation:in .35s}
+section.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{color:var(--navy);font-size:28px;margin:0 0 8px}
+h3{color:var(--navy);margin:24px 0 8px}
+.lead{font-size:17px;color:var(--mut)}
+.card{background:var(--card);border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(11,42,91,.08);margin:16px 0}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px 22px;font:inherit;font-weight:bold;cursor:pointer}
+.btn:hover{background:#154c9f}.btn.gold{background:var(--gold);color:#222}.btn.ghost{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.nextrow{display:flex;justify-content:space-between;margin-top:28px;gap:10px}
+input[type=text]{width:100%;padding:12px;border:2px solid #c7d3ea;border-radius:10px;font:inherit;margin:6px 0 14px}
+video{width:100%;border-radius:14px;background:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.flip{perspective:800px;height:170px;cursor:pointer}
+.flip>div{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip.f>div{transform:rotateY(180deg)}
+.flip .a,.flip .b{position:absolute;inset:0;border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden}
+.flip .a{background:var(--blue);color:#fff;font-weight:bold;font-size:20px}
+.flip .b{background:#fff;border:3px solid var(--blue);transform:rotateY(180deg);font-size:13px}
+.acc{border:1px solid #d3ddef;border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}
+.acc button{width:100%;text-align:left;background:#fff;border:0;padding:14px 16px;font:inherit;font-weight:bold;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between}
+.acc .p{display:none;padding:0 16px 14px}.acc.o .p{display:block}.acc.o button{background:var(--sky)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tabs button{border:0;background:#dde7f8;padding:10px 16px;border-radius:10px 10px 0 0;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--navy);color:#fff}
+.tp{display:none;background:#fff;padding:18px;border-radius:0 12px 12px 12px;box-shadow:0 2px 10px rgba(11,42,91,.08)}.tp.on{display:block}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.steps button{flex:1;min-width:120px;border:0;border-radius:12px;padding:14px 8px;font:inherit;font-weight:bold;cursor:pointer;background:#dde7f8;color:var(--navy)}
+.steps button.on{background:var(--gold)}
+.callout{border-left:6px solid var(--gold);background:#fff8dc;padding:12px 16px;border-radius:8px;margin:14px 0}
+.warn{border-left-color:var(--red);background:#ffecec}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #cfd9ee;border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--blue)}.opt.ok{background:#e3f7ee;border-color:var(--green)}.opt.no{background:#ffe9e9;border-color:var(--red)}
+.fb{margin-top:8px;font-size:14px}
+.ord{list-style:none;padding:0}.ord li{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #cfd9ee;border-radius:12px;padding:10px 12px;margin:6px 0}
+.ord li span{flex:1}.ord button{border:0;background:var(--sky);border-radius:8px;width:34px;height:34px;cursor:pointer}
+.ord li.ok{border-color:var(--green);background:#e3f7ee}.ord li.no{border-color:var(--red);background:#ffe9e9}
+.mt{display:flex;gap:6px}.chk label{display:flex;gap:10px;padding:8px 0;cursor:pointer}
+.score{font-size:54px;font-weight:bold;color:var(--navy)}
+#cert{background:#fff;border:10px double var(--gold);padding:40px;text-align:center;border-radius:6px}
+#cert h2{font-size:34px}#cert .nm{font-size:30px;margin:18px 0;border-bottom:2px solid var(--navy);display:inline-block;padding:0 30px}
+.hide{display:none!important}
+@media(max-width:820px){nav{display:none}header .logo{display:none}}
+@media print{header,#bar,nav,.nextrow,.noprint{display:none!important}body{background:#fff}section{display:none!important}section#s-cert{display:block!important}}
+</style>
+</head>
+<body>
+<header><img class="logo" src="logo.png" alt="AIRCOP Container Control Programme"><h1>Evidence Handling: From Detection to Destruction</h1><span id="who" style="font-size:13px"></span></header>
+<div id="bar"><i id="barfill"></i></div>
+<div class="layout">
+<nav id="nav"></nav>
+<main>
+
+<section id="s-0" class="on">
+<h2>Welcome, officer</h2>
+<p class="lead">This course follows evidence from first detection to final destruction, with the chain of custody as the thread that holds it together.</p>
+<div class="card">
+<label><b>Your first name and surname</b></label>
+<input id="name" type="text" placeholder="e.g. Jane Smith" autocomplete="off">
+<p style="font-size:13px;color:var(--mut)">Your name appears on your certificate and with your result. Progress is kept only while this page stays open.</p>
+<button class="btn" id="startbtn">Start course</button>
+</div>
+<div class="card"><b>What you will learn</b>
+<ul><li>Why the chain of custody decides whether a case survives court</li><li>Which PPE to wear and how to take a representative sample</li><li>How to handle drugs and seized cash together without mixing them</li><li>How analysis, court and destruction complete the chain</li></ul>
+<p style="font-size:13px;color:var(--mut)">Time needed: about 25 minutes. Pass mark in the final quiz: 80%.</p></div>
+</section>
+
+<section id="s-1">
+<h2>Meet Mr Minfin</h2>
+<p class="lead">Watch the full overview first. You will go deeper into each stage afterwards.</p>
+<div class="card"><video id="vid" controls preload="metadata" poster="poster.jpg"><source src="minfin_evidence.mp4" type="video/mp4"></video>
+<p style="font-size:13px;color:var(--mut)">Captions are burned into the video. Watch to the end to continue.</p></div>
+<div class="nextrow"><span></span><button class="btn" id="vidnext" disabled>Continue</button></div>
+</section>
+
+<section id="s-2">
+<h2>Chain of custody</h2>
+<p class="lead">The documented, unbroken record of who held the evidence, when, where, and why.</p>
+<p><b>Tap each card</b> to see what you must record.</p>
+<div class="grid" id="flips"></div>
+<div class="callout"><b>Rule:</b> every handover is written down and signed by both sides. No gaps, no guessing. If you cannot account for a minute, the defence will ask about that minute.</div>
+<h3>Minimum record for every exhibit</h3>
+<div class="card chk" id="chk0"></div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n2">Continue</button></div>
+</section>
+
+<section id="s-3">
+<h2>The five stages</h2>
+<p class="lead">Select each stage. The chain of custody runs under all of them.</p>
+<div class="steps" id="stages"></div>
+<div class="card" id="stagebox">Select a stage above.</div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n3">Continue</button></div>
+</section>
+
+<section id="s-4">
+<h2>Detection and PPE</h2>
+<h3>1. Detection</h3>
+<p>Detection can come from a risk profile, a scan, a dog alert or an officer's suspicion. Write down what you saw and when, photograph the scene as found, and note who was present.</p>
+<div class="callout warn"><b>Do not touch. Do not open. Until it is recorded.</b></div>
+<h3>2. Protect yourself</h3>
+<p><b>Open each item</b> to see why it matters.</p>
+<div id="ppe"></div>
+<div class="callout warn"><b>Never taste or smell a substance.</b> Some powders, such as synthetic opioids, are dangerous in tiny amounts. Know your agency's naloxone rules, work with a colleague, and keep the area ventilated.</div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n4">Continue</button></div>
+</section>
+
+<section id="s-5">
+<h2>Gathering and sampling</h2>
+<p class="lead">Put the sampling steps in the correct order. Use the arrows, then check.</p>
+<div class="card"><ul class="ord" id="ord"></ul><button class="btn" id="chkord">Check order</button> <span id="ordfb" class="fb"></span></div>
+<div class="callout"><b>Remember:</b> follow your laboratory's random sampling plan so the sample represents the whole load. Never reuse tools. Never mix samples from different packages unless your procedure says so.</div>
+<div class="callout warn"><b>Field test kits are presumptive only.</b> They tell you what to suspect, not what to prove.</div>
+<h3>Seal and store</h3>
+<p>Seal in tamper-evident bags, sign across the seal, write the date and time, and use a unique number. Keep a reference sample if your procedure allows it. Store evidence in a locked room with an access log; only authorised people go in.</p>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n5">Continue</button></div>
+</section>
+
+<section id="s-6">
+<h2>Drugs and money seizure</h2>
+<p class="lead">Drugs and cash are often found together. Treat each as separate evidence, linked in one case file.</p>
+<div class="tabs" id="tabs"></div><div id="tps"></div>
+<div class="callout"><b>EU reference:</b> travellers carrying 10,000 euros or more must declare it (Regulation (EU) 2018/1672). Undeclared or suspicious cash can be detained under the law that applies in your country.</div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n6">Continue</button></div>
+</section>
+
+<section id="s-7">
+<h2>Analysis, court and destruction</h2>
+<p><b>Open all three</b> to continue.</p>
+<div id="acc3"></div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n7">Continue to the final quiz</button></div>
+</section>
+
+<section id="s-8">
+<h2>Final quiz</h2>
+<p class="lead">Ten questions. You need 80% to pass. You can retry.</p>
+<div id="quiz"></div>
+<div class="nextrow"><span></span><button class="btn" id="submitq" disabled>Submit answers</button></div>
+<div class="card hide" id="qres"></div>
+</section>
+
+<section id="s-cert">
+<div id="cert">
+<img src="logo.png" alt="" style="height:70px;margin-bottom:12px"><p style="letter-spacing:3px;color:var(--mut)">CERTIFICATE OF COMPLETION</p>
+<h2>Evidence Handling: From Detection to Destruction</h2>
+<p>This certifies that</p>
+<div class="nm" id="cname"></div>
+<p>has completed the course with a score of <b id="cscore"></b></p>
+<p>Date completed: <b id="cdate"></b></p>
+</div>
+<div class="card noprint" id="sendbox"><b>Your result</b><p id="sendmsg"></p>
+<button class="btn gold" onclick="window.print()">Print or save certificate as PDF</button>
+<button class="btn ghost" id="dl">Download result file</button></div>
+</section>
+
+</main></div>
+<script>
+// ====== Settings the trainer or owner can set ======
+// Results go to this form-forwarding URL (for example a Formspree or Web3Forms endpoint) so the address never appears in the page.
+const RESULT_ENDPOINT = "";
+const PASS = 80;
+// =====================================================
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const LESSONS=["Welcome","Meet Mr Minfin","Chain of custody","The five stages","Detection and PPE","Sampling","Drugs and money","Analysis, court, destruction","Final quiz","Certificate"];
+const ids=['s-0','s-1','s-2','s-3','s-4','s-5','s-6','s-7','s-8','s-cert'];
+let unlocked=0,cur=0,done=new Set(),state={name:'',score:null};
+const nav=$('#nav');
+function drawNav(){nav.innerHTML='';LESSONS.forEach((t,i)=>{const b=document.createElement('button');b.disabled=i>unlocked;b.className=(i==cur?'cur ':'')+(done.has(i)?'done':'');b.innerHTML=`<span class="dot">${done.has(i)?'&#10003;':i+1}</span>${t}`;b.onclick=()=>go(i);nav.appendChild(b)});$('#barfill').style.width=(done.size/(LESSONS.length-1)*100)+'%'}
+function go(i){cur=i;$$('main section').forEach(s=>s.classList.remove('on'));$('#'+ids[i]).classList.add('on');drawNav();scrollTo(0,0)}
+function complete(i){done.add(i);unlocked=Math.max(unlocked,i+1);drawNav()}
+function gate(btnSel,i){const b=$(btnSel);b.disabled=false;complete(i)}
+$$('[data-next]').forEach(b=>b.onclick=()=>go(cur+1));
+// welcome
+$('#startbtn').onclick=()=>{const v=$('#name').value.trim();if(v.split(/\s+/).length<2){alert('Please enter your first name and surname.');return}state.name=v;$('#who').textContent=v;complete(0);go(1)};
+$('#name').addEventListener('keydown',e=>{if(e.key==='Enter')$('#startbtn').click()});
+// video
+$('#vid').addEventListener('ended',()=>{$('#vidnext').disabled=false;complete(1)});
+$('#vid').addEventListener('timeupdate',e=>{const v=e.target;if(v.duration&&v.currentTime/v.duration>0.9){$('#vidnext').disabled=false}});
+$('#vidnext').onclick=()=>{complete(1);go(2)};
+// flips
+const W5=[["WHO","Every person who held the evidence, by name and role."],["WHAT","A clear description: exhibit number, type, weight, packaging, seal number."],["WHEN","Date and time of every seizure, transfer, and opening."],["WHERE","The place of seizure and every storage location in between."],["WHY","The reason for each handover: transport, analysis, court, destruction."]];
+let fl=new Set();W5.forEach(([a,b],i)=>{const d=document.createElement('div');d.className='flip';d.innerHTML=`<div><div class="a">${a}</div><div class="b">${b}</div></div>`;d.onclick=()=>{d.classList.toggle('f');fl.add(i);chk()};$('#flips').appendChild(d)});
+const items0=["Unique exhibit number","Description and weight","Photograph","Seal number","Signatures of both sides at each handover","Date and time"];let c0=new Set();
+items0.forEach((t,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox"> ${t}`;l.firstChild.onchange=e=>{e.target.checked?c0.add(i):c0.delete(i);chk()};$('#chk0').appendChild(l)});
+function chk(){if(fl.size==5&&c0.size==items0.length)gate('#n2',2)}
+// stages
+const ST=[["Detection","Risk profile, scan, dog alert or suspicion. Record what you saw and when. Photograph as found. Do not touch until recorded."],["Gathering","PPE on. Photograph, number and weigh. Sample with a representative plan. Seal, label, sign. Store in a locked room."],["Analysis","Signed transfer to an accredited laboratory (ISO 17025 preferred). Seals checked on arrival. Written report kept in the case file."],["Court","Prove that what is presented is what was seized. Notes, photos, forms and report tell the story. Testify only to your own steps."],["Destruction","Only after court or prosecutor authorisation. Witnessed, photographed, recorded with exhibit numbers and weights. Signed certificate filed."]];
+let sv=new Set();ST.forEach(([t,x],i)=>{const b=document.createElement('button');b.textContent=(i+1)+'. '+t;b.onclick=()=>{$$('#stages button').forEach(k=>k.classList.remove('on'));b.classList.add('on');$('#stagebox').innerHTML=`<h3 style="margin-top:0">${t}</h3><p>${x}</p><p><b>Chain of custody:</b> record every handover in this stage.</p>`;sv.add(i);if(sv.size==5)gate('#n3',3)};$('#stages').appendChild(b)});
+// ppe
+const PPE=[["Nitrile gloves","Change them between exhibits so nothing is carried over. Double glove when you suspect powders."],["Eye protection","Protects against splashes and airborne powder."],["P3 or N95 mask","Reduces inhalation of fine powders and dust."],["Coveralls or lab coat","Use where powders or chemicals are possible; keeps contamination off your clothes."],["Buddy, naloxone rules and ventilation","Work with a colleague, know your agency's naloxone rules, and keep the area ventilated."]];
+let po=new Set();PPE.forEach(([t,x],i)=>{const d=document.createElement('div');d.className='acc';d.innerHTML=`<button>${t}<span>+</span></button><div class="p">${x}</div>`;d.firstChild.onclick=()=>{d.classList.toggle('o');po.add(i);if(po.size==PPE.length)gate('#n4',4)};$('#ppe').appendChild(d)});
+// ordering
+const OR=["Photograph the packages as found","Number each package and record weights","Open one package at a time with clean tools","Take a representative sample from different parts of the content","Place the sample in a new clean bag","Seal, label and sign"];
+let order=OR.map((t,i)=>i).sort(()=>Math.random()-.5);if(order.every((v,i)=>v==i))order.reverse();
+function drawOrd(res){const u=$('#ord');u.innerHTML='';order.forEach((v,p)=>{const l=document.createElement('li');if(res)l.className=(v==p)?'ok':'no';l.innerHTML=`<span>${OR[v]}</span><button>&uarr;</button><button>&darr;</button>`;const [up,dn]=l.querySelectorAll('button');up.onclick=()=>{if(p>0){[order[p-1],order[p]]=[order[p],order[p-1]];drawOrd()}};dn.onclick=()=>{if(p<order.length-1){[order[p+1],order[p]]=[order[p],order[p+1]];drawOrd()}};u.appendChild(l)})}
+drawOrd();$('#chkord').onclick=()=>{drawOrd(true);if(order.every((v,i)=>v==i)){$('#ordfb').textContent='Correct order.';gate('#n5',5)}else $('#ordfb').textContent='Not yet. Fix the red steps and check again.'};
+// tabs
+const TB=[["Drugs","<ol><li>Photograph, number and weigh the drugs.</li><li>Wear fresh gloves and collect the drugs first.</li><li>Sample with clean tools and seal in a tamper-evident bag with its own exhibit number.</li><li>Record every handover in the chain of custody.</li></ol>"],["Cash","<ol><li>Count with two officers, on camera.</li><li>Record each denomination and currency.</li><li>Photograph the cash.</li><li>Seal in numbered tamper-evident bags and give a signed receipt to the person.</li><li>Deposit in the designated secure account or vault, with a log.</li></ol>"],["Together","<p>Collect the drugs first with fresh gloves, then handle the cash with clean gloves.</p><p><b>Never mix the two exhibits in one bag.</b> Give each its own number, seal and chain-of-custody entry, and cross-reference them in the case file so the court sees one connected story.</p>"]];
+let tv=new Set();TB.forEach(([t,x],i)=>{const b=document.createElement('button');b.textContent=t;const p=document.createElement('div');p.className='tp';p.innerHTML=x;b.onclick=()=>{$$('#tabs button').forEach(k=>k.classList.remove('on'));$$('#tps .tp').forEach(k=>k.classList.remove('on'));b.classList.add('on');p.classList.add('on');tv.add(i);if(tv.size==3)gate('#n6',6)};$('#tabs').appendChild(b);$('#tps').appendChild(p);if(i==0){b.classList.add('on');p.classList.add('on');tv.add(0)}});
+// acc3
+const A3=[["Analysis","Transfer to the laboratory with a signed handover form. Prefer a laboratory accredited to ISO 17025. The analyst checks the seals on arrival and records their condition; broken or damaged seals must be reported. The result is a written report kept with the case file."],["Court","The prosecutor must show that what is presented is what you seized. Your notes, photos, forms and laboratory report tell that story. Be ready to testify to each step you personally performed. Honesty and records win cases."],["Destruction","Evidence is destroyed only after the court or prosecutor authorises it. Destruction is witnessed, photographed and recorded with exhibit numbers and weights. It must be environmentally compliant, usually incineration. Keep the signed certificate in the file."]];
+let a3=new Set();A3.forEach(([t,x],i)=>{const d=document.createElement('div');d.className='acc';d.innerHTML=`<button>${t}<span>+</span></button><div class="p">${x}</div>`;d.firstChild.onclick=()=>{d.classList.toggle('o');a3.add(i);if(a3.size==3)gate('#n7',7)};$('#acc3').appendChild(d)});
+// quiz
+const Q=[["What is the chain of custody?",["A list of suspects in the case","The documented, unbroken record of who held the evidence, when, where, and why","The route the container travelled","The laboratory report"],1],
+["How often should handovers be signed?",["Only at the laboratory","Only when the evidence leaves the country","At every handover, by both sides","Once, at the end of the case"],2],
+["What do you do first after a detection alert?",["Open the package to check","Record what you saw and when, and photograph the scene as found","Send a sample to the laboratory","Test the substance by smell"],1],
+["How should gloves be used between exhibits?",["Keep the same pair all day","Change them between exhibits so nothing is carried over","Wash and reuse them","Gloves are only needed for powders"],1],
+["Which statement about tasting or smelling substances is correct?",["Allowed for experienced officers","Allowed in a ventilated room","Never taste or smell a substance","Only smell, never taste"],2],
+["A field test kit gives a positive result. What does it prove?",["It proves the substance in court","It is presumptive only; the laboratory confirms","It replaces the laboratory","It is not needed to record"],1],
+["With many packages, how should you sample?",["Take one sample from the top package","Follow the laboratory's random sampling plan so samples represent the whole load","Mix all packages together","Sample only the heaviest package"],1],
+["How should drugs and seized cash be packed?",["In the same bag to save time","Separate bags, each with its own number, seal and custody entry, cross-referenced","Cash in an unsealed envelope","Only the drugs need a seal"],1],
+["Why should the laboratory check seals on arrival?",["To save time","To record their condition and report any broken or damaged seals","Seals do not matter at the laboratory","To open the bags faster"],1],
+["When may evidence be destroyed?",["As soon as the laboratory report arrives","Only after the court or prosecutor authorises it, witnessed and recorded","When storage is full","When the officer decides"],1]];
+let ans=Array(Q.length).fill(null);
+function drawQuiz(){const q=$('#quiz');q.innerHTML='';ans=Array(Q.length).fill(null);Q.forEach(([t,o,c],i)=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<b>${i+1}. ${t}</b>`;const opts=o.map((x,k)=>({x,k})).sort(()=>Math.random()-.5);opts.forEach(({x,k})=>{const b=document.createElement('button');b.className='opt';b.textContent=x;b.onclick=()=>{ans[i]=k;[...d.querySelectorAll('.opt')].forEach(z=>z.style.borderColor='#cfd9ee');b.style.borderColor='var(--blue)';b.style.background='var(--sky)';[...d.querySelectorAll('.opt')].forEach(z=>{if(z!==b)z.style.background='#fff'});$('#submitq').disabled=ans.includes(null)};d.appendChild(b)});q.appendChild(d)})}
+drawQuiz();
+$('#submitq').onclick=()=>{let s=0;Q.forEach((x,i)=>{if(ans[i]===x[2])s++});const pct=Math.round(s/Q.length*100);const r=$('#qres');r.classList.remove('hide');
+if(pct>=PASS){state.score=pct;state.correct=s;r.innerHTML=`<div class="score">${pct}%</div><p>You passed with ${s} of ${Q.length} correct.</p><button class="btn gold" id="tocert">Get my certificate</button>`;$('#tocert').onclick=finish}
+else r.innerHTML=`<div class="score" style="color:var(--red)">${pct}%</div><p>You got ${s} of ${Q.length} correct. You need ${PASS}% to pass. Review the lessons and try again.</p><button class="btn" id="retry">Try again</button>`;if(pct<PASS)$('#retry').onclick=()=>{r.classList.add('hide');drawQuiz();$('#submitq').disabled=true;scrollTo(0,0)};r.scrollIntoView({behavior:'smooth'})};
+// certificate & results
+function fmt(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}
+async function finish(){complete(8);complete(9);const now=new Date();state.date=fmt(now);state.iso=now.toISOString();
+$('#cname').textContent=state.name;$('#cscore').textContent=state.score+'%';$('#cdate').textContent=state.date;go(9);
+const trainer=new URLSearchParams(location.search).get('trainer')||'';
+const payload={course:'Evidence Handling: From Detection to Destruction',name:state.name,score:state.score+'%',correct:state.correct+' of '+Q.length,date_submitted:state.date,submitted_at:state.iso,trainer:trainer,_subject:'Course result: '+state.name+' ('+state.score+'%)'};
+state.payload=payload;
+if(RESULT_ENDPOINT){try{const r=await fetch(RESULT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});$('#sendmsg').textContent=r.ok?'Your result was sent to your trainer.':'Your result could not be sent. Download the result file below and send it to your trainer.'}catch(e){$('#sendmsg').textContent='Your result could not be sent. Download the result file below and send it to your trainer.'}}
+else $('#sendmsg').textContent='Download your result file below and send it to your trainer.'}
+$('#dl').onclick=()=>{const p=state.payload;const t=Object.entries(p).map(([k,v])=>k+': '+v).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='result_'+state.name.replace(/\s+/g,'_')+'.txt';a.click()};
+drawNav();
+</script>
+</body>
+</html>
