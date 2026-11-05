@@ -177,10 +177,11 @@ video{width:100%;border-radius:14px;background:#000}
 </section>
 
 </main></div>
+<script src="../course/config.js"></script>
 <script>
 // ====== Settings the trainer or owner can set ======
 // Results go to this form-forwarding URL (for example a Formspree or Web3Forms endpoint) so the address never appears in the page.
-const RESULT_ENDPOINT = "";
+const CFG = window.COURSE_CONFIG || {};
 const PASS = 80;
 // =====================================================
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -244,10 +245,11 @@ else r.innerHTML=`<div class="score" style="color:var(--red)">${pct}%</div><p>Yo
 function fmt(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}
 async function finish(){complete(8);complete(9);const now=new Date();state.date=fmt(now);state.iso=now.toISOString();
 $('#cname').textContent=state.name;$('#cscore').textContent=state.score+'%';$('#cdate').textContent=state.date;go(9);
-const trainer=new URLSearchParams(location.search).get('trainer')||'';
-const payload={course:'Evidence Handling: From Detection to Destruction',name:state.name,score:state.score+'%',correct:state.correct+' of '+Q.length,date_submitted:state.date,submitted_at:state.iso,trainer:trainer,_subject:'Course result: '+state.name+' ('+state.score+'%)'};
+const q=new URLSearchParams(location.search);const TEM=(q.get('t')||'').trim();const group=q.get('trainer')||TEM||'-';
+let sub;try{sub=new Date().toLocaleString('en-GB',{timeZone:'Europe/Brussels',dateStyle:'short',timeStyle:'short'})+' (Belgium)'}catch(e){sub=state.iso}
+const payload={course:'Evidence Handling: From Detection to Destruction',name:state.name,group:group,score:state.score+'%',correct:state.correct+' of '+Q.length,passed:'yes',submitted:sub,date:state.iso.slice(0,10)};
 state.payload=payload;
-if(RESULT_ENDPOINT){try{const r=await fetch(RESULT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});$('#sendmsg').textContent=r.ok?'Your result was sent to your trainer.':'Your result could not be sent. Download the result file below and send it to your trainer.'}catch(e){$('#sendmsg').textContent='Your result could not be sent. Download the result file below and send it to your trainer.'}}
+if(CFG.relay==='formsubmit'&&CFG.relayId){try{const body=Object.assign(TEM?{_cc:TEM}:{},{_subject:'Evidence course result: '+state.name,_template:'table'},payload);const r=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(CFG.relayId),{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});$('#sendmsg').textContent=r.ok?'Your result was sent to your trainer.':'Your result could not be sent. Download the result file below and send it to your trainer.'}catch(e){$('#sendmsg').textContent='Your result could not be sent. Download the result file below and send it to your trainer.'}}
 else $('#sendmsg').textContent='Download your result file below and send it to your trainer.'}
 $('#dl').onclick=()=>{const p=state.payload;const t=Object.entries(p).map(([k,v])=>k+': '+v).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='result_'+state.name.replace(/\s+/g,'_')+'.txt';a.click()};
 drawNav();
