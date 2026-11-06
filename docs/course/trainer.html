@@ -20,12 +20,13 @@ button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:8px 
 <div><b>EN / FR (bilingual)</b><div class="out" id="o3"></div><button type="button" data-c="o3">Copy</button></div>
 <div><b>Evidence handling course (EN)</b><div class="out" id="o4"></div><button type="button" data-c="o4">Copy</button></div>
 <div><b>Crime scene awareness course (EN)</b><div class="out" id="o5"></div><button type="button" data-c="o5">Copy</button></div>
+<div><b>Chemical concealment course (EN)</b><div class="out" id="o6"></div><button type="button" data-c="o6">Copy</button></div>
 <p>Note: your address is part of the link, so anyone with the link can see it. | Votre adresse fait partie du lien : toute personne qui le reçoit peut la voir.</p></div>
 <script>
 (function(){var em=document.getElementById("em"),res=document.getElementById("res");
 var base=location.href.replace(/trainer\.html.*$/,"");
 function up(){var v=em.value.trim(),ok=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);res.hidden=!ok;if(!ok)return;var q="?t="+encodeURIComponent(v);
-document.getElementById("o1").textContent=base+"en/"+q;document.getElementById("o2").textContent=base+"fr/"+q;document.getElementById("o3").textContent=base+q;document.getElementById("o4").textContent=base.replace(/course\/$/,"")+"evidence-course/"+q;document.getElementById("o5").textContent=base.replace(/course\/$/,"")+"crime-scene-course/"+q}
+document.getElementById("o1").textContent=base+"en/"+q;document.getElementById("o2").textContent=base+"fr/"+q;document.getElementById("o3").textContent=base+q;document.getElementById("o4").textContent=base.replace(/course\/$/,"")+"evidence-course/"+q;document.getElementById("o5").textContent=base.replace(/course\/$/,"")+"crime-scene-course/"+q;document.getElementById("o6").textContent=base.replace(/course\/$/,"")+"concealment-course/"+q}
 em.addEventListener("input",up);
 Array.prototype.forEach.call(document.querySelectorAll("button[data-c]"),function(b){b.addEventListener("click",function(){var t=document.getElementById(b.dataset.c).textContent;try{navigator.clipboard.writeText(t).then(function(){b.textContent="OK"},function(){})}catch(e){}})});
 })();

@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chemical Concealment: Cocaine Hidden in Cargo</title>
+<style>
+:root{--navy:#0b2a5b;--blue:#1b5fc4;--sky:#e8f0fc;--gold:#f2b705;--green:#17a673;--red:#d64545;--ink:#1c2433;--mut:#5b6678;--card:#fff;--bg:#f3f6fb}
+*{box-sizing:border-box}
+body{margin:0;font-family:Verdana,Geneva,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+header{background:var(--navy);color:#fff;display:flex;align-items:center;gap:16px;padding:12px 20px;position:sticky;top:0;z-index:10}
+header .logo{height:44px;width:auto;border-radius:6px;background:#fff}
+header h1{font-size:16px;margin:0;flex:1}
+#bar{height:6px;background:#274a85;position:sticky;top:64px;z-index:9}
+#bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .4s}
+.layout{display:flex;max-width:1200px;margin:0 auto}
+nav{width:270px;padding:20px 12px;position:sticky;top:70px;align-self:flex-start;height:calc(100vh - 70px);overflow:auto}
+nav button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:10px;font:inherit;font-size:13px;color:var(--ink);cursor:pointer}
+nav button:hover:not(:disabled){background:var(--sky)}
+nav button.cur{background:var(--blue);color:#fff}
+nav button:disabled{opacity:.4;cursor:not-allowed}
+nav .dot{width:22px;height:22px;border-radius:50%;background:#cfd8ea;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+nav .done .dot{background:var(--green)}
+main{flex:1;padding:24px 20px 80px;min-width:0}
+section{display:none;max-width:820px;margin:0 auto;animation:in .35s}
+section.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{color:var(--navy);font-size:28px;margin:0 0 8px}
+h3{color:var(--navy);margin:24px 0 8px}
+.lead{font-size:17px;color:var(--mut)}
+.card{background:var(--card);border-radius:16px;padding:22px;box-shadow:0 2px 10px rgba(11,42,91,.08);margin:16px 0}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px 22px;font:inherit;font-weight:bold;cursor:pointer}
+.btn:hover{background:#154c9f}.btn.gold{background:var(--gold);color:#222}.btn.ghost{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.nextrow{display:flex;justify-content:space-between;margin-top:28px;gap:10px}
+input[type=text]{width:100%;padding:12px;border:2px solid #c7d3ea;border-radius:10px;font:inherit;margin:6px 0 14px}
+video{width:100%;border-radius:14px;background:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.flip{perspective:800px;height:170px;cursor:pointer}
+.flip>div{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flip.f>div{transform:rotateY(180deg)}
+.flip .a,.flip .b{position:absolute;inset:0;border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden}
+.flip .a{background:var(--blue);color:#fff;font-weight:bold;font-size:20px}
+.flip .b{background:#fff;border:3px solid var(--blue);transform:rotateY(180deg);font-size:13px}
+.acc{border:1px solid #d3ddef;border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}
+.acc button{width:100%;text-align:left;background:#fff;border:0;padding:14px 16px;font:inherit;font-weight:bold;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between}
+.acc .p{display:none;padding:0 16px 14px}.acc.o .p{display:block}.acc.o button{background:var(--sky)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}.tabs button{border:0;background:#dde7f8;padding:10px 16px;border-radius:10px 10px 0 0;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--navy);color:#fff}
+.tp{display:none;background:#fff;padding:18px;border-radius:0 12px 12px 12px;box-shadow:0 2px 10px rgba(11,42,91,.08)}.tp.on{display:block}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.steps button{flex:1;min-width:120px;border:0;border-radius:12px;padding:14px 8px;font:inherit;font-weight:bold;cursor:pointer;background:#dde7f8;color:var(--navy)}
+.steps button.on{background:var(--gold)}
+.callout{border-left:6px solid var(--gold);background:#fff8dc;padding:12px 16px;border-radius:8px;margin:14px 0}
+.warn{border-left-color:var(--red);background:#ffecec}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #cfd9ee;border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--blue)}.opt.ok{background:#e3f7ee;border-color:var(--green)}.opt.no{background:#ffe9e9;border-color:var(--red)}
+.fb{margin-top:8px;font-size:14px}
+.ord{list-style:none;padding:0}.ord li{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #cfd9ee;border-radius:12px;padding:10px 12px;margin:6px 0}
+.ord li span{flex:1}.ord button{border:0;background:var(--sky);border-radius:8px;width:34px;height:34px;cursor:pointer}
+.ord li.ok{border-color:var(--green);background:#e3f7ee}.ord li.no{border-color:var(--red);background:#ffe9e9}
+.mt{display:flex;gap:6px}.chk label{display:flex;gap:10px;padding:8px 0;cursor:pointer}
+.score{font-size:54px;font-weight:bold;color:var(--navy)}
+#cert{background:#fff;border:10px double var(--gold);padding:40px;text-align:center;border-radius:6px}
+#cert h2{font-size:34px}#cert .nm{font-size:30px;margin:18px 0;border-bottom:2px solid var(--navy);display:inline-block;padding:0 30px}
+.hide{display:none!important}
+@media(max-width:820px){nav{display:none}header .logo{display:none}}
+@media print{header,#bar,nav,.nextrow,.noprint{display:none!important}body{background:#fff}section{display:none!important}section#s-cert{display:block!important}}
+.vsel{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.vsel button{border:0;background:#dde7f8;padding:10px 14px;border-radius:10px;font:inherit;cursor:pointer}.vsel button.on{background:var(--navy);color:#fff}.sc{display:flex;gap:10px;margin-top:10px}.sc button{flex:1}.src li{margin:6px 0;font-size:13px}
+</style>
+</head>
+<body>
+<header><img class="logo" src="../logo.png" alt="AIRCOP Container Control Programme"><h1>Chemical Concealment: Cocaine Hidden in Cargo</h1><span id="who" style="font-size:13px"></span></header>
+<div id="bar"><i id="barfill"></i></div>
+<div class="layout">
+<nav id="nav"></nav>
+<main>
+
+<section id="s-0" class="on">
+<h2>Welcome, officer</h2>
+<p class="lead">Traffickers are now hiding cocaine in the cargo material itself. This course shows you what that means, how it has been found, and what you can do at the border.</p>
+<div class="card">
+<label><b>Your first name and surname</b></label>
+<input id="name" type="text" placeholder="e.g. Jane Smith" autocomplete="off">
+<p style="font-size:13px;color:var(--mut)">Your name appears on your certificate and with your result. Progress is kept only while this page stays open.</p>
+<button class="btn" id="startbtn">Start course</button>
+</div>
+<div class="card"><b>What you will learn</b>
+<ul><li>What chemical concealment is and which carrier materials have been seen</li><li>What a documented concealment laboratory looked like, and the scale in Europe</li><li>Why field tests, dogs and scanners can fail, and what works instead</li><li>How precursor chemicals and unusual volumes become warning signs</li><li>How to respond safely and protect the evidence</li></ul>
+<p style="font-size:13px;color:var(--mut)">Time needed: about 40 minutes with the videos. Pass mark in the final quiz: 80%.</p></div>
+</section>
+
+<section id="s-1">
+<h2>Video 1: The box is the drug</h2>
+<p class="lead">Mr Minfin introduces the concealment trend. Watch to the end to continue.</p>
+<div class="card"><video id="v1" controls preload="metadata" poster="../videos/poster_cocaine_concealment.jpg"><source src="../videos/cocaine_concealment_en.mp4" type="video/mp4"></video>
+<p style="font-size:13px;color:var(--mut)">Captions are burned into the video.</p></div>
+<div class="nextrow"><span></span><button class="btn" id="n1" disabled>Continue</button></div>
+</section>
+
+<section id="s-2">
+<h2>What chemical concealment is</h2>
+<p class="lead">The drug is not hidden inside the cargo. It is absorbed into the material of the cargo.</p>
+<div class="callout"><b>Key idea:</b> cocaine hydrochloride dissolves in liquid. Porous materials soaked in it and then dried can look and feel like ordinary cargo. Specialists recover the drug at the destination. The drug itself is not changed into something new.</div>
+<p><b>Tap each card</b> to see which carriers have been reported.</p>
+<div class="grid" id="flips"></div>
+<h3>Check yourself</h3>
+<div class="card chk" id="chk0"></div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n2">Continue</button></div>
+</section>
+
+<section id="s-3">
+<h2>Video 2: The infrastructure and warning signs</h2>
+<p class="lead">Mr Minfin explains the scale behind the trend and the signs that give it away.</p>
+<div class="card"><video id="v2" controls preload="metadata" poster="../videos/poster_chemical_concealment_infrastructure.jpg"><source src="../videos/chemical_concealment_infrastructure_en.mp4" type="video/mp4"></video>
+<p style="font-size:13px;color:var(--mut)">Watch to the end to continue.</p></div>
+<div class="nextrow"><span></span><button class="btn" id="n3" disabled>Continue</button></div>
+</section>
+
+<section id="s-4">
+<h2>Documented cases and scale</h2>
+<p class="lead">All figures are as reported by the organisations named in the sources list. Open each tab.</p>
+<div class="tabs" id="tabs"></div><div id="tps"></div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n4">Continue</button></div>
+</section>
+
+<section id="s-5">
+<h2>Why detection fails, and what works</h2>
+<p><b>Open all three</b> to continue.</p>
+<div id="acc3"></div>
+<div class="callout"><b>Europol:</b> concealment in carrier materials makes detection at ports extremely difficult. No single tool is enough.</div>
+<h3>What works</h3>
+<div class="card"><ul><li><b>Risk profiling</b> of the shipper, consignee, route and goods</li><li><b>Document checks</b>: weight, goods description and end user must fit together</li><li><b>Chemical monitoring</b>: unusual quantities of common chemicals that do not fit the buyer's business</li><li><b>Laboratory analysis</b> of suspect material, sampled and sealed with a clear chain of custody</li><li><b>Intelligence sharing</b> with your unit and partner agencies</li></ul></div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n5">Continue</button></div>
+</section>
+
+<section id="s-6">
+<h2>Precursor chemicals: the refresher</h2>
+<p class="lead">Concealment laboratories need chemicals. Knowing the international lists helps you recognise a suspicious order. Watch the precursor video if you wish, then open each topic.</p>
+<div class="card"><div class="vsel" id="vsel"></div><video id="v3" controls preload="metadata" poster="../course/video/poster_en.jpg"><source src="../course/video/precursors_en.mp4" type="video/mp4"></video></div>
+<div id="pacc"></div>
+<div class="callout"><b>Go deeper:</b> the full <a href="../course/en/">Precursor Chemicals Course</a> and the <a href="../">Precursor Chemical ID tool</a> cover every chemical, with CAS and UN numbers.</div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n6">Continue</button></div>
+</section>
+
+<section id="s-7">
+<h2>Spot the warning signs</h2>
+<p class="lead">Decide for each situation: <b>red flag</b> or <b>routine</b>. Context is everything.</p>
+<div class="card" id="scn"></div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n7">Continue</button></div>
+</section>
+
+<section id="s-8">
+<h2>Respond safely and protect the evidence</h2>
+<p class="lead">Watch the evidence handling video, then complete the checklist.</p>
+<div class="card"><video id="v5" controls preload="metadata" poster="../evidence-course/poster.jpg"><source src="../evidence-course/minfin_evidence.mp4" type="video/mp4"></video></div>
+<div class="callout warn"><b>Never taste or deliberately smell a suspect material.</b> Suspect material and any laboratory can be toxic and flammable. Wear gloves and protective equipment and work with a colleague.</div>
+<h3>Your response checklist</h3>
+<div class="card chk" id="chk8"></div>
+<div class="callout"><b>More:</b> see the <a href="../evidence-course/">Evidence Handling course</a> for the full chain of custody, sampling and destruction.</div>
+<h3>Sources and credits</h3>
+<div class="card"><ul class="src">
+<li>InSight Crime, "Hiding in Plain Sight: The Liquid Cocaine Boom Explained" (2026)</li>
+<li>Colombian National Army, laboratory seizure in Antioquia (November 2025), as reported by Infobae</li>
+<li>UK National Crime Agency, statements on chemical concealment, as reported by the Daily Express</li>
+<li>Europol, Spain operations press release (2025), and Europol reporting on cocaine extraction laboratories</li>
+<li>Dutch Police and EUDA report on cocaine production chemicals</li>
+<li>International Narcotics Control Board, Tables I and II of the 1988 Convention</li>
+</ul><p style="font-size:12px;color:var(--mut)">Figures are as reported by these organisations and have not been independently verified for this course. Videos by Mr Minfin and Madame Sandra.</p></div>
+<div class="nextrow"><span></span><button class="btn" data-next disabled id="n8">Continue to the final quiz</button></div>
+</section>
+
+<section id="s-9">
+<h2>Final quiz</h2>
+<p class="lead">Twelve questions. You need 80% to pass. You can retry.</p>
+<div id="quiz"></div>
+<div class="nextrow"><span></span><button class="btn" id="submitq" disabled>Submit answers</button></div>
+<div class="card hide" id="qres"></div>
+</section>
+
+<section id="s-cert">
+<div id="cert">
+<img src="../logo.png" alt="" style="height:70px;margin-bottom:12px"><p style="letter-spacing:3px;color:var(--mut)">CERTIFICATE OF COMPLETION</p>
+<h2>Chemical Concealment: Cocaine Hidden in Cargo</h2>
+<p>This certifies that</p>
+<div class="nm" id="cname"></div>
+<p>has completed the course with a score of <b id="cscore"></b></p>
+<p>Date completed: <b id="cdate"></b></p>
+</div>
+<div class="card noprint" id="sendbox"><b>Your result</b><p id="sendmsg"></p>
+<button class="btn gold" onclick="window.print()">Print or save certificate as PDF</button>
+<button class="btn ghost" id="dl">Download result file</button></div>
+</section>
+
+</main></div>
+<script src="../course/config.js"></script>
+<script>
+const CFG = window.COURSE_CONFIG || {};
+const PASS = 80;
+const COURSE = "Chemical Concealment: Cocaine Hidden in Cargo";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const LESSONS=["Welcome","Video 1: The box is the drug","What it is","Video 2: Infrastructure","Cases and scale","Why detection fails","Precursor refresher","Spot the warning signs","Respond safely","Final quiz","Certificate"];
+const ids=['s-0','s-1','s-2','s-3','s-4','s-5','s-6','s-7','s-8','s-9','s-cert'];
+let unlocked=0,cur=0,done=new Set(),state={name:'',score:null};
+const nav=$('#nav');
+function drawNav(){nav.innerHTML='';LESSONS.forEach((t,i)=>{const b=document.createElement('button');b.disabled=i>unlocked;b.className=(i==cur?'cur ':'')+(done.has(i)?'done':'');b.innerHTML=`<span class="dot">${done.has(i)?'&#10003;':i+1}</span>${t}`;b.onclick=()=>go(i);nav.appendChild(b)});$('#barfill').style.width=(done.size/(LESSONS.length-1)*100)+'%'}
+function go(i){cur=i;$$('main section').forEach(s=>s.classList.remove('on'));$('#'+ids[i]).classList.add('on');drawNav();scrollTo(0,0)}
+function complete(i){done.add(i);unlocked=Math.max(unlocked,i+1);drawNav()}
+function gate(btnSel,i){const b=$(btnSel);b.disabled=false;complete(i)}
+$$('[data-next]').forEach(b=>b.onclick=()=>go(cur+1));
+$('#startbtn').onclick=()=>{const v=$('#name').value.trim();if(v.split(/\s+/).length<2){alert('Please enter your first name and surname.');return}state.name=v;$('#who').textContent=v;complete(0);go(1)};
+$('#name').addEventListener('keydown',e=>{if(e.key==='Enter')$('#startbtn').click()});
+function watchGate(vid,btn,lesson){const v=$(vid),b=$(btn);const ok=()=>{b.disabled=false;complete(lesson)};v.addEventListener('ended',ok);v.addEventListener('timeupdate',()=>{if(v.duration&&v.currentTime/v.duration>0.9)ok()});b.onclick=()=>{complete(lesson);go(lesson+1)}}
+watchGate('#v1','#n1',1);watchGate('#v2','#n3',3);
+const CAR=[["Cardboard","Boxes made to look like banana and pineapple export packaging (Colombian Army laboratory, November 2025)."],["Plywood and timber","Reported in an Irish seizure on a route from South America."],["Charcoal, plastic, glue","Reported by the UK National Crime Agency. Charcoal can also help mask scent."],["Older cases","Europol reports clothing, beeswax and fertiliser used as carriers in earlier years."]];
+let fl=new Set();CAR.forEach(([a,b],i)=>{const d=document.createElement('div');d.className='flip';d.innerHTML=`<div><div class="a">${a}</div><div class="b">${b}</div></div>`;d.onclick=()=>{d.classList.toggle('f');fl.add(i);chk2()};$('#flips').appendChild(d)});
+const items0=["The drug is absorbed into the material of the cargo","The cargo can look and feel normal","The drug is recovered at the destination by specialists","Any cargo material can be a possible carrier"];let c0=new Set();
+items0.forEach((t,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox"> ${t}`;l.firstChild.onchange=e=>{e.target.checked?c0.add(i):c0.delete(i);chk2()};$('#chk0').appendChild(l)});
+function chk2(){if(fl.size==CAR.length&&c0.size==items0.length)gate('#n2',2)}
+const TB=[["Colombia lab","<p><b>Antioquia, November 2025.</b> The Colombian National Army reported dismantling a laboratory set up to impregnate cardboard.</p><ul><li>Large stocks of solvent and about 264 gallons of liquid cocaine suspension were reported seized.</li><li>Three tall drying structures, hydraulic presses, rollers and molds finished the cardboard into boxes.</li><li>Reported capacity: around 500 kg of cocaine a month, hidden in about 1,800 boxes and 7,200 inner sheets per production cycle.</li></ul>"],
+["UK","<p>The National Crime Agency reports finding the first UK laboratory built to recover drugs from carrier material in <b>late 2024</b>. Chemists were flown in from overseas.</p><p>The NCA describes traffickers placing cocaine into everyday materials such as cardboard, plastic, glue and charcoal.</p>"],
+["European Union","<p>In <b>2024</b>, <b>42</b> cocaine production, extraction or packaging sites were dismantled across six member states, up from <b>34</b> in 2023.</p><p>Europol says concealment inside carrier materials makes detection at ports extremely difficult.</p>"],
+["Chemicals seen","<p>The chemicals involved are widely traded, so quantity and context matter. Dutch police data links hydrochloric acid, acetone and ammonia to cocaine processing. In 2020 they reported seizing more than 37,000 litres of hydrochloric acid.</p><p>Large solvent stocks were also reported at the Colombian laboratory.</p><div class='callout'>One litre of acetone is routine. Tens of thousands of litres for a buyer with no matching business is a red flag.</div>"]];
+let tv=new Set();TB.forEach(([t,x],i)=>{const b=document.createElement('button');b.textContent=t;const p=document.createElement('div');p.className='tp';p.innerHTML=x;b.onclick=()=>{$$('#tabs button').forEach(k=>k.classList.remove('on'));$$('#tps .tp').forEach(k=>k.classList.remove('on'));b.classList.add('on');p.classList.add('on');tv.add(i);if(tv.size==TB.length)gate('#n4',4)};$('#tabs').appendChild(b);$('#tps').appendChild(p)});
+const A3=[["Colour change field tests","They are designed for powders. A drug locked inside a solid material may give no reaction, so a negative field test does not clear the cargo."],["Detection dogs","Dogs rely on scent. Carrier materials and masking agents such as activated charcoal can reduce the scent a dog can detect."],["X-ray and scanners","Impregnated cardboard, wood or plastic can have the same shape and density as normal material, so the scanner sees cargo, not contraband."]];
+let a3=new Set();A3.forEach(([t,x],i)=>{const d=document.createElement('div');d.className='acc';d.innerHTML=`<button>${t}<span>+</span></button><div class="p">${x}</div>`;d.firstChild.onclick=()=>{d.classList.toggle('o');a3.add(i);if(a3.size==3)gate('#n5',5)};$('#acc3').appendChild(d)});
+const VS=[["English: Mr Minfin","../course/video/precursors_en.mp4","../course/video/poster_en.jpg"],["Francais: Madame Sandra","../course/video/precursors_fr.mp4","../course/video/poster_fr.jpg"]];
+VS.forEach(([t,s,p],i)=>{const b=document.createElement('button');b.textContent=t;if(i==0)b.className='on';b.onclick=()=>{$$('#vsel button').forEach(k=>k.classList.remove('on'));b.classList.add('on');const v=$('#v3');v.pause();v.poster=p;v.src=s;v.load()};$('#vsel').appendChild(b)});
+const PA=[["Why precursors matter","Precursors are the chemicals used to make drugs. Most also have large legitimate uses, so controlling and monitoring their trade is one of the main ways to disrupt drug production."],["The 1988 Convention and the Red List","The 1988 UN Convention against Illicit Traffic in Narcotic Drugs and Psychotropic Substances sets two international tables of controlled chemicals. The INCB publishes the Red List of substances in Tables I and II."],["Table I and Table II","Table I holds the most important precursors and has 43 entries in the Precursor Chemical ID tool. Table II has 8 entries, mostly common solvents and acids: acetone, anthranilic acid, ethyl ether, hydrochloric acid, methyl ethyl ketone (MEK), piperidine, sulphuric acid and toluene."],["Linked to cocaine","In the INCB lists, potassium permanganate (Table I) and the Table II chemicals acetone, ethyl ether, hydrochloric acid, MEK, sulphuric acid and toluene are linked to cocaine. They all have everyday industrial uses, so volume and end user are what stand out."],["Warning signs for officers","Quantity that does not fit the buyer's business. An unclear or mismatched end user. Unusual packaging, labels or routes. Orders split into smaller shipments. Use the Precursor Chemical ID tool to check a CAS or UN number and the company on the label."]];
+let pa=new Set();PA.forEach(([t,x],i)=>{const d=document.createElement('div');d.className='acc';d.innerHTML=`<button>${t}<span>+</span></button><div class="p">${x}</div>`;d.firstChild.onclick=()=>{d.classList.toggle('o');pa.add(i);if(pa.size==PA.length)gate('#n6',6)};$('#pacc').appendChild(d)});
+const SC=[["A timber shipment is noticeably heavier than similar loads and has a faint solvent smell.",true,"Weight that does not match the goods, plus a solvent smell, is a strong reason for a closer look and a laboratory sample."],
+["A packaging company orders its usual monthly quantity of acetone from its regular supplier.",false,"Quantity, buyer and supplier all fit. This is routine."],
+["A fruit exporter's cardboard boxes are damp and stained, and the weight does not match the manifest.",true,"Damp or stained packaging with a weight mismatch does not fit normal export boxes."],
+["A pallet of boxes weighs what the manifest says and comes from a long-standing shipper with matching papers.",false,"Nothing is inconsistent. Routine, though normal risk profiling still applies."],
+["A new buyer orders tens of thousands of litres of hydrochloric acid, delivered to a residential address.",true,"The volume and delivery address do not fit any normal business. Report it and check the end user."],
+["A water treatment company imports potassium permanganate in its normal quantities with matching end-user papers.",false,"A legitimate use with consistent papers. Routine."]];
+let si=0,sgood=0;
+function drawSc(){const b=$('#scn');if(si>=SC.length){b.innerHTML=`<h3 style="margin-top:0">Done</h3><p>You judged ${sgood} of ${SC.length} correctly.</p>`;gate('#n7',7);return}
+const [t,flag,fb]=SC[si];b.innerHTML=`<p><b>Situation ${si+1} of ${SC.length}</b></p><p style="font-size:17px">${t}</p><div class="sc"><button class="btn" id="bf">Red flag</button><button class="btn ghost" id="br">Routine</button></div><div class="fb" id="scfb"></div>`;
+const pick=v=>{const ok=v===flag;if(ok)sgood++;$('#bf').disabled=true;$('#br').disabled=true;$('#scfb').innerHTML=`<b style="color:${ok?'var(--green)':'var(--red)'}">${ok?'Correct.':'Not quite.'}</b> ${fb}<div style="margin-top:10px"><button class="btn" id="scn2">Next</button></div>`;$('#scn2').onclick=()=>{si++;drawSc()}};
+$('#bf').onclick=()=>pick(true);$('#br').onclick=()=>pick(false)}
+drawSc();
+const it8=["Do not open or taste the material. Do not deliberately smell it","Wear gloves and protective equipment and work with a colleague","Photograph as found, record what you saw and when","Sample with a laboratory plan, seal, label and sign","Keep the chain of custody unbroken at every handover","Report the case and share intelligence with your unit"];let c8=new Set();
+it8.forEach((t,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox"> ${t}`;l.firstChild.onchange=e=>{e.target.checked?c8.add(i):c8.delete(i);if(c8.size==it8.length)gate('#n8',8)};$('#chk8').appendChild(l)});
+const Q=[["What does the 'chemical concealment' trend mean?",["Drugs hidden in a secret compartment of a container","Drug absorbed into the material of the cargo itself, such as cardboard or timber","Drugs mixed into fuel","Drugs hidden only in luggage"],1],
+["What happens to the cocaine at the destination?",["Nothing, it is used as is","Specialists recover it from the carrier material","It evaporates","It is shipped back"],1],
+["Which carrier materials have been reported?",["Only plastic","Cardboard, plywood and timber, charcoal, plastic and glue, among others","Only fruit","Only metal"],1],
+["Why can a colour change field test fail on impregnated material?",["The tests are too expensive","They are designed for powders and the drug is locked inside a solid","The tests are illegal","The tests only work on liquids"],1],
+["How can activated charcoal near a cargo help traffickers?",["It makes cargo heavier","It can adsorb scent and reduce detection by dogs","It stops X-rays","It dissolves the drug"],1],
+["Why does an X-ray scanner often see nothing unusual?",["Scanners cannot see cardboard","Impregnated material can have the same shape and density as normal material","Scanners are switched off","The drug is radioactive"],1],
+["According to the reports, how many sites linked to cocaine production, extraction or packaging were dismantled in the EU in 2024?",["12","34","42","100"],2],
+["Which statement about chemicals is correct?",["Concealment chemicals are rare and easy to spot","They are widely traded, so volume and context matter","They are never sold legally","Only Table I chemicals matter"],1],
+["Which situation is the strongest red flag?",["A regular buyer orders its normal acetone quantity","A new buyer orders tens of thousands of litres of hydrochloric acid for a residential address","A shipper with matching papers and normal weight","A normal potassium permanganate order with end-user papers"],1],
+["Which approach works best against chemical concealment?",["Rely on one tool","Combine risk profiling, document checks, chemical monitoring, laboratory analysis and intelligence","Ignore weight differences","Only use dogs"],1],
+["What should you never do with a suspect material?",["Photograph it","Taste it or deliberately smell it","Wear gloves","Seal samples"],1],
+["Why must the chain of custody be unbroken?",["It is only a formality","Gaps can make the evidence unusable in court","It speeds up the laboratory","It reduces PPE needs"],1]];
+let ans=Array(Q.length).fill(null);
+function drawQuiz(){const q=$('#quiz');q.innerHTML='';ans=Array(Q.length).fill(null);Q.forEach(([t,o,c],i)=>{const d=document.createElement('div');d.className='card';d.innerHTML=`<b>${i+1}. ${t}</b>`;const opts=o.map((x,k)=>({x,k})).sort(()=>Math.random()-.5);opts.forEach(({x,k})=>{const b=document.createElement('button');b.className='opt';b.textContent=x;b.onclick=()=>{ans[i]=k;[...d.querySelectorAll('.opt')].forEach(z=>z.classList.remove('ok'));b.classList.add('ok');$('#submitq').disabled=ans.some(a=>a===null)};d.appendChild(b)});q.appendChild(d)})}
+drawQuiz();
+$('#submitq').onclick=()=>{let s=0;Q.forEach((x,i)=>{if(ans[i]===x[2])s++});const pct=Math.round(s/Q.length*100);const r=$('#qres');r.classList.remove('hide');
+if(pct>=PASS){state.score=pct;state.correct=s;r.innerHTML=`<div class="score">${pct}%</div><p>You passed with ${s} of ${Q.length} correct.</p><button class="btn gold" id="tocert">Get my certificate</button>`;$('#tocert').onclick=finish}
+else{r.innerHTML=`<div class="score" style="color:var(--red)">${pct}%</div><p>You got ${s} of ${Q.length} correct. You need ${PASS}% to pass. Review the lessons and try again.</p><button class="btn" id="retry">Try again</button>`;$('#retry').onclick=()=>{r.classList.add('hide');drawQuiz();$('#submitq').disabled=true;scrollTo(0,0)}}};
+function fmt(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}
+async function finish(){complete(9);complete(10);const now=new Date();state.date=fmt(now);state.iso=now.toISOString();
+$('#cname').textContent=state.name;$('#cscore').textContent=state.score+'%';$('#cdate').textContent=state.date;go(10);
+const q=new URLSearchParams(location.search);const TEM=(q.get('t')||'').trim();const group=q.get('trainer')||TEM||'-';
+let sub;try{sub=new Date().toLocaleString('en-GB',{timeZone:'Europe/Brussels',dateStyle:'short',timeStyle:'short'})+' (Belgium)'}catch(e){sub=state.iso}
+const payload={course:COURSE,name:state.name,group:group,score:state.score+'%',correct:state.correct+' of '+Q.length,passed:'yes',submitted:sub,date:state.iso.slice(0,10)};
+state.payload=payload;
+if(CFG.relay==='formsubmit'&&CFG.relayId){try{const body=Object.assign(TEM?{_cc:TEM}:{},{_subject:'Concealment course result: '+state.name,_template:'table'},payload);const r=await fetch('https://formsubmit.co/ajax/'+encodeURIComponent(CFG.relayId),{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});$('#sendmsg').textContent=r.ok?'Your result was sent to your trainer.':'Your result could not be sent. Download the result file below and send it to your trainer.'}catch(e){$('#sendmsg').textContent='Your result could not be sent. Download the result file below and send it to your trainer.'}}
+else $('#sendmsg').textContent='Download your result file below and send it to your trainer.'}
+$('#dl').onclick=()=>{const p=state.payload;const t=Object.entries(p).map(([k,v])=>k+': '+v).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download='result_'+state.name.replace(/\s+/g,'_')+'.txt';a.click()};
+drawNav();
+</script>
+</body>
+</html>
