@@ -185,17 +185,21 @@ def main():
 
     import hashlib
     h = hashlib.sha1()
-    for f in ["styles.css", "app.js", "data/chemicals.js", "data/manufacturers.js", "data/countries.js", "data/world.js", "logo.png"]:
+    for f in ["styles.css", "theme.css", "extras.js", "app.js", "data/chemicals.js", "data/manufacturers.js", "data/countries.js", "data/world.js", "logo.png"]:
         h.update((ROOT / "docs" / f).read_bytes())
     ver = h.hexdigest()[:8]
     idx = ROOT / "docs" / "index.html"
     src = idx.read_text(encoding="utf-8")
-    src = re.sub(r'(href="styles\.css|src="app\.js|src="data/chemicals\.js|src="data/manufacturers\.js|src="data/countries\.js|src="data/world\.js|src="logo\.png)(\?v=\w+)?"', lambda m: m.group(1) + "?v=" + ver + '"', src)
+    src = re.sub(r'(href="styles\.css|href="theme\.css|src="extras\.js|src="app\.js|src="data/chemicals\.js|src="data/manufacturers\.js|src="data/countries\.js|src="data/world\.js|src="logo\.png)(\?v=\w+)?"', lambda m: m.group(1) + "?v=" + ver + '"', src)
     idx.write_text(src, encoding="utf-8")
     html = src
     css = (ROOT / "docs" / "styles.css").read_text(encoding="utf-8")
     app = (ROOT / "docs" / "app.js").read_text(encoding="utf-8")
     html = re.sub(r'<link rel="stylesheet" href="styles\.css\?v=\w+">', lambda m: f"<style>\n{css}\n</style>", html)
+    theme = (ROOT / "docs" / "theme.css").read_text(encoding="utf-8")
+    html = re.sub(r'<link rel="stylesheet" href="theme\.css\?v=\w+">', lambda m: f"<style>\n{theme}\n</style>", html)
+    extras = (ROOT / "docs" / "extras.js").read_text(encoding="utf-8").replace("</script>", "<\\/script>")
+    html = re.sub(r'<script src="extras\.js\?v=\w+"></script>', lambda m: "<script>\n" + extras + "\n</script>", html)
     html = re.sub(r'<script src="data/chemicals\.js\?v=\w+"></script>', lambda m: f"<script>\n{chem_js}\n</script>", html)
     html = re.sub(r'<script src="data/manufacturers\.js\?v=\w+"></script>', lambda m: f"<script>\n{comp_js}\n</script>", html)
     world_js = (ROOT / "docs" / "data" / "world.js").read_text(encoding="utf-8")

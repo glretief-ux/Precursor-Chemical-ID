@@ -64,19 +64,59 @@ setTimeout(() => {
   const paths = d.querySelectorAll("#m-svg path.ctry").length;
   ok(paths > 180, "map draws country shapes (" + paths + ")");
   ok(w.WORLD.countries.length >= 230, "map has " + w.WORLD.countries.length + " countries/territories");
+  function pick(name) {
+    const inp = d.getElementById("m-search");
+    inp.value = name; inp.dispatchEvent(new w.Event("input", { bubbles: true }));
+    const li = d.querySelector('#m-listbox li[data-i]');
+    li.dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  }
   d.querySelector('#m-svg [data-i="USA"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
   let mp = d.getElementById("m-panel").textContent;
   ok(mp.includes("United States") && mp.includes("Ethylamine") && mp.includes("List I"), "clicking USA lists its extra chemicals");
-  d.querySelector('#m-list [data-country="IND"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  pick("India");
   mp = d.getElementById("m-panel").textContent;
   ok(mp.includes("India") && mp.includes("No additional chemicals"), "India shows list read, no extras");
-  d.querySelector('#m-list [data-country="FRA"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  pick("France");
   ok(d.getElementById("m-panel").textContent.includes("EAPA"), "France shows EU extras");
-  d.querySelector('#m-list [data-country="TUV"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true }));
+  pick("Tuvalu");
   ok(d.getElementById("m-panel").textContent.includes("No consolidated public list"), "country with no data says so");
   ok(Object.keys(w.COUNTRIES).length >= 55, "country data loaded");
   type("q", "red phosphorus");
   ok(d.getElementById("results").textContent.includes("Nationally controlled in"), "chemical card lists countries that control it");
+
+
+  // compact country dropdown
+  type("q", ""); 
+  const inp = d.getElementById("m-search");
+  inp.value = "south"; inp.dispatchEvent(new w.Event("input", { bubbles: true }));
+  ok(!d.getElementById("m-listbox").hidden && d.querySelectorAll("#m-listbox li[data-i]").length >= 3, "typing in the country box opens a filtered dropdown");
+  ok(inp.getAttribute("aria-expanded") === "true", "combobox reports expanded");
+  d.getElementById("m-region").value = "Africa"; d.getElementById("m-region").dispatchEvent(new w.Event("change", { bubbles: true }));
+  ok([...d.querySelectorAll("#m-listbox li .rg")].every(e => e.textContent === "Africa"), "region filter narrows the dropdown");
+  ok(!d.querySelector("#m-list"), "old chip wall of all countries is gone");
+  d.getElementById("m-region").value = ""; d.getElementById("m-region").dispatchEvent(new w.Event("change", { bubbles: true }));
+
+  // dark mode
+  ok(["dark", "light"].includes(d.documentElement.getAttribute("data-theme")), "theme attribute set");
+  const before = d.documentElement.getAttribute("data-theme");
+  d.getElementById("theme-toggle").click();
+  ok(d.documentElement.getAttribute("data-theme") !== before, "theme toggle switches light/dark");
+  d.getElementById("theme-toggle").click();
+
+  // tools + incident report
+  d.getElementById("tab-tools").click();
+  ok(!d.getElementById("panel-tools").hidden && d.getElementById("panel-tools").textContent.includes("PICS"), "Intelligence & tools tab lists PICS");
+  d.querySelector('#tool-filters [data-cat="lab"]').click();
+  ok([...d.querySelectorAll("#tool-grid .tool")].filter(t => !t.hidden).every(t => t.dataset.cat === "lab"), "tool category filter works");
+  type("q", "acetic anhydride"); d.getElementById("tab-search").click();
+  d.querySelector("#results [data-report]").click();
+  ok(!d.getElementById("panel-report").hidden && d.getElementById("r-cas").value === "108-24-7", "Add to incident report fills the sheet");
+  ok(d.getElementById("r-un").value.includes("UN1715"), "report gets the UN number");
+  d.getElementById("r-qty").value = "200"; d.getElementById("r-make").click();
+  const sheet = d.getElementById("r-sheet").textContent;
+  ok(sheet.includes("Acetic anhydride") && sheet.includes("200 kg") && sheet.includes("PICS"), "report summary is generated");
+  d.getElementById("r-cas").value = "108-24-8"; d.getElementById("r-cas").dispatchEvent(new w.Event("input", { bubbles: true }));
+  ok(d.getElementById("r-cas-msg").textContent.includes("invalid"), "invalid CAS flagged in report");
 
   // counts
   const t1 = (d.getElementById("results") && 0);

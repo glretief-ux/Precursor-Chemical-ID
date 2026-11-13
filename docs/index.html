@@ -5,20 +5,66 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Precursor Chemical ID – Law Enforcement Reference</title>
 <meta name="description" content="Identify drug precursors and chemicals used in illicit drug manufacture by CAS number, UN number, HS code or name, and check a chemical sticker's manufacturer.">
-<link rel="stylesheet" href="styles.css?v=17c9ee9b">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#16325a">
+<script>
+/* apply the saved (or system) theme before first paint so there is no flash */
+(function(){var t=null;try{t=localStorage.getItem("pci-theme")}catch(e){}
+if(t!=="dark"&&t!=="light"){t=(window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light"}
+document.documentElement.setAttribute("data-theme",t);
+var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="dark"?"#0a111d":"#16325a")})();
+</script>
+<link rel="stylesheet" href="styles.css?v=8c77c420">
+<link rel="stylesheet" href="theme.css?v=8c77c420">
 </head>
 <body>
-<header class="brand">
-  <img src="logo.png?v=17c9ee9b" alt="AIRCOP – Container Control Programme (CCP)" class="logo">
-</header>
-<div class="wrap">
-  <div class="titlecard">
-    <h1>Precursor Chemical ID</h1>
-    <p id="tc-meta"></p>
-    <p class="tc-links"><a href="#" data-goto="map">World map</a> | <a href="#" data-goto="browse">Browse all</a> | <a href="#" id="tc-csv">Chemicals (CSV)</a> | <a href="#" data-goto="controls">Controls &amp; permits</a> | <a href="#" data-goto="label">Label check</a> | <a href="course/en/">Course (EN)</a> | <a href="course/fr/">Cours (FR)</a> | <a href="evidence-course/">Evidence course</a> | <a href="crime-scene-course/">Crime scene course</a> | <a href="concealment-course/">Concealment course</a> | <a href="videos/">Videos</a></p>
-    <p class="tc-sub">Identify a chemical by CAS, UN number, HS code or name, and check the company on the sticker.</p>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brandlink" href="./" aria-label="Precursor Chemical ID – home">
+      <span class="logo-pill"><img src="logo.png?v=8c77c420" alt="AIRCOP – Container Control Programme (CCP)" class="logo"></span>
+      <span class="brand-name">Precursor Chemical ID<small>Law enforcement reference</small></span>
+    </a>
+    <div class="top-actions">
+      <details class="menu" id="train-menu">
+        <summary><span class="lbl">Training &amp; media</span></summary>
+        <div class="menu-pop">
+          <a href="course/en/">Precursor course (English)</a>
+          <a href="course/fr/">Cours sur les précurseurs (français)</a>
+          <div class="sep"></div>
+          <a href="evidence-course/">Evidence handling course</a>
+          <a href="crime-scene-course/">Crime scene course</a>
+          <a href="concealment-course/">Concealment course</a>
+          <div class="sep"></div>
+          <a href="videos/">Training videos</a>
+        </div>
+      </details>
+      <button type="button" id="theme-toggle" class="icon-btn" aria-label="Switch to dark mode" aria-pressed="false" title="Light / dark mode">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
   </div>
-</div>
+</header>
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-in">
+      <div>
+        <p class="eyebrow">Customs · Police · Regulatory authorities</p>
+        <h1>Precursor Chemical ID</h1>
+        <p class="tc-sub">Identify a chemical by CAS, UN number, HS code or name, check the company on the sticker, and see what to verify and report next.</p>
+        <p id="tc-meta" class="tc-meta"></p>
+      </div>
+      <nav class="quick" aria-label="Quick links">
+        <a href="#" data-goto="map">World map</a>
+        <a href="#" data-goto="label">Label check</a>
+        <a href="#" data-goto="controls">Controls &amp; permits</a>
+        <a href="#" data-goto="tools">Intelligence &amp; tools</a>
+        <a href="#" data-goto="report">Incident report</a>
+        <a href="#" id="tc-csv">Chemicals (CSV)</a>
+      </nav>
+    </div>
+  </div>
+</section>
 <div class="tabsbar">
   <div class="wrap">
     <nav class="tabs" role="tablist" aria-label="Sections">
@@ -27,8 +73,10 @@
       <button role="tab" id="tab-label" aria-selected="false" aria-controls="panel-label">Label check</button>
       <button role="tab" id="tab-browse" aria-selected="false" aria-controls="panel-browse">Browse all</button>
       <button role="tab" id="tab-controls" aria-selected="false" aria-controls="panel-controls">Controls &amp; permits</button>
+      <button role="tab" id="tab-tools" aria-selected="false" aria-controls="panel-tools">Intelligence &amp; tools</button>
+      <button role="tab" id="tab-report" aria-selected="false" aria-controls="panel-report">Incident report</button>
       <button role="tab" id="tab-about" aria-selected="false" aria-controls="panel-about">About &amp; sources</button>
-    </nav>
+      </nav>
   </div>
 </div>
 
@@ -200,7 +248,7 @@
         <li><b>Check the notification trail.</b> For scheduled substances, ask your CNA whether a pre-export notification was sent for this shipment and whether the importing authority responded, using INCB PEN Online (access is for CNAs).</li>
         <li><b>Verify with the issuing authority.</b> Do not rely on contact details printed on the permit. Look up the authority's contact through your CNA or the INCB list of CNAs, and ask them to confirm that the permit is genuine and still valid.</li>
         <li><b>Check the operator.</b> Confirm the importer or exporter is registered or licensed for this chemical with the competent authority, not just that the company exists in a business register.</li>
-        <li><b>If anything does not match,</b> follow national law on holding, sampling and seizing; secure samples with chain of custody; and report through your CNA, which can raise it with the INCB Precursors Incident Communication System (PICS) and partner countries.</li>
+        <li><b>If anything does not match,</b> follow national law on holding, sampling and seizing; secure samples with chain of custody; and report through your CNA, which can raise it with the INCB Precursors Incident Communication System (PICS) and partner countries. See <a href="#" data-goto="tools">Intelligence &amp; tools</a> for PICS and the other reporting channels, and the <a href="#" data-goto="report">Incident report</a> sheet to collect the details.</li>
       </ol>
     </div>
 
@@ -236,9 +284,21 @@
       <h3>Nationally controlled chemicals by country</h3>
       <p class="hint2">Click a country to see the chemicals it controls <b>in addition to</b> the INCB Table I and II lists. Scroll or pinch to zoom, drag to pan.</p>
       <div class="map-tools">
-        <input id="m-search" type="search" list="m-names" placeholder="Find a country" autocomplete="off" aria-label="Find a country">
-        <datalist id="m-names"></datalist>
-        <button type="button" class="secondary" id="m-africa" aria-pressed="false">Focus on Africa</button>
+        <div class="field">
+          <label for="m-region">Region</label>
+          <select id="m-region" aria-label="Region">
+            <option value="">All regions</option>
+            <option>Africa</option><option>Americas</option><option>Asia</option><option>Europe</option><option>Oceania</option>
+          </select>
+        </div>
+        <div class="field combo" id="m-combo">
+          <label for="m-search">Country</label>
+          <div class="combo-box">
+            <input id="m-search" type="text" role="combobox" aria-expanded="false" aria-controls="m-listbox" aria-autocomplete="list" aria-haspopup="listbox" placeholder="Select or type a country…" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <button type="button" class="combo-btn" id="m-toggle" aria-label="Show country list" tabindex="-1"></button>
+            <ul id="m-listbox" role="listbox" aria-label="Countries" hidden></ul>
+          </div>
+        </div>
       </div>
       <div class="map-legend" id="m-legend"></div>
       <div class="map-box">
@@ -251,11 +311,330 @@
       </div>
     </div>
     <div class="card" id="m-panel" aria-live="polite"></div>
+    <p class="map-sum" id="m-count" aria-live="polite"></p>
+  </section>
+
+  <!-- INTELLIGENCE & TOOLS -->
+  <section id="panel-tools" role="tabpanel" aria-labelledby="tab-tools" hidden>
     <div class="card">
-      <h3>All countries</h3>
-      <p class="hint2" id="m-count"></p>
-      <input id="m-filter" type="search" placeholder="Filter list" aria-label="Filter country list">
-      <div class="chips" id="m-list"></div>
+      <h3>Where this tool fits in an investigation</h3>
+      <p>This page identifies a chemical and checks its label. The systems below let you <b>verify permits, report the incident, trace the shipment and find the supplier</b>. Most are restricted to government users and are reached through your Competent National Authority (CNA) or your agency's focal point. Compiled from public INCB, UNODC, WCO, EU and DEA pages (checked 12 November 2026); access rules change, so confirm with your CNA.</p>
+    </div>
+
+    <div class="statrow">
+      <div class="stat"><b>4,800+</b><span>precursor and equipment incidents shared through PICS since 2012 (INCB Precursors Report 2024)</span></div>
+      <div class="stat"><b>&lt; 15%</b><span>of the chemicals reported in PICS incidents in the 2024 reporting period were under international control (INCB 2024)</span></div>
+      <div class="stat"><b>5,751</b><span>registered INCB GRIDS focal points worldwide, June 2026 (WCO News)</span></div>
+    </div>
+    <div class="callout info"><b>Why report non-scheduled chemicals too.</b> Traffickers increasingly use designer precursors, pre-precursors and substitutes that are not on Table I or II. PICS and PEN Online Light exist for exactly these, and INCB uses the reports to spot new chemicals and routes early. If it was in a lab, a drum or a suspicious consignment, report it, whether or not it is scheduled.</div>
+
+    <div class="card">
+      <h3>After an interdiction: a practical workflow</h3>
+      <ol class="workflow">
+        <li><div><b>Make the scene and the containers safe first.</b> Do not open, smell or taste unknown chemicals. Use the PPE and procedures of your agency, keep people upwind, and keep oxidisers, acids, bases and flammable solvents apart. Call a chemical disposal or hazmat specialist for anything leaking, bulging or unidentified.</div></li>
+        <li><div><b>Photograph before you touch.</b> Labels, markings, lot numbers, seals, container and seal numbers, packaging, pallets and every transport and customs document. Photos are what other countries need to recognise a pattern.</div></li>
+        <li><div><b>Identify.</b> Search the name, CAS, UN or HS code on this page and run the <a href="#" data-goto="label">Label check</a>. Remember salts and preparations have different CAS numbers.</div></li>
+        <li><div><b>Test and sample under chain of custody.</b> A UNODC colour-test kit or Raman handheld gives a presumptive result only. Take representative samples, seal and record them, and send them to an authorised laboratory for confirmation.</div></li>
+        <li><div><b>Check the paper trail.</b> Ask your CNA whether an export or import authorisation and a pre-export notification (PEN) exist, and whether the issuing authority confirms them. See <a href="#" data-goto="controls">Controls &amp; permits</a>.</div></li>
+        <li><div><b>Report and share.</b> Use the <a href="#" data-goto="report">Incident report</a> sheet to collect the facts, then report through PICS (precursors and equipment), IONICS (fentanyl, NPS and related chemicals), CENcomm or ContainerCOMM (customs and container intelligence), and tell your Prism or Cohesion focal point.</div></li>
+        <li><div><b>Trace back.</b> Ask the manufacturer named on the label to confirm the lot and who bought it. Look at the supplier, the freight forwarder, the payment route and online postings. INCB publishes a guide for investigating suspicious internet postings of precursors.</div></li>
+        <li><div><b>Look at the domestic side too.</b> INCB has observed that diversion has become increasingly domestic: check storage, distribution and sale inside the country, not only the border.</div></li>
+      </ol>
+    </div>
+
+    <div class="filterbar" role="group" aria-label="Filter tools" id="tool-filters">
+      <button type="button" data-cat="all" aria-pressed="true">All</button>
+      <button type="button" data-cat="share" aria-pressed="false">INCB information sharing</button>
+      <button type="button" data-cat="customs" aria-pressed="false">Customs &amp; police networks</button>
+      <button type="button" data-cat="reg" aria-pressed="false">Regional &amp; national rules</button>
+      <button type="button" data-cat="lab" aria-pressed="false">Field tests &amp; laboratory</button>
+      <button type="button" data-cat="guide" aria-pressed="false">Guidance &amp; training</button>
+    </div>
+
+    <div class="toolgrid" id="tool-grid">
+
+      <article class="tool" data-cat="share">
+        <span class="access acc-gov">Registered government users</span>
+        <h4>PICS<small>Precursors Incident Communication System (INCB)</small></h4>
+        <p>INCB's secure online platform for real-time exchange between national authorities on incidents involving precursors, chemicals and equipment: seizures, shipments stopped in transit, attempted diversions, illicit laboratories and suspicious transactions.</p>
+        <ul>
+          <li>Search incidents worldwide, set e-mail alerts, and attach photos and shipping documents.</li>
+          <li>INCB can put the authorities concerned in direct contact and issues special alerts through PICS.</li>
+          <li>Free to governments. Regulatory and law enforcement agencies request accounts by e-mail to <a href="mailto:incb.pics@un.org">incb.pics@un.org</a>.</li>
+        </ul>
+        <p class="tool-links"><a href="https://syntheticdrugs.unodc.org/uploads/syntheticdrugs/res/library/precursors_html/PICS_Brochure.pdf" target="_blank" rel="noopener">PICS brochure (PDF)</a><a href="https://www.incb.org/incb/uploads/documents/PRECURSORS/Tools_and_Resources/INCB_tools_and_resources_Multipage_Final.pdf" target="_blank" rel="noopener">INCB tools &amp; resources (PDF)</a></p>
+      </article>
+
+      <article class="tool" data-cat="share">
+        <span class="access acc-cna">Competent National Authorities</span>
+        <h4>PEN Online<small>Pre-Export Notification system (INCB)</small></h4>
+        <p>Launched in 2005. The exporting country's authority notifies the importing country's authority of a planned export of a Table I or II chemical, and the importing authority can answer with an objection or non-objection. It is the quickest way to confirm that a scheduled shipment was notified.</p>
+        <ul>
+          <li>Your CNA registers and holds the access. Ask it to check the PEN trail for any scheduled consignment you stop.</li>
+          <li>Queries: <a href="mailto:incb.pen@un.org">incb.pen@un.org</a>.</li>
+        </ul>
+        <p class="tool-links"><a href="https://www.unodc.org/unodc/en/global-it-products/pen.html" target="_blank" rel="noopener">PEN Online (UNODC)</a><a href="https://www.incb.org/incb/en/precursors/cna.html" target="_blank" rel="noopener">Find your CNA</a></p>
+      </article>
+
+      <article class="tool" data-cat="share">
+        <span class="access acc-gov">Governments · voluntary</span>
+        <h4>PEN Online Light<small>Trade in non-scheduled chemicals (INCB)</small></h4>
+        <p>Launched in 2022 for the voluntary exchange of information on planned shipments of chemicals that are not under international control, most of them on the ISSL. It lets an importing country see legitimate trade in designer precursors and substitutes, and spot the shipment that does not fit.</p>
+        <ul>
+          <li>In 2024 it tracked over 700 shipments of more than 136,000 tonnes and 3 million litres of non-controlled chemicals (INCB presentation).</li>
+        </ul>
+        <p class="tool-links"><a href="https://www.incb.org/incb/en/precursors/pen_online_light_brochure.html" target="_blank" rel="noopener">PEN Online Light brochure</a></p>
+      </article>
+
+      <article class="tool" data-cat="share">
+        <span class="access acc-gov">Governments only</span>
+        <h4>ISSL and equipment list<small>Surveillance lists of non-scheduled chemicals and equipment (INCB)</small></h4>
+        <p>The limited International Special Surveillance List names non-scheduled chemicals known to be used in illicit drug manufacture, with recommended actions for authorities and industry. The 2026 edition adds precursors of fentanyl analogues and synthetic cannabinoids and excipients found in pre-mixed tableting powders. A companion International Monitoring List of Equipment (2nd edition, April 2026) covers machinery.</p>
+        <ul>
+          <li>Reached through your CNA and the INCB secure portal. <b>This tool does not reproduce the ISSL</b>, so absence here is not clearance.</li>
+        </ul>
+        <p class="tool-links"><a href="https://www.incb.org/incb/en/precursors/information-package-part-b-issl.html" target="_blank" rel="noopener">ISSL information package (CNAs)</a><a href="https://www.incb.org/incb/en/secured.html" target="_blank" rel="noopener">INCB secure portal</a></p>
+      </article>
+
+      <article class="tool" data-cat="share">
+        <span class="access acc-gov">Government focal points</span>
+        <h4>Project Prism and Project Cohesion<small>INCB global operational initiatives</small></h4>
+        <p>Networks of national focal points: <b>Prism</b> for precursors of synthetic drugs (amphetamine-type stimulants, fentanyl and others) and <b>Cohesion</b> for precursors of cocaine and heroin. Focal points receive special alerts and can join time-limited intelligence operations.</p>
+        <ul>
+          <li>Example: Operation Pseudonym (2024) was a three-month operation that physically tracked PEN-notified shipments from source to final destination, focused on consignments above 25 kg.</li>
+          <li>To find or become a focal point: <a href="mailto:incb.precursors@un.org">incb.precursors@un.org</a>.</li>
+        </ul>
+      </article>
+
+      <article class="tool" data-cat="share">
+        <span class="access acc-req">Official government nomination</span>
+        <h4>GRIDS, IONICS, SNOOP, PING<small>Global Rapid Interdiction of Dangerous Substances (INCB)</small></h4>
+        <p>For fentanyl, nitazenes, other synthetic opioids and new psychoactive substances, and their chemicals, especially in post and express channels.</p>
+        <ul>
+          <li><b>IONICS</b>: secure incident communication and targeting platform, with daily automated notifications relevant to your country.</li>
+          <li><b>SNOOP</b>: AI-assisted monitoring of online marketplaces for suspicious wholesale vendors.</li>
+          <li><b>PING</b>: a pre-flight notification gateway that is still in development.</li>
+        </ul>
+        <p class="tool-links"><a href="https://mag.wcoomd.org/magazine/wco-news-110-issue-2-2026/incb-grids-tools/" target="_blank" rel="noopener">GRIDS tools (WCO News, 2026)</a></p>
+      </article>
+
+      <article class="tool" data-cat="customs">
+        <span class="access acc-gov">Customs administrations</span>
+        <h4>WCO CEN suite<small>CEN · CENcomm · nCEN</small></h4>
+        <p>The Customs Enforcement Network is the WCO's database of seizures and offences with photos. <b>CENcomm</b> is the secure web platform, available around the clock, for sharing seizures and suspicious transactions in real time during operations. <b>nCEN</b> is the national application for storing and analysing seizure data (deployed in 59 countries).</p>
+        <ul>
+          <li>Contact: <a href="mailto:cis@wcoomd.org">cis@wcoomd.org</a>.</li>
+          <li>The WCO also runs a Drugs and Precursors Programme and regional intelligence liaison offices (RILOs).</li>
+        </ul>
+        <p class="tool-links"><a href="https://www.wcoomd.org/en/topics/enforcement-and-compliance/instruments-and-tools/cen-suite/cencomm.aspx" target="_blank" rel="noopener">CENcomm</a><a href="https://www.wcoomd.org/en/topics/enforcement-and-compliance/activities-and-programmes/drugs-programme.aspx" target="_blank" rel="noopener">Drugs and Precursors Programme</a></p>
+      </article>
+
+      <article class="tool" data-cat="customs">
+        <span class="access acc-gov">CCP Port Control Units</span>
+        <h4>ContainerCOMM<small>UNODC-WCO Container Control Programme</small></h4>
+        <p>The secure system that links Port Control Units in the Container Control Programme for the swift exchange of information and intelligence on suspicious containers. Use it to alert the ports along a route when you stop or profile a container with chemicals.</p>
+      </article>
+
+      <article class="tool" data-cat="customs">
+        <span class="access acc-gov">Police channels</span>
+        <h4>INTERPOL and Europol<small>Police-to-police exchange</small></h4>
+        <p>Use your National Central Bureau for INTERPOL's secure communications and notices when the case involves suspects, companies or laboratories in other countries. In the EU and partner states, Europol's secure network (SIENA) supports the same exchange. Customs and police channels complement each other: share the same case through both.</p>
+      </article>
+
+      <article class="tool" data-cat="reg">
+        <span class="access acc-pub">Public rules · operator checks via authority</span>
+        <h4>European Union<small>Regulations (EC) 273/2004 and 111/2005</small></h4>
+        <p>273/2004 governs trade inside the EU and 111/2005 trade with non-EU countries. Category 1 substances need an operator licence; category 2 substances need registration (including users of subcategory 2A). The <b>European database on drug precursors</b> lists licensed and registered operators and is used to report seizures and stopped shipments.</p>
+        <ul><li>To verify an EU operator, ask the competent authority of the member state, not the company.</li></ul>
+        <p class="tool-links"><a href="https://eur-lex.europa.eu/eli/reg/2004/273/2023-02-20" target="_blank" rel="noopener">Regulation 273/2004</a><a href="https://eur-lex.europa.eu/EN/legal-content/summary/monitoring-trade-in-drug-precursors-between-the-eu-and-non-eu-countries.html" target="_blank" rel="noopener">Regulation 111/2005 summary</a></p>
+      </article>
+
+      <article class="tool" data-cat="reg">
+        <span class="access acc-pub">Public</span>
+        <h4>United States (DEA)<small>List I and List II chemicals</small></h4>
+        <p>The Controlled Substances Act regulates listed chemicals (21 CFR 1310.02); a 2023 DEA presentation counted 49 (38 List I, 11 List II), and fentanyl precursors have been added since, so always check the current list. Handlers must be registered. A DEA notice of March 2026 reminds businesses that advance notice is required before transshipment or transfer of List I and II chemicals, no later than 15 calendar days ahead.</p>
+        <p class="tool-links"><a href="https://www.deadiversion.usdoj.gov/schedules/orangebook/f_chemlist_alpha.pdf" target="_blank" rel="noopener">List I and II (alphabetical)</a><a href="https://www.deadiversion.usdoj.gov/" target="_blank" rel="noopener">DEA Diversion Control Division</a></p>
+      </article>
+
+      <article class="tool" data-cat="reg">
+        <span class="access acc-pub">Public</span>
+        <h4>National PEN practice<small>Example: Australia</small></h4>
+        <p>Each exporting country runs its own pre-export notification process. In Australia the Office of Drug Control requires an export licence for listed precursors and a PEN submitted at least five business days before the shipment. Use the <a href="#" data-goto="map">World map</a> to see which extra chemicals a country controls, then ask its authority for the local procedure.</p>
+        <p class="tool-links"><a href="https://www.odc.gov.au/about-us/licences-and-permits/pre-export-notification" target="_blank" rel="noopener">Australian Office of Drug Control</a></p>
+      </article>
+
+      <article class="tool" data-cat="lab">
+        <span class="access acc-req">Request via UNODC office</span>
+        <h4>UNODC precursor test kits<small>Colour tests for preliminary field identification</small></h4>
+        <p>Rapid colour tests for drugs and common precursors, for example acetic anhydride and potassium permanganate. Precursor kits come in English, French, Russian and Spanish; pocket kits can be built for a targeted group of substances; training is available on request.</p>
+        <ul>
+          <li>Request through the UNODC country or regional office (or the UNDP resident representative where there is none).</li>
+          <li>A positive result is presumptive: confirm in an authorised laboratory.</li>
+        </ul>
+        <p class="tool-links"><a href="https://www.unodc.org/unodc/en/scientists/druge-kits-new.html" target="_blank" rel="noopener">UNODC test kits</a></p>
+      </article>
+
+      <article class="tool" data-cat="lab">
+        <span class="access acc-pub">Public manuals</span>
+        <h4>Rapid testing and Raman guidance<small>UNODC Laboratory and Scientific Section</small></h4>
+        <ul>
+          <li><b>Rapid Testing Methods of Drugs of Abuse</b> (ST/NAR/13/Rev.1): sampling for field tests, how to run and interpret chemical tests for drugs and precursors, and a suggested training programme.</li>
+          <li><b>Guidelines on Raman handheld devices</b>: non-destructive identification of drugs, precursors and cutting agents, even through transparent or translucent containers, with limitations and safety notes.</li>
+        </ul>
+        <p class="tool-links"><a href="https://www.unodc.org/unodc/en/scientists/rapid-testing-methods-of-drugs-of-abuse_new.html" target="_blank" rel="noopener">Rapid testing manual</a><a href="https://www.unodc.org/unodc/en/scientists/guidelines-on-raman-field-identification-devices.html" target="_blank" rel="noopener">Raman guidelines</a></p>
+      </article>
+
+      <article class="tool" data-cat="lab">
+        <span class="access acc-pub">Public manuals</span>
+        <h4>Clandestine laboratories<small>UNODC manuals for investigators and analysts</small></h4>
+        <ul>
+          <li><b>Clandestine Manufacture of Substances under International Control</b> (ST/NAR/10/Rev.3): monographs of each substance with the main precursors it needs, to support investigation of laboratories.</li>
+          <li><b>Guidelines for the Safe Disposal of Chemicals used in the illicit manufacture of drugs</b> (ST/NAR/36): safe handling, storage and disposal of seized chemicals and waste, including where no waste infrastructure exists.</li>
+        </ul>
+        <p class="tool-links"><a href="https://unodc.org/unodc/en/scientists/clandestine-manufacture-of-substances-under-international-control_new.html" target="_blank" rel="noopener">Clandestine manufacture manual</a><a href="https://www.unodc.org/unodc/en/scientists/safe-handling-and-disposal-of-chemicals-used-in-the-illicit-manufacture-of-drugs.html" target="_blank" rel="noopener">Safe disposal guidelines</a></p>
+      </article>
+
+      <article class="tool" data-cat="guide">
+        <span class="access acc-pub">Public</span>
+        <h4>INCB Red List and precursor reports<small>The reference lists behind this tool</small></h4>
+        <p>The Red List gives Table I and II names, synonyms, CAS and HS information; the annual Precursors Report describes trends in licit trade and trafficking. INCB also publishes precursor monographs (2020), a guide for investigating suspicious internet postings of precursor chemicals, and guidelines on preventing diversion of equipment.</p>
+        <p class="tool-links"><a href="https://www.incb.org/incb/en/precursors/red-list.html" target="_blank" rel="noopener">Red List</a><a href="https://www.incb.org/incb/en/precursors/information-package-part-a.html" target="_blank" rel="noopener">Information package, part A</a></p>
+      </article>
+
+      <article class="tool" data-cat="guide">
+        <span class="access acc-pub">Public</span>
+        <h4>UNODC Multilingual Dictionary and toolkit<small>Names in the six UN languages · forensic resources</small></h4>
+        <p>The dictionary gives the chemical names of the internationally controlled precursors in Arabic, Chinese, English, French, Russian and Spanish, which helps when a label or document is not in your language. The UNODC synthetic drugs toolkit collects forensic and precursor resources.</p>
+        <p class="tool-links"><a href="https://unodc.org/unodc/en/scientists/multilingual-dictionary-of-precursors-and-chemicals.html" target="_blank" rel="noopener">Multilingual Dictionary</a><a href="https://syntheticdrugs.unodc.org/syntheticdrugs/en/library/forensics.html" target="_blank" rel="noopener">Forensics toolkit</a></p>
+      </article>
+
+      <article class="tool" data-cat="guide">
+        <span class="access acc-pub">Public</span>
+        <h4>Training on this site<small>Courses and videos for officers</small></h4>
+        <p>Use the <b>Training &amp; media</b> menu at the top of the page for the precursor course (English and French), the evidence-handling, crime-scene and concealment courses, and the training videos.</p>
+        <p class="tool-links"><a href="course/en/">Precursor course</a><a href="evidence-course/">Evidence handling</a><a href="videos/">Videos</a></p>
+      </article>
+    </div>
+
+    <div class="card">
+      <h3>Contacts</h3>
+      <div class="table-wrap">
+        <table class="plain-table contact-table">
+          <thead><tr><th>For</th><th>Contact</th></tr></thead>
+          <tbody>
+            <tr><td>PICS account</td><td><a href="mailto:incb.pics@un.org">incb.pics@un.org</a></td></tr>
+            <tr><td>PEN Online</td><td><a href="mailto:incb.pen@un.org">incb.pen@un.org</a></td></tr>
+            <tr><td>Precursors, Prism, Cohesion, ISSL</td><td><a href="mailto:incb.precursors@un.org">incb.precursors@un.org</a></td></tr>
+            <tr><td>Your Competent National Authority</td><td><a href="https://www.incb.org/incb/en/precursors/cna.html" target="_blank" rel="noopener">INCB list of CNAs</a></td></tr>
+            <tr><td>CENcomm and CEN suite</td><td><a href="mailto:cis@wcoomd.org">cis@wcoomd.org</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="hint2">Sources: INCB Precursors Reports 2019–2024, INCB circular letter CL 11/2026, INCB tools and resources brochure, UNODC Laboratory and Scientific Section pages, WCO pages and WCO News 110 (2026), EUR-Lex, DEA Diversion Control Division. Not legal advice.</p>
+    </div>
+  </section>
+
+  <!-- INCIDENT REPORT -->
+  <section id="panel-report" role="tabpanel" aria-labelledby="tab-report" hidden>
+    <div class="card form">
+      <h3>Incident report sheet</h3>
+      <p class="lead">Collect the details of a seizure, stopped shipment or suspicious consignment in one place, then copy them into PICS, CENcomm, ContainerCOMM or your national system. <b>Nothing is stored or sent</b>: it exists only on this page and disappears when you close it. Use company names rather than personal data unless your national rules allow it.</p>
+      <p class="hint2">The headings follow what incident systems typically ask for. Check the exact fields of the system you report to.</p>
+
+      <div class="rep-sec">Incident</div>
+      <div class="fgrid three">
+        <div><label for="r-ref">Your reference</label><input id="r-ref" type="text" autocomplete="off"></div>
+        <div><label for="r-date">Date</label><input id="r-date" type="date"></div>
+        <div><label for="r-kind">Type</label>
+          <select id="r-kind"><option>Seizure</option><option>Shipment stopped / held</option><option>Suspicious consignment (not seized)</option><option>Illicit laboratory</option><option>Attempted diversion</option></select></div>
+        <div><label for="r-agency">Agency</label><input id="r-agency" type="text" autocomplete="off"></div>
+        <div class="full"><label for="r-place">Place (port, airport, border post, town) and country</label><input id="r-place" type="text" autocomplete="off"></div>
+      </div>
+
+      <div class="rep-sec">Chemical</div>
+      <div class="fgrid">
+        <div class="full"><label for="r-chem">Name <span class="hint">as found; use “Add to incident report” on a search result to fill this</span></label><input id="r-chem" type="text" autocomplete="off"></div>
+        <div><label for="r-cas">CAS</label><input id="r-cas" type="text" autocomplete="off" spellcheck="false" placeholder="108-24-7"></div>
+        <div><label for="r-un">UN number</label><input id="r-un" type="text" autocomplete="off" spellcheck="false" placeholder="UN1715"></div>
+        <div><label for="r-hs">HS code (declared)</label><input id="r-hs" type="text" autocomplete="off" spellcheck="false" placeholder="2915.24"></div>
+        <div><label for="r-status">Control status</label><input id="r-status" type="text" autocomplete="off" placeholder="e.g. INCB Table I, not scheduled"></div>
+        <div class="full"><p class="hint2" id="r-cas-msg" aria-live="polite"></p></div>
+      </div>
+
+      <div class="rep-sec">Quantity, packaging and label</div>
+      <div class="fgrid three">
+        <div><label for="r-qty">Quantity</label><input id="r-qty" type="number" min="0" step="any" inputmode="decimal"></div>
+        <div><label for="r-unit">Unit</label><select id="r-unit"><option>kg</option><option>litres</option><option>tonnes</option><option>pieces</option></select></div>
+        <div><label for="r-pack">Packaging</label><input id="r-pack" type="text" autocomplete="off" placeholder="25 kg drums, IBC, bottles…"></div>
+        <div><label for="r-label">Product name on label</label><input id="r-label" type="text" autocomplete="off"></div>
+        <div><label for="r-mfr">Manufacturer on label</label><input id="r-mfr" type="text" autocomplete="off"></div>
+        <div><label for="r-lot">Lot / batch</label><input id="r-lot" type="text" autocomplete="off"></div>
+      </div>
+
+      <div class="rep-sec">Shipment and route</div>
+      <div class="fgrid three">
+        <div><label for="r-cont">Container / vehicle / parcel no.</label><input id="r-cont" type="text" autocomplete="off"></div>
+        <div><label for="r-seal">Seal no.</label><input id="r-seal" type="text" autocomplete="off"></div>
+        <div><label for="r-bl">B/L, AWB or CMR no.</label><input id="r-bl" type="text" autocomplete="off"></div>
+        <div><label for="r-orig">Origin (port, country)</label><input id="r-orig" type="text" autocomplete="off"></div>
+        <div><label for="r-transit">Transit / transhipment</label><input id="r-transit" type="text" autocomplete="off"></div>
+        <div><label for="r-dest">Destination (port, country)</label><input id="r-dest" type="text" autocomplete="off"></div>
+        <div><label for="r-conceal">Concealment</label>
+          <select id="r-conceal"><option value="">None noted</option><option>Declared as other goods</option><option>Mixed in with legitimate cargo</option><option>Hidden compartment / false packaging</option><option>Other (see notes)</option></select></div>
+        <div class="full"><label for="r-decl">Declared goods and HS on the documents</label><input id="r-decl" type="text" autocomplete="off"></div>
+      </div>
+
+      <div class="rep-sec">Companies on the documents</div>
+      <div class="fgrid three">
+        <div><label for="r-consignor">Exporter / consignor</label><input id="r-consignor" type="text" autocomplete="off"></div>
+        <div><label for="r-consignee">Consignee</label><input id="r-consignee" type="text" autocomplete="off"></div>
+        <div><label for="r-forwarder">Forwarder / carrier</label><input id="r-forwarder" type="text" autocomplete="off"></div>
+      </div>
+
+      <div class="rep-sec">Checks done</div>
+      <div class="checkgrid">
+        <label><input type="checkbox" id="c-permit"> Import / export permit seen</label>
+        <label><input type="checkbox" id="c-permit-ok"> Permit confirmed by the issuing authority</label>
+        <label><input type="checkbox" id="c-pen"> PEN trail checked with the CNA</label>
+        <label><input type="checkbox" id="c-label"> Label check run (CAS, UN, manufacturer agree)</label>
+        <label><input type="checkbox" id="c-photo"> Photos taken (labels, seals, documents)</label>
+        <label><input type="checkbox" id="c-field"> Field test done</label>
+        <label><input type="checkbox" id="c-sample"> Samples taken under chain of custody</label>
+        <label><input type="checkbox" id="c-lab"> Sent to laboratory for confirmation</label>
+      </div>
+      <div class="fgrid">
+        <div><label for="r-test">Field test / lab result</label><input id="r-test" type="text" autocomplete="off" placeholder="e.g. presumptive positive, kit used"></div>
+        <div><label for="r-chain">Sample / exhibit reference</label><input id="r-chain" type="text" autocomplete="off"></div>
+      </div>
+
+      <div class="rep-sec">Report and share</div>
+      <div class="checkgrid">
+        <label><input type="checkbox" id="s-pics"> PICS (precursors and equipment)</label>
+        <label><input type="checkbox" id="s-ionics"> IONICS (fentanyl, NPS and related chemicals)</label>
+        <label><input type="checkbox" id="s-cen"> CENcomm / ContainerCOMM</label>
+        <label><input type="checkbox" id="s-pp"> Prism / Cohesion focal point informed</label>
+        <label><input type="checkbox" id="s-cna"> Competent National Authority informed</label>
+        <label><input type="checkbox" id="s-police"> INTERPOL / Europol / partner agencies</label>
+      </div>
+      <label for="r-notes">Notes (indicators, how it was found, anything unusual)</label>
+      <textarea id="r-notes"></textarea>
+
+      <div class="btnrow">
+        <button id="r-make" class="primary" type="button">Create summary</button>
+        <button id="r-clear" class="secondary" type="button">Clear form</button>
+      </div>
+    </div>
+
+    <div class="card" id="r-out" hidden>
+      <h3>Summary</h3>
+      <pre id="r-sheet" tabindex="0"></pre>
+      <div class="btnrow no-print">
+        <button id="r-copy" class="primary" type="button">Copy text</button>
+        <button id="r-txt" class="secondary" type="button">Download .txt</button>
+        <button id="r-json" class="secondary" type="button">Download .json</button>
+        <button id="r-print" class="secondary" type="button">Print</button>
+      </div>
+      <p id="r-msg" class="hint2 no-print" aria-live="polite"></p>
     </div>
   </section>
 
@@ -306,15 +685,20 @@
   </section>
 </main>
 
-<footer class="wrap foot">
-  Reference aid only – verify by laboratory analysis and national law. Data: INCB Red List (public) and public-domain chemical identifiers.
+<footer class="site-foot">
+  <div class="wrap">
+    <p><b>Reference aid only.</b> Verify by laboratory analysis and national law. A label is never proof of contents, and “not in database” does not mean “not controlled”.</p>
+    <p>Data: INCB Red List (public) and public-domain chemical identifiers. The restricted INCB surveillance list (ISSL) is not reproduced. Runs in your browser; nothing you type is sent anywhere.</p>
+    <p><a href="https://github.com/glretief-ux/Precursor-Chemical-ID" target="_blank" rel="noopener">Source &amp; data on GitHub</a> · Corrections welcome via pull request.</p>
+  </div>
 </footer>
 
-<script src="data/chemicals.js?v=17c9ee9b"></script>
-<script src="data/countries.js?v=17c9ee9b"></script>
-<script src="data/world.js?v=17c9ee9b"></script>
-<script src="data/manufacturers.js?v=17c9ee9b"></script>
-<script src="app.js?v=17c9ee9b"></script>
+<script src="data/chemicals.js?v=8c77c420"></script>
+<script src="data/countries.js?v=8c77c420"></script>
+<script src="data/world.js?v=8c77c420"></script>
+<script src="data/manufacturers.js?v=8c77c420"></script>
+<script src="app.js?v=8c77c420"></script>
+<script src="extras.js?v=8c77c420"></script>
 <script src="byte-config.js"></script>
 <script src="byte.js"></script>
 </body>
