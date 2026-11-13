@@ -13,7 +13,7 @@
   /* parts of the page the app fills in itself: translated text-node by text-node */
   var DYN = "#results,#l-result,#m-panel,#b-table tbody,#u-list,#kpis,#m-listbox,#m-legend,#tc-meta,#meta,#count,#b-count,#m-count,#f-drug,#u-msg,#r-cas-msg,#r-msg";
   /* these are never part of the static pass (they are dynamic, or have their own translation) */
-  var SKIP = DYN + ",#examples,#r-sheet,#byteBtn,#byteNudge,#byteModal,#byteSay";
+  var SKIP = DYN + ",#examples,#r-sheet,#ta-list,#byteBtn,#byteNudge,#byteModal,#byteSay";
   var ATTRS = ["placeholder", "aria-label", "title", "alt"];
 
   var lang = valid(window.PCI_LANG);

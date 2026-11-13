@@ -120,6 +120,15 @@ button.small,.btn-sm{min-height:34px;padding:6px 12px;font-size:.8rem;margin-top
 .res .res-head{background:var(--head-bg);color:var(--head-ink)}
 .res .res-head h2{color:#fff}
 .res{overflow:hidden}
+/* type-ahead list shown under a field while typing */
+#ta-list{position:absolute;z-index:60;margin:0;padding:4px;list-style:none;max-height:min(320px,45vh);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgba(11,39,69,.18);box-sizing:border-box;text-align:left}
+#ta-list[hidden]{display:none}
+#ta-list li{display:flex;align-items:baseline;gap:10px;min-height:40px;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:.9rem;color:var(--ink);box-sizing:border-box}
+#ta-list li.active,#ta-list li:hover{background:var(--surface-2)}
+#ta-list li.active{box-shadow:inset 3px 0 0 var(--accent)}
+#ta-list .nm{flex:1;min-width:0;font-weight:700;overflow-wrap:anywhere}
+#ta-list .sb{flex:none;max-width:50%;color:var(--muted);font-size:.76rem;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media print{#ta-list{display:none}}
 /* result card fields: tap a row to open it */
 .fields{margin:.2em 0;border-top:1px solid var(--line)}
 .fld{border-bottom:1px solid var(--line)}

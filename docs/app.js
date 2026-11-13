@@ -658,11 +658,160 @@
     window.scrollTo(0, 0);
   }
 
+  /* ---------- type-ahead: suggestions under a field as you type ---------- */
+  var TA = { inp: null, items: [], idx: -1, cfg: null, quiet: false };
+  var TA_MAX = 8;
+  function taRank(q, list) {       /* list of [text, entry]; best = starts with q, then a word starts with q, then contains q */
+    var out = [], seen = {};
+    list.forEach(function (p) {
+      var n = norm(p[0]), r = n.indexOf(q) === 0 ? 0 : (" " + n).indexOf(" " + q) >= 0 ? 1 : compact(p[0]).indexOf(q.replace(/ /g, "")) >= 0 ? 2 : -1;
+      if (r < 0 || seen[p[1].v]) return;
+      seen[p[1].v] = 1; out.push({ r: r + (p[2] ? 0.5 : 0), e: p[1] });   /* p[2]: an alias, listed after main names */
+    });
+    out.sort(function (a, b) { return a.r - b.r || a.e.v.length - b.e.v.length || (a.e.v < b.e.v ? -1 : 1); });
+    return out.slice(0, TA_MAX).map(function (o) { return o.e; });
+  }
+  function taNames(raw) {
+    var q = norm(raw); if (!q) return [];
+    var list = [];
+    CHEMS.forEach(function (c) {
+      list.push([c.name, { v: c.name, sub: c.cas || "" }]);
+      (c.synonyms || []).forEach(function (s) { list.push([s, { v: s, sub: c.name }, 1]); });
+    });
+    return taRank(q, list);
+  }
+  function taCas(raw) {
+    var q = raw.replace(/[^0-9]/g, ""); if (!q) return [];
+    var out = [];
+    CHEMS.forEach(function (c) {
+      c._allCas.forEach(function (cas) { if (cas.replace(/-/g, "").indexOf(q) === 0) out.push({ v: cas, sub: c.name }); });
+    });
+    out.sort(function (a, b) { return a.v.length - b.v.length || (a.v < b.v ? -1 : 1); });
+    return out.slice(0, TA_MAX);
+  }
+  function taUn(raw) {
+    var q = raw.toUpperCase().replace(/[^0-9]/g, ""), by = {};
+    if (!q && !/^u/i.test(raw.trim())) return [];
+    CHEMS.forEach(function (c) { (c.un || []).forEach(function (u) { if (u.slice(2).indexOf(q) === 0) (by[u] = by[u] || []).push(c.name); }); });
+    return Object.keys(by).sort().slice(0, TA_MAX).map(function (u) { return { v: u, sub: by[u].slice(0, 2).join(", ") + (by[u].length > 2 ? " +" + (by[u].length - 2) : "") }; });
+  }
+  function taHs(raw) {
+    var q = raw.replace(/[^0-9]/g, ""), by = {}; if (!q) return [];
+    CHEMS.forEach(function (c) { if (c.hs && c._hs.indexOf(q) === 0) (by[c.hs] = by[c.hs] || []).push(c.name); });
+    return Object.keys(by).sort().slice(0, TA_MAX).map(function (h) { return { v: h, sub: by[h].slice(0, 2).join(", ") + (by[h].length > 2 ? " +" + (by[h].length - 2) : "") }; });
+  }
+  function taAny(raw) {            /* main search box: a number can be a CAS, a UN number or an HS code */
+    var t = raw.trim();
+    if (/^un\s*\d*$/i.test(t)) return taUn(t);
+    if (/^[\d.\- ]+$/.test(t)) return taCas(t).concat(taUn(t), taHs(t)).slice(0, TA_MAX);
+    return taNames(t);
+  }
+  function taCompany(raw) {
+    var q = norm(raw); if (!q) return [];
+    var list = [];
+    allCompanies().forEach(function (co) {
+      list.push([co.name, { v: co.name, sub: co.country || "" }]);
+      (co.aliases || []).forEach(function (a) { list.push([a, { v: a, sub: co.name }, 1]); });
+    });
+    return taRank(q, list);
+  }
+  function taCountry(raw) {
+    var q = norm(raw); if (!q) return [];
+    return taRank(q, WORLD.countries.map(function (c) { return [c.n, { v: c.n, sub: T(c.r || "") }]; }));
+  }
+  function taStatus(raw) {
+    var q = norm(raw); if (!q) return [];
+    return taRank(q, ["T1", "T2", "NS"].map(function (k) { var l = T(REGIME_LABEL[k]); return [l, { v: l, sub: "" }]; }));
+  }
+  /* which fields get suggestions, and from where. part: only the text after the last comma is completed. */
+  var TA_FIELDS = {
+    "q": { src: taAny }, "b-filter": { src: taNames },
+    "l-name": { src: taNames }, "r-chem": { src: taNames }, "r-label": { src: taNames }, "r-decl": { src: taNames, part: true },
+    "l-cas": { src: taCas }, "r-cas": { src: taCas }, "u-cas": { src: taCas, part: true },
+    "l-un": { src: taUn }, "r-un": { src: taUn }, "r-hs": { src: taHs },
+    "company": { src: taCompany }, "l-company": { src: taCompany }, "r-mfr": { src: taCompany }, "u-name": { src: taCompany },
+    "r-consignor": { src: taCompany }, "r-consignee": { src: taCompany },
+    "u-country": { src: taCountry }, "r-place": { src: taCountry, part: true }, "r-orig": { src: taCountry, part: true },
+    "r-transit": { src: taCountry, part: true }, "r-dest": { src: taCountry, part: true },
+    "r-status": { src: taStatus }
+  };
+  function taToken(v, cfg) { return cfg.part ? v.slice(v.lastIndexOf(",") + 1) : v; }
+  function taBox() {
+    var b = $("ta-list");
+    if (!b) {
+      b = document.createElement("ul"); b.id = "ta-list"; b.setAttribute("role", "listbox"); b.hidden = true;
+      document.body.appendChild(b);
+      b.addEventListener("mousedown", function (e) { e.preventDefault(); });   /* keep the field focused */
+      b.addEventListener("click", function (e) { var li = e.target.closest("li[data-n]"); if (li) taPick(parseInt(li.getAttribute("data-n"), 10)); });
+    }
+    return b;
+  }
+  function taPlace() {
+    if (!TA.inp) return;
+    var r = TA.inp.getBoundingClientRect(), b = taBox();
+    b.style.left = (r.left + window.pageXOffset) + "px";
+    b.style.top = (r.bottom + window.pageYOffset + 4) + "px";
+    b.style.width = r.width + "px";
+  }
+  function taRender() {
+    var b = taBox();
+    b.innerHTML = TA.items.map(function (it, i) {
+      return '<li role="option" id="ta-opt-' + i + '" data-n="' + i + '"' + (i === TA.idx ? ' class="active" aria-selected="true"' : "") + '><span class="nm">' + esc(it.v) + "</span>" + (it.sub ? '<span class="sb">' + esc(it.sub) + "</span>" : "") + "</li>";
+    }).join("");
+    if (TA.idx >= 0) TA.inp.setAttribute("aria-activedescendant", "ta-opt-" + TA.idx); else TA.inp.removeAttribute("aria-activedescendant");
+    var el = b.querySelector("li.active"); if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
+  }
+  function taClose() {
+    if (TA.inp) { TA.inp.setAttribute("aria-expanded", "false"); TA.inp.removeAttribute("aria-activedescendant"); }
+    var b = taBox(); b.hidden = true; b.innerHTML = ""; TA.inp = null; TA.items = []; TA.idx = -1;
+  }
+  function taUpdate(inp, cfg) {
+    var tok = taToken(inp.value, cfg), items = tok.trim() ? cfg.src(tok) : [];
+    /* nothing to offer, or the only suggestion is exactly what is already typed */
+    if (!items.length || (items.length === 1 && norm(items[0].v) === norm(tok))) { taClose(); return; }
+    TA.inp = inp; TA.cfg = cfg; TA.items = items; TA.idx = -1;
+    inp.setAttribute("aria-expanded", "true");
+    taBox().hidden = false; taPlace(); taRender();
+  }
+  function taPick(i) {
+    var it = TA.items[i], inp = TA.inp, cfg = TA.cfg; if (!it || !inp) return;
+    var v = inp.value, cut = cfg.part ? v.lastIndexOf(",") + 1 : 0;
+    inp.value = cut ? v.slice(0, cut) + " " + it.v : it.v;
+    taClose();
+    TA.quiet = true;                 /* let the page react to the new value without reopening the list */
+    inp.dispatchEvent(new Event("input", { bubbles: true }));
+    TA.quiet = false;
+    inp.focus();
+  }
+  function initTypeAhead() {
+    Object.keys(TA_FIELDS).forEach(function (id) {
+      var inp = $(id), cfg = TA_FIELDS[id]; if (!inp) return;
+      inp.setAttribute("role", "combobox"); inp.setAttribute("aria-autocomplete", "list");
+      inp.setAttribute("aria-controls", "ta-list"); inp.setAttribute("aria-expanded", "false");
+      inp.addEventListener("input", function () { if (!TA.quiet) taUpdate(inp, cfg); });
+      inp.addEventListener("blur", function () { if (TA.inp === inp) taClose(); });
+      inp.addEventListener("keydown", function (e) {
+        if (TA.inp !== inp) { if (e.key === "ArrowDown" && inp.value.trim()) { e.preventDefault(); taUpdate(inp, cfg); } return; }
+        var n = TA.items.length;
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          TA.idx = e.key === "ArrowDown" ? (TA.idx + 1) % n : (TA.idx <= 0 ? n - 1 : TA.idx - 1);
+          taRender();
+        } else if (e.key === "Enter" && TA.idx >= 0) {
+          e.preventDefault(); e.stopImmediatePropagation(); taPick(TA.idx);
+        } else if (e.key === "Escape") { e.preventDefault(); taClose(); }
+        else if (e.key === "Enter") taClose();
+      }, true);
+    });
+    window.addEventListener("resize", function () { if (TA.inp) taPlace(); });
+  }
+
   function init() {
     applyCountryNames();
     DRUGS.forEach(function (d, i) { var o = document.createElement("option"); o.value = i; o.textContent = d[0]; $("f-drug").appendChild(o); });
     ["search", "map", "label", "browse", "controls", "tools", "report", "about"].forEach(function (t) { $("tab-" + t).addEventListener("click", function () { showTab(t); }); });
 
+    initTypeAhead();
     ["q", "company"].forEach(function (id) { $(id).addEventListener("input", runSearch); });
     ["f-regime", "f-drug"].forEach(function (id) { $(id).addEventListener("change", runSearch); });
 
