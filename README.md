@@ -13,6 +13,10 @@ It runs entirely in the browser (no server, no tracking, works offline), so it i
 | **Sticker / label check** | Type the company printed on the label. The tool tells you if that company is a known producer/supplier of the chemical, tolerating spelling errors. |
 | **Label consistency** | Cross-checks product name ↔ CAS ↔ UN number, and validates the **CAS check digit** (an invalid CAS can't exist — a red flag for falsified labels). |
 | **Browse / export** | Full list with status filter and CSV download. |
+| **Intelligence & tools** | The reporting and verification systems an investigator needs after identifying a chemical: INCB PICS, PEN Online / Light, ISSL, Prism and Cohesion, GRIDS/IONICS, WCO CEN/CENcomm, ContainerCOMM, EU and DEA rules, UNODC field kits and manuals, with who can use each one and how to get access. Includes a post-interdiction workflow. |
+| **Incident report** | A sheet that collects the facts of a seizure or stopped shipment (chemical, quantity, label, route, companies, checks done, who was told) and exports them as text, JSON or print for PICS, CENcomm or a national system. Nothing is stored or sent. "Add to incident report" on any search result pre-fills it. |
+| **Country picker** | The World map tab has a compact region + country dropdown with type-ahead and keyboard support instead of a wall of country buttons. |
+| **Light / dark mode** | Toggle in the top bar. Follows the device setting until you choose, then remembers your choice on that device. |
 | **My companies** | Add companies you have verified; saved only on your device; export as JSON to contribute back. |
 
 ## Coverage
@@ -32,9 +36,12 @@ It runs entirely in the browser (no server, no tracking, works offline), so it i
 ```
 data/chemicals.json        source of truth for chemicals (edit this)
 data/manufacturers.json    companies known to produce/supply chemicals (edit this)
+data/countries.json        nationally controlled chemicals per country (edit this)
 scripts/build.py           validates data (CAS checksums etc.) and builds the bundles
 scripts/test_app.js        smoke tests (jsdom)
 docs/                      the web app (served by GitHub Pages)
+  styles.css, theme.css    base styles and the light/dark theme layer
+  app.js, extras.js        search, map and country picker; theme toggle, tools, incident report
 dist/                      single-file offline build
 .github/workflows/         CI: validate data and deploy Pages
 ```

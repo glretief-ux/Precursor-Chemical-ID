@@ -210,8 +210,8 @@
     if (c.added) h += "<dt>Scheduled</dt><dd>" + esc(c.added) + "</dd>";
     if (c.notes) h += "<dt>Notes</dt><dd>" + esc(c.notes) + "</dd>";
     var cl = CHEM_COUNTRIES[c.id];
-    if (cl && cl.length) h += "<dt>Nationally controlled in</dt><dd><div class=\"chips\">" + countryChips(cl.filter(function (i, n) { return cl.indexOf(i) === n; })) + "</div></dd>";
-    h += "</dl></div>" + companyVerdict(c, companyRaw) + "</article>";
+    if (cl && cl.length) h += "<dt>Nationally controlled in</dt><dd><div class=\"chips\">" + countryChipsCompact(cl.filter(function (i, n) { return cl.indexOf(i) === n; })) + "</div></dd>";
+    h += "</dl><div class=\"card-actions\"><button type=\"button\" class=\"secondary small\" data-report=\"" + esc(c.id) + "\">Add to incident report</button></div></div>" + companyVerdict(c, companyRaw) + "</article>";
     return h;
   }
 
@@ -399,6 +399,11 @@
     if (d.coverage === "partial") return "c-partial";
     return d.extras.length ? "c-extra" : "c-clear";
   }
+  function countryChipsCompact(ids, max) {
+    max = max || 6;
+    if (ids.length <= max) return countryChips(ids);
+    return countryChips(ids.slice(0, max)) + '<details class="more-chips"><summary>+' + (ids.length - max) + ' more countries</summary><div class="chips">' + countryChips(ids.slice(max)) + "</div></details>";
+  }
   function countryChips(ids) {
     return ids.map(function (i) { return BYISO[i] ? '<button type="button" class="chip" data-country="' + i + '">' + esc(BYISO[i].l) + "</button>" : ""; }).join("");
   }
@@ -495,11 +500,6 @@
     }
     $("m-panel").innerHTML = h;
   }
-  function renderMapList() {
-    var f = norm($("m-filter").value);
-    var list = WORLD.countries.filter(function (c) { return !MAP.region || c.r === MAP.region; }).sort(function (a, b) { return a.n < b.n ? -1 : a.n > b.n ? 1 : 0; }).filter(function (c) { return !f || norm(c.n).indexOf(f) >= 0 || c.i.toLowerCase() === f; });
-    $("m-list").innerHTML = list.map(function (c) { return '<button type="button" class="chip ' + covClass(c.i) + '" data-country="' + c.i + '">' + esc(c.n) + "</button>"; }).join("");
-  }
   function focusRegion(reg) {
     MAP.region = reg || "";
     var set = WORLD.countries.filter(function (c) { return c.r === reg; });
@@ -510,15 +510,77 @@
       MAP.k = Math.min(8, WORLD.w / w, WORLD.h / h);
       MAP.tx = WORLD.w / 2 - (x0 + x1) / 2 * MAP.k; MAP.ty = WORLD.h / 2 - (y0 + y1) / 2 * MAP.k;
     } else { MAP.k = 1; MAP.tx = 0; MAP.ty = 0; }
-    $("m-africa").setAttribute("aria-pressed", reg === "Africa" ? "true" : "false");
-    $("m-africa").textContent = reg === "Africa" ? "Show whole world" : "Focus on Africa";
-    applyView(); renderMapList(); mapCount();
+    $("m-region").value = MAP.region;
+    applyView(); mapCount(); if (COMBO.open) renderCombo();
   }
   function mapCount() {
     var set = WORLD.countries.filter(function (c) { return !MAP.region || c.r === MAP.region; });
     var n = { verified: 0, partial: 0, none: 0, extra: 0 };
     set.forEach(function (c) { var d = CDATA[c.i]; n[d ? d.coverage : "none"]++; if (d && d.extras.length) n.extra++; });
-    $("m-count").textContent = set.length + " countries and territories" + (MAP.region ? " in " + MAP.region : "") + ": " + n.verified + " with a full national list read, " + n.partial + " partial, " + n.none + " with no public list found. " + n.extra + " have chemicals beyond INCB Tables I and II.";
+    $("m-count").textContent = set.length + " countries and territories" + (MAP.region ? " in " + MAP.region : "") + ": " + n.verified + " with a full national list read, " + n.partial + " partial, " + n.none + " with no public list found. " + n.extra + " control chemicals beyond INCB Tables I and II.";
+  }
+  /* ---------- compact country picker (combobox) ---------- */
+  var COMBO = { open: false, idx: -1, items: [], filtering: false };
+  function comboItems(q) {
+    var f = norm(q);
+    var list = WORLD.countries.filter(function (c) { return (!MAP.region || c.r === MAP.region) && (!f || norm(c.n).indexOf(f) >= 0 || norm(c.l || "").indexOf(f) >= 0 || c.i.toLowerCase() === f); });
+    list.sort(function (a, b) {
+      var as = f && norm(a.n).indexOf(f) === 0 ? 0 : 1, bs = f && norm(b.n).indexOf(f) === 0 ? 0 : 1;
+      return as - bs || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0);
+    });
+    return list;
+  }
+  function renderCombo() {
+    var inp = $("m-search"), ul = $("m-listbox");
+    COMBO.items = comboItems(COMBO.filtering ? inp.value : "");
+    if (COMBO.idx >= COMBO.items.length) COMBO.idx = COMBO.items.length - 1;
+    ul.innerHTML = COMBO.items.length ? COMBO.items.map(function (c, i) {
+      var cur = MAP.sel === c.i;
+      return '<li role="option" id="m-opt-' + c.i + '" data-i="' + c.i + '" class="' + (i === COMBO.idx ? "active" : "") + '" aria-selected="' + (cur ? "true" : "false") + '"><span class="cdot ' + covClass(c.i) + '"></span><span class="nm">' + esc(c.n) + '</span><span class="rg">' + esc(c.r) + "</span></li>";
+    }).join("") : '<li class="empty" role="option" aria-disabled="true">No matching country</li>';
+    var act = COMBO.items[COMBO.idx];
+    if (act) inp.setAttribute("aria-activedescendant", "m-opt-" + act.i); else inp.removeAttribute("aria-activedescendant");
+    var el = ul.querySelector("li.active"); if (el && el.scrollIntoView) el.scrollIntoView({ block: "nearest" });
+  }
+  function openCombo(filtering) {
+    COMBO.open = true; COMBO.filtering = !!filtering;
+    $("m-listbox").hidden = false; $("m-combo").classList.add("open"); $("m-search").setAttribute("aria-expanded", "true");
+    if (!filtering) { COMBO.idx = -1; }
+    renderCombo();
+    if (!filtering && MAP.sel) { var cur = $("m-opt-" + MAP.sel); if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: "center" }); }
+  }
+  function closeCombo() {
+    COMBO.open = false; COMBO.idx = -1;
+    $("m-listbox").hidden = true; $("m-combo").classList.remove("open"); $("m-search").setAttribute("aria-expanded", "false");
+    $("m-search").removeAttribute("aria-activedescendant");
+    if (MAP.sel && BYISO[MAP.sel]) $("m-search").value = BYISO[MAP.sel].n; else if (!COMBO.filtering) $("m-search").value = "";
+  }
+  function pickCombo(iso) { closeCombo(); selectCountry(iso, true); $("m-search").blur(); }
+  function initCombo() {
+    var inp = $("m-search"), ul = $("m-listbox");
+    inp.addEventListener("focus", function () { if (!COMBO.open) { openCombo(false); try { inp.select(); } catch (e) {} } });
+    inp.addEventListener("click", function () { if (!COMBO.open) openCombo(false); });
+    inp.addEventListener("input", function () { COMBO.idx = 0; if (!COMBO.open) openCombo(true); else { COMBO.filtering = true; renderCombo(); } });
+    inp.addEventListener("keydown", function (e) {
+      var k = e.key;
+      if (k === "ArrowDown" || k === "ArrowUp") {
+        e.preventDefault();
+        if (!COMBO.open) { openCombo(false); return; }
+        var n = COMBO.items.length; if (!n) return;
+        COMBO.idx = k === "ArrowDown" ? (COMBO.idx + 1) % n : (COMBO.idx <= 0 ? n - 1 : COMBO.idx - 1);
+        renderCombo();
+      } else if (k === "Enter") {
+        if (COMBO.open) { e.preventDefault(); var it = COMBO.items[COMBO.idx >= 0 ? COMBO.idx : 0]; if (it && (COMBO.idx >= 0 || COMBO.items.length === 1 || COMBO.filtering)) pickCombo(it.i); }
+      } else if (k === "Escape") {
+        if (COMBO.open) { e.preventDefault(); COMBO.filtering = false; closeCombo(); }
+      } else if (k === "Tab") { COMBO.filtering = false; if (COMBO.open) closeCombo(); }
+    });
+    $("m-toggle").addEventListener("mousedown", function (e) { e.preventDefault(); });
+    $("m-toggle").addEventListener("click", function () { if (COMBO.open) { COMBO.filtering = false; closeCombo(); } else { inp.focus(); openCombo(false); } });
+    ul.addEventListener("mousedown", function (e) { e.preventDefault(); });
+    ul.addEventListener("click", function (e) { var li = e.target.closest("li[data-i]"); if (li) pickCombo(li.getAttribute("data-i")); });
+    document.addEventListener("click", function (e) { if (COMBO.open && !e.target.closest("#m-combo")) { COMBO.filtering = false; closeCombo(); } });
+    $("m-region").addEventListener("change", function () { focusRegion(this.value); });
   }
   function initMap() {
     var svg = $("m-svg");
@@ -534,8 +596,6 @@
     $("m-legend").innerHTML = [["c-extra", "Extra chemicals (list read)"], ["c-clear", "List read, no extras"], ["c-partial", "Partial list"], ["c-none", "No public list found"]].map(function (x) {
       return '<span><i class="sw ' + x[0] + '"></i>' + x[1] + "</span>";
     }).join("");
-    $("m-names").innerHTML = WORLD.countries.map(function (c) { return '<option value="' + esc(c.n) + '">'; }).join("");
-    renderMapList();
     $("m-panel").innerHTML = '<p class="hint2">Select a country on the map, in the search box or in the list below.</p>';
 
     var pts = {}, last = 0;
@@ -569,20 +629,14 @@
     $("m-in").addEventListener("click", function () { zoomAt(1.6, WORLD.w / 2, WORLD.h / 2); });
     $("m-out").addEventListener("click", function () { zoomAt(1 / 1.6, WORLD.w / 2, WORLD.h / 2); });
     $("m-reset").addEventListener("click", function () { focusRegion(""); });
-    $("m-filter").addEventListener("input", renderMapList);
-    $("m-africa").addEventListener("click", function () { focusRegion(MAP.region === "Africa" ? "" : "Africa"); });
-    $("m-search").addEventListener("input", function () {
-      var v = norm(this.value); if (!v) return;
-      var c = WORLD.countries.filter(function (x) { return norm(x.n) === v || x.i.toLowerCase() === v; })[0];
-      if (c) selectCountry(c.i, true);
-    });
+    initCombo();
     window.addEventListener("resize", function () { if (!$("panel-map").hidden) drawLabels(); });
     MAP.ready = true;
   }
 
   /* ---------- tabs & wiring ---------- */
   function showTab(name) {
-    ["search", "map", "label", "browse", "controls", "about"].forEach(function (t) {
+    ["search", "map", "label", "browse", "controls", "tools", "report", "about"].forEach(function (t) {
       var on = t === name;
       $("tab-" + t).setAttribute("aria-selected", on ? "true" : "false");
       $("panel-" + t).hidden = !on;
@@ -594,7 +648,7 @@
 
   function init() {
     DRUGS.forEach(function (d, i) { var o = document.createElement("option"); o.value = i; o.textContent = d[0]; $("f-drug").appendChild(o); });
-    ["search", "map", "label", "browse", "controls", "about"].forEach(function (t) { $("tab-" + t).addEventListener("click", function () { showTab(t); }); });
+    ["search", "map", "label", "browse", "controls", "tools", "report", "about"].forEach(function (t) { $("tab-" + t).addEventListener("click", function () { showTab(t); }); });
 
     ["q", "company"].forEach(function (id) { $(id).addEventListener("input", runSearch); });
     ["f-regime", "f-drug"].forEach(function (id) { $(id).addEventListener("change", runSearch); });
@@ -632,6 +686,12 @@
       if (cc) { e.preventDefault(); showTab("map"); selectCountry(cc.getAttribute("data-country"), true); return; }
       var cm = e.target.closest("[data-chem]");
       if (cm) { var ch = CHEMS.filter(function (x) { return x.id === cm.getAttribute("data-chem"); })[0]; if (ch) { $("q").value = ch.cas || ch.name; $("company").value = ""; showTab("search"); runSearch(); } return; }
+      var rp = e.target.closest("[data-report]");
+      if (rp) {
+        var rc = CHEMS.filter(function (x) { return x.id === rp.getAttribute("data-report"); })[0];
+        if (rc) { showTab("report"); if (window.PCI && window.PCI.fillReport) window.PCI.fillReport({ name: rc.name, cas: rc.cas || "", un: (rc.un || []).join(", "), hs: rc.hs || "", status: REGIME_LABEL[rc._key] || "" }); }
+        return;
+      }
       var g = e.target.closest("[data-goto]");
       if (g) { e.preventDefault(); showTab(g.getAttribute("data-goto")); return; }
       var b = e.target.closest("[data-copy]"); if (!b) return;
