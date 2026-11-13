@@ -4,6 +4,7 @@
   "use strict";
   function $(id) { return document.getElementById(id); }
   var root = document.documentElement;
+  function T(s) { return window.PCI_I18N ? window.PCI_I18N.t(s) : s; }
 
   /* ---------- light / dark mode ---------- */
   function setTheme(t, save) {
@@ -13,13 +14,15 @@
     var b = $("theme-toggle");
     if (b) {
       b.setAttribute("aria-pressed", t === "dark" ? "true" : "false");
-      b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode");
-      b.title = t === "dark" ? "Switch to light mode" : "Switch to dark mode";
+      b.setAttribute("aria-label", T(t === "dark" ? "Switch to light mode" : "Switch to dark mode"));
+      b.title = T("Light / dark mode");
     }
     if (save) { try { localStorage.setItem("pci-theme", t); } catch (e) {} }
   }
   function stored() { try { var v = localStorage.getItem("pci-theme"); return v === "dark" || v === "light" ? v : null; } catch (e) { return null; } }
   setTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light", false);
+  window.PCI = window.PCI || {};
+  window.PCI.refreshTheme = function () { setTheme(root.getAttribute("data-theme") === "dark" ? "dark" : "light", false); };
   if ($("theme-toggle")) $("theme-toggle").addEventListener("click", function () {
     setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark", true);
   });
@@ -102,30 +105,30 @@
     var parts = [c.name + " (" + c.regime + ")"];
     msg.textContent = "In database: " + parts.join("") + ".";
     if (!$("r-chem").value.trim()) $("r-chem").value = c.name;
-    if (!$("r-status").value.trim()) $("r-status").value = c.regime;
+    if (!$("r-status").value.trim()) $("r-status").value = T(c.regime);
     if (!$("r-un").value.trim() && (c.un || []).length) $("r-un").value = c.un.join(", ");
     if (!$("r-hs").value.trim() && c.hs) $("r-hs").value = c.hs;
   }
 
   function build() {
     var data = { generated: new Date().toISOString(), tool: "Precursor Chemical ID – incident report sheet" };
-    var lines = ["INCIDENT REPORT SHEET – PRECURSOR / CHEMICAL", "Prepared with Precursor Chemical ID (reference aid, verify by laboratory analysis and national law)", ""];
+    var lines = [T("INCIDENT REPORT SHEET – PRECURSOR / CHEMICAL"), T("Prepared with Precursor Chemical ID (reference aid, verify by laboratory analysis and national law)"), ""];
     SECTIONS.forEach(function (sec) {
       var rows = [];
-      sec[1].forEach(function (id) { var v = val(id); if (v) { rows.push(LABEL[id] + ": " + v); data[LABEL[id]] = v; } });
-      if (rows.length) { lines.push(sec[0]); rows.forEach(function (r) { lines.push("  " + r); }); lines.push(""); }
+      sec[1].forEach(function (id) { var v = val(id); if (v) { rows.push(T(LABEL[id]) + (window.PCI_I18N && window.PCI_I18N.lang === "fr" ? " : " : ": ") + v); data[LABEL[id]] = v; } });
+      if (rows.length) { lines.push(T(sec[0])); rows.forEach(function (r) { lines.push("  " + r); }); lines.push(""); }
     });
     CHECKS.forEach(function (grp) {
-      lines.push(grp[0].toUpperCase());
+      lines.push(T(grp[0]).toUpperCase());
       var done = {};
-      grp[1].forEach(function (c) { var on = $(c[0]).checked; done[c[1]] = on; lines.push("  [" + (on ? "x" : " ") + "] " + c[1]); });
+      grp[1].forEach(function (c) { var on = $(c[0]).checked; done[c[1]] = on; lines.push("  [" + (on ? "x" : " ") + "] " + T(c[1])); });
       data[grp[0]] = done;
       lines.push("");
     });
     ["r-test", "r-chain", "r-notes"].forEach(function (id) {
-      var v = val(id); if (v) { lines.push(LABEL[id].toUpperCase()); lines.push("  " + v.replace(/\n/g, "\n  ")); lines.push(""); data[LABEL[id]] = v; }
+      var v = val(id); if (v) { lines.push(T(LABEL[id]).toUpperCase()); lines.push("  " + v.replace(/\n/g, "\n  ")); lines.push(""); data[LABEL[id]] = v; }
     });
-    lines.push("Generated " + new Date().toISOString().replace("T", " ").slice(0, 16) + " UTC");
+    lines.push(T("Generated") + " " + new Date().toISOString().replace("T", " ").slice(0, 16) + " UTC");
     return { text: lines.join("\n"), json: data };
   }
 
