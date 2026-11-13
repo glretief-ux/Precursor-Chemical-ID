@@ -120,6 +120,17 @@ button.small,.btn-sm{min-height:34px;padding:6px 12px;font-size:.8rem;margin-top
 .res .res-head{background:var(--head-bg);color:var(--head-ink)}
 .res .res-head h2{color:#fff}
 .res{overflow:hidden}
+/* result card fields: tap a row to open it */
+.fields{margin:.2em 0;border-top:1px solid var(--line)}
+.fld{border-bottom:1px solid var(--line)}
+.fld>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:8px 2px;color:var(--title);font-weight:700;font-size:.9rem;-webkit-tap-highlight-color:transparent}
+.fld>summary::-webkit-details-marker{display:none}
+.fld>summary::after{content:"";flex:none;width:8px;height:8px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg);margin-right:6px;transition:transform .15s}
+.fld[open]>summary::after{transform:rotate(-135deg)}
+.fld>summary:hover{background:var(--surface-2)}
+.fld>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fld-v{padding:0 2px 12px}
+@media (prefers-reduced-motion:reduce){.fld>summary::after{transition:none}}
 .res-body .card-actions{margin:10px 0 2px;display:flex;gap:8px;flex-wrap:wrap}
 th,.step{background:var(--head-bg);color:var(--head-ink)}
 .table-wrap{background:var(--surface);border-color:var(--line);border-radius:var(--radius)}

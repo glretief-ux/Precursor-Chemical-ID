@@ -5,7 +5,7 @@ EXACT = {
  "Used for making":"Используется для изготовления","Role":"Роль","Legitimate use":"Законное применение","Appearance":"Внешний вид","Trade control":"Контроль торговли",
  "Scheduled":"Включено в таблицы","Notes":"Примечания","Nationally controlled in":"Контролируется на национальном уровне в","Result":"Результат","Name":"Название","Status":"Статус","Category":"Категория",
  "UN":"ООН","HS":"ТН ВЭД","none assigned":"не присвоен","none / not DG":"нет / не опасный груз",
- "copy":"копировать","copied":"скопировано","select & copy":"выделить и копировать","remove":"удалить","details":"подробнее","Add to incident report":"Добавить в отчёт об инциденте",
+ "copy":"копировать","copied":"скопировано","select & copy":"выделить и копировать","Expand all":"Развернуть все","Collapse all":"Свернуть все","remove":"удалить","details":"подробнее","Add to incident report":"Добавить в отчёт об инциденте",
  "See permits":"Смотреть разрешения","Other":"Другое","not":"не","precursors area":"раздел о прекурсорах",
  "Company not in database":"Компании нет в базе данных","not recorded":"не записано",
  "Possible match – verify spelling":"Возможное совпадение – проверьте написание",

@@ -198,21 +198,23 @@
     if ((c.un || []).length) c.un.forEach(function (u) { h += idBadge("UN", u, true); });
     else h += '<span class="badge b-id"><small>UN</small> none / not DG</span>';
     h += idBadge("HS", c.hs, true);
-    h += "</div></div><div class=\"res-body\"><dl>";
-    if (c.synonyms && c.synonyms.length) h += "<dt>Also known as</dt><dd>" + c.synonyms.map(esc).join(" · ") + "</dd>";
-    if (c.other_cas && c.other_cas.length) h += "<dt>Other CAS</dt><dd>" + c.other_cas.map(function (o) { return esc(o.cas) + " <span class=\"small\">(" + esc(o.form) + ")</span>"; }).join("<br>") + "</dd>";
-    if (c.adr) h += "<dt>Transport class</dt><dd>ADR/IMDG " + esc(c.adr) + "</dd>";
-    if (c.hs_other) h += "<dt>HS (products)</dt><dd>" + esc(c.hs_other) + "</dd>";
-    if (c.drugs && c.drugs.length) h += "<dt>Used for making</dt><dd>" + c.drugs.map(esc).join(", ") + "</dd>";
-    if (c.role) h += "<dt>Role</dt><dd>" + esc(c.role) + "</dd>";
-    if (c.legit) h += "<dt>Legitimate use</dt><dd>" + esc(c.legit) + "</dd>";
-    if (c.appearance) h += "<dt>Appearance</dt><dd>" + esc(c.appearance) + "</dd>";
-    h += "<dt>Trade control</dt><dd>" + TRADE[c._key] + "</dd>";
-    if (c.added) h += "<dt>Scheduled</dt><dd>" + esc(c.added) + "</dd>";
-    if (c.notes) h += "<dt>Notes</dt><dd>" + esc(c.notes) + "</dd>";
+    h += "</div></div><div class=\"res-body\"><div class=\"fields\">";
+    /* every field is a row that opens when tapped */
+    function f(label, html) { h += '<details class="fld"><summary>' + label + '</summary><div class="fld-v">' + html + "</div></details>"; }
+    if (c.synonyms && c.synonyms.length) f("Also known as", c.synonyms.map(esc).join(" · "));
+    if (c.other_cas && c.other_cas.length) f("Other CAS", c.other_cas.map(function (o) { return esc(o.cas) + " <span class=\"small\">(" + esc(o.form) + ")</span>"; }).join("<br>"));
+    if (c.adr) f("Transport class", "ADR/IMDG " + esc(c.adr));
+    if (c.hs_other) f("HS (products)", esc(c.hs_other));
+    if (c.drugs && c.drugs.length) f("Used for making", c.drugs.map(esc).join(", "));
+    if (c.role) f("Role", esc(c.role));
+    if (c.legit) f("Legitimate use", esc(c.legit));
+    if (c.appearance) f("Appearance", esc(c.appearance));
+    f("Trade control", TRADE[c._key]);
+    if (c.added) f("Scheduled", esc(c.added));
+    if (c.notes) f("Notes", esc(c.notes));
     var cl = CHEM_COUNTRIES[c.id];
-    if (cl && cl.length) h += "<dt>Nationally controlled in</dt><dd><div class=\"chips\">" + countryChipsCompact(cl.filter(function (i, n) { return cl.indexOf(i) === n; })) + "</div></dd>";
-    h += "</dl><div class=\"card-actions\"><button type=\"button\" class=\"secondary small\" data-report=\"" + esc(c.id) + "\">Add to incident report</button></div></div>" + companyVerdict(c, companyRaw) + "</article>";
+    if (cl && cl.length) f("Nationally controlled in", "<div class=\"chips\">" + countryChipsCompact(cl.filter(function (i, n) { return cl.indexOf(i) === n; })) + "</div>");
+    h += "</div><div class=\"card-actions\"><button type=\"button\" class=\"secondary small\" data-fields=\"open\">Expand all</button><button type=\"button\" class=\"secondary small\" data-report=\"" + esc(c.id) + "\">Add to incident report</button></div></div>" + companyVerdict(c, companyRaw) + "</article>";
     return h;
   }
 
@@ -701,6 +703,14 @@
       if (rp) {
         var rc = CHEMS.filter(function (x) { return x.id === rp.getAttribute("data-report"); })[0];
         if (rc) { showTab("report"); if (window.PCI && window.PCI.fillReport) window.PCI.fillReport({ name: rc.name, cas: rc.cas || "", un: (rc.un || []).join(", "), hs: rc.hs || "", status: T(REGIME_LABEL[rc._key] || "") }); }
+        return;
+      }
+      var fb = e.target.closest("[data-fields]");
+      if (fb) {
+        var open = fb.getAttribute("data-fields") === "open";
+        [].forEach.call(fb.closest(".res").querySelectorAll("details.fld"), function (x) { x.open = open; });
+        fb.setAttribute("data-fields", open ? "close" : "open");
+        fb.textContent = open ? "Collapse all" : "Expand all";
         return;
       }
       var g = e.target.closest("[data-goto]");
