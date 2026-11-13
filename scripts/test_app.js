@@ -287,6 +287,30 @@ setTimeout(async () => {
   ok(d2.getElementById("f-drug").textContent.includes("Héroïne"), "drug filter options are in French on load");
   ok(d2.getElementById("results").textContent.includes("entrées chargées"), "start message is in French on load");
 
+  // type-ahead
+  const ta = () => d.getElementById("ta-list"), taItems = () => [...d.querySelectorAll("#ta-list li .nm")].map(e => e.textContent);
+  const key = (id, k) => d.getElementById(id).dispatchEvent(new w.KeyboardEvent("keydown", { key: k, bubbles: true, cancelable: true }));
+  d.getElementById("tab-search").click();
+  type("q", "acet");
+  ok(!ta().hidden && taItems().includes("Acetone") && taItems().length <= 8, "typing in the search box suggests chemicals");
+  const taFirst = taItems()[0];
+  key("q", "ArrowDown"); key("q", "Enter");
+  ok(ta().hidden && d.getElementById("q").value === taFirst && titles().length >= 1, "picking a suggestion fills the box and runs the search");
+  type("q", "67-6");
+  ok(taItems().includes("67-64-1"), "search box suggests CAS numbers");
+  type("q", "");
+  ok(ta().hidden, "empty field shows no suggestions");
+  d.getElementById("tab-label").click();
+  type("l-cas", "108"); ok(taItems().includes("108-24-7"), "label CAS field suggests CAS numbers");
+  type("l-un", "17"); ok(taItems().includes("UN1715"), "label UN field suggests UN numbers");
+  type("l-company", "ine"); ok(taItems().some(t => t.startsWith("INEOS")), "company field suggests companies");
+  key("l-company", "Escape"); ok(ta().hidden, "Escape closes the suggestions");
+  type("l-name", "Acetone"); ok(ta().hidden || taItems().length > 1, "no list when the only suggestion is what was typed");
+  type("r-orig", "Antwerp, belg"); ok(taItems().includes("Belgium"), "origin field completes the country after the comma");
+  key("r-orig", "ArrowDown"); key("r-orig", "Enter");
+  ok(d.getElementById("r-orig").value === "Antwerp, Belgium", "picked country keeps the port typed before it");
+  ["l-cas", "l-un", "l-company", "l-name", "r-orig"].forEach(id => { d.getElementById(id).value = ""; });
+
   // counts
   const t1 = (d.getElementById("results") && 0);
   ok(w.CHEMICALS.length === 104, "104 chemicals loaded");
