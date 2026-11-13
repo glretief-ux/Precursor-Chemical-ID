@@ -9,6 +9,7 @@
 
   /* ---------- helpers ---------- */
   function $(id) { return document.getElementById(id); }
+  function T(s) { return window.PCI_I18N ? window.PCI_I18N.t(s) : s; }
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -383,7 +384,16 @@
   var CDATA = window.COUNTRIES || {};
   var CMETA = window.COUNTRY_META || {};
   var BYISO = {};
-  WORLD.countries.forEach(function (c) { BYISO[c.i] = c; });
+  WORLD.countries.forEach(function (c) { BYISO[c.i] = c; c._n0 = c.n; c._l0 = c.l; });
+  /* country names follow the page language (English names are kept in _n0 / _l0 and still match when searching) */
+  function applyCountryNames() {
+    var I = window.PCI_I18N;
+    WORLD.countries.forEach(function (c) {
+      var f = I && I.country ? I.country(c.i) : null;
+      c.n = f || c._n0;
+      c.l = f || c._l0;
+    });
+  }
   var COV_LABEL = { verified: "Full national list read", partial: "Partial / may be out of date", none: "No public list found" };
   var CHEM_COUNTRIES = {};
   Object.keys(CDATA).forEach(function (iso) {
@@ -523,7 +533,7 @@
   var COMBO = { open: false, idx: -1, items: [], filtering: false };
   function comboItems(q) {
     var f = norm(q);
-    var list = WORLD.countries.filter(function (c) { return (!MAP.region || c.r === MAP.region) && (!f || norm(c.n).indexOf(f) >= 0 || norm(c.l || "").indexOf(f) >= 0 || c.i.toLowerCase() === f); });
+    var list = WORLD.countries.filter(function (c) { return (!MAP.region || c.r === MAP.region) && (!f || norm(c.n).indexOf(f) >= 0 || norm(c.l || "").indexOf(f) >= 0 || norm(c._n0 || "").indexOf(f) >= 0 || c.i.toLowerCase() === f); });
     list.sort(function (a, b) {
       var as = f && norm(a.n).indexOf(f) === 0 ? 0 : 1, bs = f && norm(b.n).indexOf(f) === 0 ? 0 : 1;
       return as - bs || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0);
@@ -647,6 +657,7 @@
   }
 
   function init() {
+    applyCountryNames();
     DRUGS.forEach(function (d, i) { var o = document.createElement("option"); o.value = i; o.textContent = d[0]; $("f-drug").appendChild(o); });
     ["search", "map", "label", "browse", "controls", "tools", "report", "about"].forEach(function (t) { $("tab-" + t).addEventListener("click", function () { showTab(t); }); });
 
@@ -689,7 +700,7 @@
       var rp = e.target.closest("[data-report]");
       if (rp) {
         var rc = CHEMS.filter(function (x) { return x.id === rp.getAttribute("data-report"); })[0];
-        if (rc) { showTab("report"); if (window.PCI && window.PCI.fillReport) window.PCI.fillReport({ name: rc.name, cas: rc.cas || "", un: (rc.un || []).join(", "), hs: rc.hs || "", status: REGIME_LABEL[rc._key] || "" }); }
+        if (rc) { showTab("report"); if (window.PCI && window.PCI.fillReport) window.PCI.fillReport({ name: rc.name, cas: rc.cas || "", un: (rc.un || []).join(", "), hs: rc.hs || "", status: T(REGIME_LABEL[rc._key] || "") }); }
         return;
       }
       var g = e.target.closest("[data-goto]");
@@ -716,5 +727,22 @@
     runSearch();
   }
 
+  /* language switch: country names are data, so they are re-applied here and the map views are redrawn */
+  window.PCI = window.PCI || {};
+  window.PCI.onLang = function () {
+    applyCountryNames();
+    if (!MAP.ready) return;
+    Array.prototype.forEach.call(document.querySelectorAll("#m-vp [data-i]"), function (el) {
+      var c = BYISO[el.getAttribute("data-i")], t = el.querySelector("title"); if (c && t) t.textContent = c.n;
+    });
+    drawLabels();
+    mapCount();
+    if (COMBO.open) renderCombo();
+    if (MAP.sel && BYISO[MAP.sel]) { $("m-search").value = BYISO[MAP.sel].n; renderCountryPanel(MAP.sel); }
+    runSearch();
+    if ($("l-result").innerHTML.trim()) runLabel();
+    renderBrowse();
+    renderUser();
+  };
   document.addEventListener("DOMContentLoaded", init);
 })();
