@@ -42,8 +42,8 @@ window.__byteRun=function(){
   function setQ(v){var e=C.search&&document.querySelector(C.search);if(!e)return false;e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));return true;}
 
   /* ---------- matching ---------- */
-  function norm(s){return ' '+s.toLowerCase().replace(/[^a-z0-9À-ɏ ]+/g,' ').replace(/\s+/g,' ').trim()+' ';}
-  function stem(w){return w.length>3&&w.charAt(w.length-1)==='s'?w.slice(0,-1):w;}
+  function norm(s){return ' '+s.toLowerCase().replace(/[^a-z0-9À-ɏЀ-ӿ ]+/g,' ').replace(/\s+/g,' ').trim()+' ';}
+  function stem(w){if(/[Ѐ-ӿ]/.test(w))return w.length>5?w.slice(0,w.length-2):w;return w.length>3&&w.charAt(w.length-1)==='s'?w.slice(0,-1):w;}
   function best(q){
     var n=norm(q),ws=n.trim().split(' ').map(stem),bi=-1,bs=0;
     for(var i=0;i<E.length;i++){var s=0,k=E[i].k;

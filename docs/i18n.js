@@ -1,10 +1,13 @@
-/* Precursor Chemical ID – English / French switch.
-   Static page text is translated by looking up its English HTML in window.I18N_FR.static; the text the app builds
-   at run time (search results, label checks, map panel...) is translated as it appears, using window.I18N_FR.exact
+/* Precursor Chemical ID – EN | FR | ES | RU switch.
+   Static page text is translated by looking up its English HTML in window.I18N[lang].static; the text the app builds
+   at run time (search results, label checks, map panel...) is translated as it appears, using window.I18N[lang].exact
    (whole text) and .rules (fragments). Nothing is sent anywhere; the choice is kept in localStorage ("pci-lang"). */
 (function () {
   "use strict";
-  var D = window.I18N_FR || { static: {}, exact: {}, country: {}, subregion: {}, rules: [] };
+  var DICT = window.I18N || {};
+  var EMPTY = { static: {}, exact: {}, country: {}, subregion: {}, rules: [] };
+  function valid(l) { return l === "fr" || l === "es" || l === "ru" ? l : "en"; }
+  var D = EMPTY;
   var root = document.documentElement;
   var INLINE = { A: 1, B: 1, I: 1, U: 1, CODE: 1, SPAN: 1, SMALL: 1, BR: 1, EM: 1, STRONG: 1, KBD: 1 };
   /* parts of the page the app fills in itself: translated text-node by text-node */
@@ -13,7 +16,8 @@
   var SKIP = DYN + ",#examples,#r-sheet,#byteBtn,#byteNudge,#byteModal,#byteSay";
   var ATTRS = ["placeholder", "aria-label", "title", "alt"];
 
-  var lang = window.PCI_LANG === "fr" ? "fr" : "en";
+  var lang = valid(window.PCI_LANG);
+  D = DICT[lang] || EMPTY;
   var statics = [];   /* [element, original innerHTML] */
   var attrs = [];     /* [element, attribute, original] */
   var texts = [];     /* [text node, original] */
@@ -45,7 +49,7 @@
   }
   /* translate arbitrary English text (used by extras.js for the report sheet etc.) */
   function t(s) {
-    if (lang !== "fr" || s == null) return s;
+    if (lang === "en" || s == null) return s;
     return Object.prototype.hasOwnProperty.call(D.exact, s) ? D.exact[s] : trText(String(s));
   }
   function textNodes(el, fn) {
@@ -125,7 +129,7 @@
   function watch() {
     if (mo || !window.MutationObserver) return;
     mo = new MutationObserver(function (list) {
-      if (lang !== "fr") return;
+      if (lang === "en") return;
       list.forEach(function (m) { [].forEach.call(m.addedNodes, dynTree); });
     });
     mo.observe(document.body, { childList: true, subtree: true });
@@ -138,7 +142,7 @@
   }
 
   /* ---------- Byte (help helper) ---------- */
-  function byteConfig() { return lang === "fr" && window.BYTE_CONFIG_FR ? window.BYTE_CONFIG_FR : window.BYTE_CONFIG; }
+  function byteConfig() { return lang !== "en" && window.BYTE_CONFIGS && window.BYTE_CONFIGS[lang] ? window.BYTE_CONFIGS[lang] : window.BYTE_CONFIG; }
   function rebootByte() {
     if (!window.__byteRun) return;
     if (window.__byteStop) { try { window.__byteStop(); } catch (e) {} }
@@ -151,7 +155,8 @@
     root.lang = lang;
     paintSwitch();
     restore();
-    if (lang === "fr") {
+    D = DICT[lang] || EMPTY;
+    if (lang !== "en") {
       staticPass();
       var dyn = document.querySelectorAll(DYN);
       [].forEach.call(dyn, function (c) { textNodes(c, dynNode); dynAttrs(c); });
@@ -163,7 +168,7 @@
     try { document.dispatchEvent(new CustomEvent("pci-lang", { detail: lang })); } catch (e) {}
   }
   function setLang(l, save) {
-    l = l === "fr" ? "fr" : "en";
+    l = valid(l);
     if (save) { try { localStorage.setItem("pci-lang", l); } catch (e) {} }
     if (l === lang && statics.length + texts.length + attrs.length > 0) { paintSwitch(); return; }
     lang = l;
@@ -172,8 +177,8 @@
   }
 
   /* names of countries in the current language (null = keep the English name) */
-  function country(iso) { return lang === "fr" ? (D.country[iso] || null) : null; }
-  function subregion(s) { return lang === "fr" && D.subregion[s] ? D.subregion[s] : s; }
+  function country(iso) { return lang !== "en" ? (D.country[iso] || null) : null; }
+  function subregion(s) { return lang !== "en" && D.subregion[s] ? D.subregion[s] : s; }
 
   /* strings still in English on the page - used by the tests */
   function missing() {
@@ -201,7 +206,7 @@
     [].forEach.call(document.querySelectorAll("#lang-switch button[data-lang]"), function (b) {
       b.addEventListener("click", function () { setLang(b.getAttribute("data-lang"), true); });
     });
-    if (lang === "fr") apply(); else paintSwitch();
+    if (lang !== "en") apply(); else paintSwitch();
   }
   boot();
 })();

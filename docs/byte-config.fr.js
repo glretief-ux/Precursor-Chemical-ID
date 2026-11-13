@@ -1,5 +1,6 @@
 /* Byte en français : questions et réponses pour cette page (k = mots-clés, a = réponse en HTML, go = boutons). */
-window.BYTE_CONFIG_FR={
+window.BYTE_CONFIGS=window.BYTE_CONFIGS||{};
+window.BYTE_CONFIGS.fr={
  name:'Precursor Chemical ID',noun:'outil',
  placeholder:'Posez une question, p. ex. comment vérifier une étiquette ?',
  greeting:'Demandez-moi comment utiliser cet outil, ou touchez l’une des questions ci-dessous.',
@@ -51,8 +52,8 @@ window.BYTE_CONFIG_FR={
    a:'<p>Vous pouvez ajouter des entreprises que vous avez vérifiées sous <b>Mes entreprises</b> (dans l’onglet Contrôle d’étiquette). Elles sont enregistrées sur votre appareil uniquement. Utilisez le bouton d’exportation pour les télécharger dans un fichier et les envoyer afin qu’elles soient ajoutées à la liste partagée.</p>'},
   {k:['sombre','mode sombre','clair','mode clair','thème','theme','nuit'],
    a:'<p>Le bouton lune/soleil dans l’en-tête bascule entre les modes clair et sombre. Par défaut, le site suit le réglage de votre appareil.</p>'},
-  {k:['anglais','english','langue','français','francais','traduction','traduire','language'],
-   a:'<p>Utilisez le sélecteur <b>EN | FR</b> en haut de la page pour passer de l’anglais au français. Votre choix est mémorisé sur cet appareil.</p>'},
+  {k:['anglais','english','langue','français','francais','espagnol','russe','traduction','traduire','language'],
+   a:'<p>Utilisez le sélecteur <b>EN | FR | ES | RU</b> en haut de la page pour changer de langue. Votre choix est mémorisé sur cet appareil.</p>'},
   {k:['hors ligne','hors-ligne','internet','pas de réseau','pas de reseau','pas de connexion','fichier unique','usb','téléphone','telephone','tablette','installer','télécharger l’outil'],
    a:'<p>L’outil fonctionne entièrement dans votre navigateur : pas de serveur, pas de suivi. La version en un seul fichier, dans le dossier <i>dist</i> du dépôt, s’ouvre directement depuis votre appareil ou une clé USB sans Internet.</p>'},
   {k:['limites','limite','précision','precision','fiable','officiel','issl','juridique','avertissement','sûr','sur','confiance','à propos','a propos','qu’est-ce que c’est','source','sources','données','donnees'],

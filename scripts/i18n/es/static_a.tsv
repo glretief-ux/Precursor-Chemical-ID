@@ -1,0 +1,120 @@
+0	Precursor Chemical ID<small>Referencia para las fuerzas del orden</small>
+1	Formación y medios
+2	Curso sobre precursores (inglés)
+3	Curso sobre precursores (francés)
+4	Curso sobre manejo de pruebas
+5	Curso sobre la escena del delito
+6	Curso sobre ocultación
+7	Vídeos de formación
+8	Aduanas · Policía · Autoridades reguladoras
+9	Precursor Chemical ID
+10	Identifique un producto químico por su número CAS, su número ONU, su código SA o su nombre, compruebe la empresa que figura en la etiqueta y vea qué verificar y notificar a continuación.
+11	Mapa mundial
+12	Control de etiqueta
+13	Controles y permisos
+14	Inteligencia y herramientas
+15	Informe de incidente
+16	Productos químicos (CSV)
+17	Búsqueda
+18	Ver todo
+19	Acerca de y fuentes
+20	Producto químico <span class="hint">nombre, sinónimo, CAS (108-24-7), ONU (UN1715 / 1715), SA (2915.24)</span>
+21	Empresa de la etiqueta <span class="hint">opcional – comprueba si esta empresa es conocida por producir/suministrar el producto químico</span>
+22	Estado de control
+23	Todos
+24	Cuadro I de la JIFE
+25	Cuadro II de la JIFE
+26	No fiscalizado (vigilado)
+27	Utilizado para fabricar
+28	Cualquier droga
+29	Introduzca lo que figura impreso en la etiqueta del envase. La herramienta contrasta los datos entre sí y con la base de datos.
+30	Nombre del producto en la etiqueta
+31	Número CAS
+32	Número ONU
+33	Fabricante / empresa en la etiqueta
+34	Comprobar etiqueta
+35	Lista de verificación en el terreno para etiquetas sospechosas
+36	¿Coinciden la clase de peligro y el pictograma con el producto químico (p. ej., inflamable para disolventes, corrosivo para ácidos)?
+37	¿Es válido el dígito de control del CAS y coincide el CAS con el nombre del producto de la misma etiqueta?
+38	¿Existen la dirección, el teléfono y el sitio web de la empresa y coinciden con el país de origen indicado?
+39	¿Constan el número de lote, la fecha y la pureza? ¿Está impresa de forma profesional o pegada o escrita a mano?
+40	¿Coinciden la descripción de las mercancías y el código SA de los documentos de envío con la etiqueta?
+41	¿Es inusual la cantidad o la pureza para el uso declarado (p. ej., bidones de un producto químico de laboratorio de grado reactivo)?
+42	Para productos fiscalizados: solicite la autorización de importación/exportación y la declaración del usuario final.
+43	<b>Una etiqueta nunca prueba el contenido</b>: confírmelo con una prueba de campo o un análisis de laboratorio y asegure las muestras bajo cadena de custodia.
+44	Filtrar lista
+45	No fiscalizado
+46	Descargar CSV
+47	Producto químico
+48	CAS
+49	ONU
+50	SA
+51	Estado
+52	Cómo se controlan los productos químicos, de la fabricación al importador
+53	Los precursores fiscalizados se controlan en virtud del <b>artículo 12 de la Convención de las Naciones Unidas de 1988</b>. Cada país lo aplica mediante su legislación nacional, gestionada por una <b>autoridad nacional competente (ANC)</b>. La cadena de control que sigue es el esquema habitual; los permisos y umbrales exactos varían según el país, así que confirme siempre con la legislación nacional y la ANC.
+54	Fabricación y producción
+55	El productor tiene licencia o está registrado ante la autoridad nacional para los productos químicos concretos que fabrica. Lleva registros de producción y existencias y debe poder justificar las pérdidas.
+56	<b>Documentos:</b> licencia / registro de fabricación · registros de producción y existencias · ficha de datos de seguridad y certificado de análisis (CoA).
+57	Almacenamiento, distribución y venta nacional
+58	Los distribuidores y comerciantes tienen licencia o están registrados. En cada venta identifican al cliente, registran la cantidad y el uso final declarado, y notifican a la autoridad los pedidos sospechosos o inusuales. Muchos países exigen una <b>declaración del cliente</b> sobre el uso legítimo en las ventas de sustancias fiscalizadas.
+59	<b>Documentos:</b> licencia / registro de comerciante · declaración del cliente (uso final) · registros de ventas y existencias (la Convención exige conservar los registros al menos 2 años) · informes de pedidos sospechosos.
+60	Exportación
+61	El exportador obtiene una <b>autorización de exportación</b> para cada envío (o una licencia general, según el país). La autoridad exportadora emite una <b>notificación previa a la exportación (PEN)</b> a la autoridad del país importador, normalmente a través del sistema <b>PEN Online</b> de la JIFE, y espera una respuesta o la ausencia de objeción cuando el país importador la exige. Los documentos comerciales deben indicar el nombre del producto químico <i>tal como figura en el cuadro de la Convención</i>, la cantidad y los datos del exportador, el importador y el consignatario, y los envases deben estar correctamente etiquetados.
+62	<b>Documentos:</b> autorización de exportación · referencia / respuesta de la PEN · factura comercial · lista de embalaje · documento de transporte (conocimiento de embarque / carta de porte aéreo) · declaración aduanera de exportación · declaración del usuario final.
+63	Tránsito y transbordo
+64	Los envíos que pasan por otro país (o por una zona franca / centro de transbordo) siguen sujetos a la supervisión aduanera. Las autoridades pueden comprobar los documentos y, cuando la legislación nacional lo permite, notificarlo a las autoridades de origen y destino. Los envíos que cambian de ruta, de consignatario o de documentación en tránsito son un indicador de riesgo clave.
+65	<b>Documentos:</b> declaración de tránsito · documentos de transporte originales · copias de la autorización de exportación y de la PEN cuando se exijan.
+66	Importación y despacho de aduana
+67	El importador necesita una <b>autorización o permiso de importación</b> (cuando la legislación nacional lo exija) y debe ser un operador con licencia o registrado para ese producto químico. La aduana coteja la declaración, el código SA y el número CAS con la licencia y la PEN, comprueba la cantidad y el consignatario, y puede inspeccionar y tomar muestras. Una discrepancia es motivo para retener el envío conforme a la legislación nacional.
+68	<b>Documentos:</b> licencia / permiso de importación · licencia de operador del importador · notificación PEN archivada · declaración aduanera de importación con el código SA correcto · factura, lista de embalaje, documento de transporte · CoA / ficha de datos de seguridad.
+69	Usuario final
+70	El importador suministra solo a clientes registrados o declarados y conserva registros de cada transacción. Las cantidades inusuales, los clientes nuevos sin comercio legítimo o un uso declarado que no encaja con el producto químico deben notificarse a la autoridad.
+71	<b>Documentos:</b> declaraciones de clientes · registros de transacciones · informes de pedidos sospechosos.
+72	¿Qué control se aplica?
+73	Qué cabe esperar
+74	Cuadro I
+75	Régimen más estricto: licencia o registro para la fabricación y el comercio, autorización de exportación e importación, notificación previa a la exportación, declaraciones de clientes, registros y etiquetado. También se controlan las sales y las preparaciones.
+76	Cuadro II
+77	El mismo marco, normalmente más ligero: el registro o la licencia varían según el país; notificación previa a la exportación cuando el país importador la haya solicitado; los registros y los documentos aduaneros correctos se aplican siempre. Muchos productos del Cuadro II son disolventes y ácidos industriales comunes.
+78	Sin requisito internacional de licencia. Algunos países los controlan a nivel nacional y la JIFE realiza una vigilancia voluntaria. Trate las cantidades o los usos declarados inusuales como indicadores de inteligencia.
+79	Ejemplos regionales y nacionales: la UE aplica los Reglamentos 273/2004 (comercio intracomunitario) y 111/2005 (comercio con países no pertenecientes a la UE), con licencias, registros, autorizaciones y declaraciones de clientes por categoría. Estados Unidos aplica la Ley de Sustancias Controladas (productos químicos de las Listas I y II) a través de la DEA, con registro y declaraciones de importación/exportación. Consulte las normas de su propio país.
+80	Cómo comprobar un permiso
+81	<b>Identifique el producto químico.</b> Use la pestaña Búsqueda: confirme el nombre, el CAS, el código SA y si pertenece al Cuadro I, al Cuadro II o no está fiscalizado. Las sales y las preparaciones tienen otros CAS y códigos SA.
+82	<b>Lea el propio permiso.</b> Compruebe el número de permiso, la autoridad emisora, el nombre y la dirección del titular, el nombre y el CAS del producto químico, la cantidad, las fechas de validez, el país exportador e importador, el consignatario y si es para un solo envío o para un período.
+83	<b>Compárelo con el envío.</b> El titular debe ser el importador o el exportador que figura en la factura y el documento de transporte. El nombre, el CAS, el código SA, la cantidad, el embalaje y el número de contenedor deben coincidir. La cantidad no puede superar la del permiso y el permiso debe ser válido en la fecha de importación o exportación.
+84	<b>Compruebe el rastro de notificación.</b> Para las sustancias fiscalizadas, pregunte a su ANC si se envió una notificación previa a la exportación para este envío y si la autoridad importadora respondió, mediante PEN Online de la JIFE (el acceso es para las ANC).
+85	<b>Verifique con la autoridad emisora.</b> No se fíe de los datos de contacto impresos en el permiso. Busque el contacto de la autoridad a través de su ANC o de la lista de ANC de la JIFE, y pídale que confirme que el permiso es auténtico y sigue vigente.
+86	<b>Compruebe al operador.</b> Confirme que el importador o exportador está registrado o tiene licencia para este producto químico ante la autoridad competente, y no solo que la empresa figura en un registro mercantil.
+87	<b>Si algo no coincide,</b> siga la legislación nacional sobre retención, toma de muestras e incautación; asegure las muestras con cadena de custodia; y notifíquelo a través de su ANC, que puede plantearlo al Sistema de comunicación de incidentes relacionados con precursores (PICS) de la JIFE y a los países asociados. Consulte <a href="#" data-goto="tools">Inteligencia y herramientas</a> para PICS y los demás canales de notificación, y la hoja de <a href="#" data-goto="report">Informe de incidente</a> para recopilar los datos.
+88	Señales de alerta
+89	Sin permiso, con un permiso caducado o que no nombra el producto químico, la cantidad o el consignatario.
+90	Número de permiso, sello o firma que la autoridad emisora no puede confirmar.
+91	Producto químico declarado con otro nombre o con un código SA erróneo, o declarado como mezcla, «producto de limpieza» o «reactivo de laboratorio» en cantidades industriales.
+92	Empresa nueva o registrada recientemente, sin presencia en la web, o con un negocio ajeno a los productos químicos.
+93	Ruta ilógica o transbordo por varios países; cambio de última hora de consignatario o destino.
+94	Pago en efectivo o a través de terceros; presión para despachar rápido.
+95	Etiquetas cuyo CAS, número ONU o fabricante no coinciden (use la pestaña Control de etiqueta).
+96	Cantidades muy superiores a las que necesita la industria declarada, o un uso final que no encaja con el producto químico.
+97	A quién contactar y dónde buscar
+98	<b>Su autoridad nacional competente (ANC)</b> en materia de precursores: verificación de permisos, consultas a PEN Online y notificación de incidentes. La JIFE publica los contactos: <a href="https://www.incb.org/incb/en/precursors/cna.html" target="_blank" rel="noopener">información de la JIFE sobre las ANC</a>.
+99	<b>Sección de Control de Precursores de la JIFE</b>: <a href="mailto:incb.precursors@un.org">incb.precursors@un.org</a> · <a href="https://www.incb.org/incb/en/precursors/red-list.html" target="_blank" rel="noopener">Lista Roja</a>.
+100	<b>Diccionario multilingüe de precursores y productos químicos de la UNODC</b> (nombres en muchos idiomas): <a href="https://www.unodc.org/unodc/en/scientists/multilingual-dictionary-of-precursors-and-chemicals" target="_blank" rel="noopener">UNODC</a>.
+101	<b>Programa de Control de Contenedores (PCC) / OMA</b> y su oficial regional de enlace de aduanas para el intercambio de inteligencia sobre contenedores sospechosos.
+102	Esta página es una guía general, no asesoramiento jurídico. La legislación nacional determina qué permisos se aplican y qué pueden hacer los agentes.
+103	Productos químicos controlados a nivel nacional, por país
+104	Haga clic en un país para ver los productos químicos que controla <b>además de</b> las listas de los Cuadros I y II de la JIFE. Desplace o pellizque para ampliar, arrastre para mover.
+105	Región
+106	Todas las regiones
+107	África
+108	América
+109	Asia
+110	Europa
+111	Oceanía
+112	País
+113	Dónde encaja esta herramienta en una investigación
+114	Esta página identifica un producto químico y comprueba su etiqueta. Los sistemas que figuran a continuación permiten <b>verificar permisos, notificar el incidente, rastrear el envío y encontrar al proveedor</b>. La mayoría están restringidos a usuarios gubernamentales y se accede a ellos a través de su autoridad nacional competente (ANC) o del punto focal de su organismo. Compilado a partir de páginas públicas de la JIFE, la UNODC, la OMA, la UE y la DEA (consultadas el 12 de noviembre de 2026); las reglas de acceso cambian, así que confirme con su ANC.
+115	incidentes con precursores y equipos compartidos a través de PICS desde 2012 (Informe de la JIFE sobre precursores 2024)
+116	&lt; 15 %
+117	de los productos químicos notificados en incidentes de PICS en el período de notificación de 2024 estaban bajo control internacional (JIFE 2024)
+118	puntos focales de GRIDS de la JIFE registrados en todo el mundo, junio de 2026 (WCO News)
+119	<b>Por qué notificar también los productos químicos no fiscalizados.</b> Los traficantes utilizan cada vez más precursores de diseño, preprecursores y sustitutos que no figuran en los Cuadros I ni II. PICS y PEN Online Light existen precisamente para ellos, y la JIFE utiliza los informes para detectar pronto nuevos productos químicos y rutas. Si estaba en un laboratorio, en un bidón o en un envío sospechoso, notifíquelo, esté o no fiscalizado.
