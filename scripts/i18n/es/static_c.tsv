@@ -1,0 +1,116 @@
+240	CENcomm y conjunto CEN
+241	cis@wcoomd.org
+242	Fuentes: Informes de la JIFE sobre precursores 2019–2024, carta circular CL 11/2026 de la JIFE, folleto de herramientas y recursos de la JIFE, páginas de la Sección de Laboratorio y Asuntos Científicos de la UNODC, páginas de la OMA y WCO News 110 (2026), EUR-Lex, División de Control de Desvíos de la DEA. No es asesoramiento jurídico.
+243	Hoja de informe de incidente
+244	Recopile en un solo lugar los datos de una incautación, un envío detenido o un envío sospechoso y cópielos después en PICS, CENcomm, ContainerCOMM o su sistema nacional. <b>No se almacena ni se envía nada</b>: solo existe en esta página y desaparece al cerrarla. Use nombres de empresas en lugar de datos personales, salvo que sus normas nacionales lo permitan.
+245	Los encabezados siguen lo que suelen pedir los sistemas de incidentes. Compruebe los campos exactos del sistema al que notifique.
+246	Incidente
+247	Su referencia
+248	Fecha
+249	Tipo
+250	Incautación
+251	Envío detenido / retenido
+252	Envío sospechoso (no incautado)
+253	Laboratorio ilícito
+254	Intento de desvío
+255	Organismo
+256	Lugar (puerto, aeropuerto, puesto fronterizo, localidad) y país
+257	Nombre <span class="hint">tal como se encontró; use «Añadir al informe de incidente» en un resultado de búsqueda para rellenarlo</span>
+258	Código SA (declarado)
+259	Cantidad, embalaje y etiqueta
+260	Cantidad
+261	Unidad
+262	kg
+263	litros
+264	toneladas
+265	unidades
+266	Embalaje
+267	Fabricante en la etiqueta
+268	Lote
+269	Envío y ruta
+270	N.º de contenedor / vehículo / paquete
+271	N.º de precinto
+272	N.º de B/L, AWB o CMR
+273	Origen (puerto, país)
+274	Tránsito / transbordo
+275	Destino (puerto, país)
+276	Ocultación
+277	Ninguna observada
+278	Declarado como otras mercancías
+279	Mezclado con carga legítima
+280	Compartimento oculto / embalaje falso
+281	Otro (véanse las notas)
+282	Mercancías declaradas y SA en los documentos
+283	Empresas en los documentos
+284	Exportador / remitente
+285	Consignatario
+286	Transitario / transportista
+287	Comprobaciones realizadas
+288	Prueba de campo / resultado de laboratorio
+289	Referencia de la muestra / prueba
+290	Notificar y compartir
+291	Notas (indicadores, cómo se descubrió, cualquier circunstancia inusual)
+292	Crear resumen
+293	Borrar formulario
+294	Resumen
+295	Copiar texto
+296	Descargar .txt
+297	Descargar .json
+298	Imprimir
+299	Qué es
+300	Una herramienta de consulta rápida para agentes (aduanas, policía, personal forense y regulador) para identificar precursores de drogas y otros productos químicos utilizados con frecuencia en la fabricación ilícita de drogas, y para comprobar lo que figura impreso en la etiqueta de un envase.
+301	<b>Productos químicos fiscalizados:</b> todas las sustancias de los Cuadros I y II de la Convención de las Naciones Unidas de 1988 tal como figuran en la <a href="https://www.incb.org/incb/en/precursors/red-list.html" target="_blank" rel="noopener">Lista Roja de la JIFE</a> (23.ª edición, julio de 2025), con su CAS, su código SA y, cuando existe, su número ONU de transporte.
+302	<b>Productos químicos no fiscalizados:</b> sustancias de las que se informa ampliamente como sustitutos o reactivos en laboratorios clandestinos (p. ej., fósforo rojo, yodo, cianuro de bencilo, GBL, disolventes comunes). La Lista Internacional Especial de Vigilancia (ISSL) limitada completa de la JIFE está restringida a los gobiernos y <u>no</u> se reproduce aquí.
+303	<b>Mapa mundial:</b> para cada país, los productos químicos que controla a nivel nacional y que <u>no</u> figuran en los Cuadros I o II de la JIFE, tomados de la legislación nacional con la fuente enlazada. La JIFE informa de que unos 50 países controlan productos químicos adicionales pero no publica ninguna lista por país, por lo que la cobertura se clasifica como <i>verificada</i> (se leyó la lista nacional completa), <i>parcial</i> (solo se encontró una parte o puede estar desactualizada) o <i>sin lista pública encontrada</i>. La ausencia de datos no prueba que un país no tenga controles adicionales. Las correcciones y nuevas fuentes son bienvenidas a través de <code>data/countries.json</code> en el repositorio.
+304	Límites que debe conocer
+305	Las sales, los isómeros y las preparaciones de sustancias de los Cuadros I y II están controlados pero tienen <b>números CAS distintos</b>. Un CAS que no figura en la lista puede ser igualmente una sal fiscalizada: compruebe <i>otros CAS</i> y la tabla de conversión de la JIFE.
+306	Muchas entradas <b>no tienen número ONU propio</b> porque no son mercancías peligrosas en el transporte; la ausencia de ONU no es sospechosa por sí sola.
+307	La lista de empresas es <b>pequeña, indicativa y no exhaustiva</b>. «Ausente de la base de datos» no significa «falso», y «productor conocido» no significa que el producto sea genuino: existen envases falsificados y reetiquetados.
+308	La situación jurídica difiere según el país. Consulte la legislación nacional (y las normas regionales, p. ej., los Reglamentos de la UE 273/2004 y 111/2005) antes de actuar.
+309	Esta es una ayuda de consulta, no asesoramiento jurídico, y no sustituye a la identificación forense.
+310	Mis empresas (guardadas solo en este dispositivo)
+311	Añada productores/proveedores que haya verificado usted mismo. Se guardan en este navegador y se utilizan en el control de etiquetas. Use <b>Exportar</b> para compartirlos mediante una solicitud de incorporación de cambios (pull request).
+312	Nombre de la empresa
+313	productor
+314	proveedor
+315	distribuidor
+316	Números CAS que producen/suministran <span class="hint">separados por comas</span>
+317	Añadir empresa
+318	Exportar JSON
+319	<b>Solo ayuda de consulta.</b> Verifique mediante análisis de laboratorio y la legislación nacional. Una etiqueta nunca prueba el contenido, y «ausente de la base de datos» no significa «no controlado».
+320	Datos: Lista Roja de la JIFE (pública) e identificadores químicos de dominio público. La lista de vigilancia restringida de la JIFE (ISSL) no se reproduce. Funciona en su navegador; nada de lo que escriba se envía a ninguna parte.
+321	<a href="https://github.com/glretief-ux/Precursor-Chemical-ID" target="_blank" rel="noopener">Código y datos en GitHub</a> · Las correcciones son bienvenidas mediante solicitud de incorporación de cambios (pull request).
+322	Precursor Chemical ID – inicio
+323	AIRCOP – Programa de Control de Contenedores (PCC)
+324	Cambiar al modo oscuro
+325	Modo claro / oscuro
+326	Enlaces rápidos
+327	Secciones
+328	p. ej. anhídrido acético · 103-79-7 · UN1090 · P2P · pseudoefedrina
+329	p. ej. INEOS · Sigma-Aldrich · Malladi
+330	Ejemplos
+331	p. ej. Acetona
+332	67-64-1
+333	UN1090
+334	p. ej. INEOS Fenol
+335	escriba para filtrar…
+336	Región
+337	Seleccione o escriba un país…
+338	Mostrar la lista de países
+339	Países
+340	Mapa mundial. Haga clic en un país para ver sus productos químicos controlados adicionales.
+341	Acercar
+342	Alejar
+343	Restablecer vista
+344	Filtrar herramientas
+345	108-24-7
+346	UN1715
+347	2915.24
+348	p. ej. Cuadro I de la JIFE, no fiscalizado
+349	bidones de 25 kg, GRG, botellas…
+350	p. ej. positivo presuntivo, kit utilizado
+351	p. ej. Example Chemicals Ltd
+352	p. ej. Bélgica
+353	67-64-1, 108-88-3
+354	Precursor Chemical ID – Referencia para las fuerzas del orden
+355	Identifique precursores de drogas y productos químicos utilizados en la fabricación ilícita de drogas por número CAS, número ONU, código SA o nombre, y verifique el fabricante que figura en la etiqueta de un producto químico.

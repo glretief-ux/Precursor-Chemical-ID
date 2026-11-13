@@ -169,8 +169,8 @@ def main():
     cov = {k: sum(1 for v in countries.values() if v["coverage"] == k) for k in ("verified", "partial")}
     print(f"OK: {len(countries)} map countries with data (verified {cov['verified']}, partial {cov['partial']})")
     sys.path.insert(0, str(ROOT / "scripts" / "i18n"))
-    import build_fr  # French dictionary; exits with a message if a translation is missing
-    fr_js = build_fr.build()
+    import build_i18n  # French, Spanish and Russian dictionaries; exits with a message if a translation is missing
+    i18n_js = build_i18n.build_all()
     if "--check" in sys.argv:
         return
 
@@ -185,16 +185,17 @@ def main():
     (out / "chemicals.js").write_text(chem_js, encoding="utf-8")
     (out / "manufacturers.js").write_text(comp_js, encoding="utf-8")
     (out / "countries.js").write_text(cty_js, encoding="utf-8")
-    (out / "i18n-fr.js").write_text(fr_js, encoding="utf-8")
+    for _l, _js in i18n_js.items():
+        (out / f"i18n-{_l}.js").write_text(_js, encoding="utf-8")
 
     import hashlib
     h = hashlib.sha1()
-    for f in ["styles.css", "theme.css", "extras.js", "i18n.js", "data/i18n-fr.js", "app.js", "data/chemicals.js", "data/manufacturers.js", "data/countries.js", "data/world.js", "logo.png"]:
+    for f in ["styles.css", "theme.css", "extras.js", "i18n.js", "data/i18n-fr.js", "data/i18n-es.js", "data/i18n-ru.js", "app.js", "data/chemicals.js", "data/manufacturers.js", "data/countries.js", "data/world.js", "logo.png"]:
         h.update((ROOT / "docs" / f).read_bytes())
     ver = h.hexdigest()[:8]
     idx = ROOT / "docs" / "index.html"
     src = idx.read_text(encoding="utf-8")
-    src = re.sub(r'(href="styles\.css|href="theme\.css|src="extras\.js|src="i18n\.js|src="data/i18n-fr\.js|src="app\.js|src="data/chemicals\.js|src="data/manufacturers\.js|src="data/countries\.js|src="data/world\.js|src="logo\.png)(\?v=\w+)?"', lambda m: m.group(1) + "?v=" + ver + '"', src)
+    src = re.sub(r'(href="styles\.css|href="theme\.css|src="extras\.js|src="i18n\.js|src="data/i18n-(?:fr|es|ru)\.js|src="app\.js|src="data/chemicals\.js|src="data/manufacturers\.js|src="data/countries\.js|src="data/world\.js|src="logo\.png)(\?v=\w+)?"', lambda m: m.group(1) + "?v=" + ver + '"', src)
     idx.write_text(src, encoding="utf-8")
     html = src
     css = (ROOT / "docs" / "styles.css").read_text(encoding="utf-8")
@@ -204,7 +205,7 @@ def main():
     html = re.sub(r'<link rel="stylesheet" href="theme\.css\?v=\w+">', lambda m: f"<style>\n{theme}\n</style>", html)
     extras = (ROOT / "docs" / "extras.js").read_text(encoding="utf-8").replace("</script>", "<\\/script>")
     html = re.sub(r'<script src="extras\.js\?v=\w+"></script>', lambda m: "<script>\n" + extras + "\n</script>", html)
-    for _f in ("data/i18n-fr.js", "i18n.js"):
+    for _f in ("data/i18n-fr.js", "data/i18n-es.js", "data/i18n-ru.js", "i18n.js"):
         _t = (ROOT / "docs" / _f).read_text(encoding="utf-8").replace("</script>", "<\\/script>")
         html = re.sub(r'<script src="' + re.escape(_f) + r'\?v=\w+"></script>', lambda m, _t=_t: "<script>\n" + _t + "\n</script>", html)
     html = re.sub(r'<script src="data/chemicals\.js\?v=\w+"></script>', lambda m: f"<script>\n{chem_js}\n</script>", html)
@@ -213,7 +214,7 @@ def main():
     html = re.sub(r'<script src="data/countries\.js\?v=\w+"></script>', lambda m: f"<script>\n{cty_js}\n</script>", html)
     html = re.sub(r'<script src="data/world\.js\?v=\w+"></script>', lambda m: f"<script>\n{world_js}\n</script>", html)
     html = re.sub(r'<script src="app\.js\?v=\w+"></script>', lambda m: f"<script>\n{app}\n</script>", html)
-    for _f in ("byte-config.js", "byte-config.fr.js", "byte.js"):  # Byte, the help helper: inline it so the offline file works too
+    for _f in ("byte-config.js", "byte-config.fr.js", "byte-config.es.js", "byte-config.ru.js", "byte.js"):  # Byte, the help helper: inline it so the offline file works too
         _p = ROOT / "docs" / _f
         if _p.exists():
             _js = _p.read_text(encoding="utf-8").replace("</script>", "<\\/script>")

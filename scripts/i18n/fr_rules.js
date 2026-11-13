@@ -74,7 +74,7 @@
 ["No international licence requirement; may be nationally controlled. Check national law.", "Aucune exigence internationale de licence ; peut être contrôlé au niveau national. Vérifiez le droit national."],
 ["Showing first 60 – refine your search.", "Affichage des 60 premiers – affinez votre recherche."],
 /* incident report */
-[/^In database: (.*) \((.*)\)\.$/, function (m, n, r) { var E = window.I18N_FR.exact; return "Dans la base : " + n + " (" + (E[r] || r) + ")."; }],
+[/^In database: (.*) \((.*)\)\.$/, function (m, n, r) { var E = window.I18N.fr.exact; return "Dans la base : " + n + " (" + (E[r] || r) + ")."; }],
 /* attributes */
 [/^Copy (.+)$/, "Copier $1"]
 ]

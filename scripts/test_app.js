@@ -196,6 +196,81 @@ setTimeout(async () => {
   ok(d.getElementById("m-search").value === "United States", "country names are English again");
   ok(d.querySelectorAll("#byteBtn").length === 1, "only one Byte after switching languages");
 
+  // ---- Spanish and Russian ----
+  const LX = {
+    es: { name: "Spanish", tabMap: "Mapa mundial", tabLabel: "Control de etiqueta", tools: "Inteligencia", card: ["Utilizado para fabricar", "Cuadro I de la JIFE", "Agente acetilante", "Control del comercio", "Heroína"],
+      known: "Coincidencia: la empresa es conocida", unknown: "no es un productor/proveedor conocido", badcas: "no es válido", nomatch: "Ninguna coincidencia", zero: "0 resultados", count: /^\d+ resultados?$/,
+      country: "Estados Unidos", panel: ["Fuentes:", "adicionales"], mcount: "países y territorios", status: "Cuadro I de la JIFE", sheet: ["HOJA DE INFORME DE INCIDENTE", "Cantidad: 50 kg"], toolsText: "Tras una interdicción",
+      byteBtn: "¿Necesita ayuda?", q: "¿cómo compruebo una etiqueta?", ans: "Control de etiqueta", meta: "productos químicos en seguimiento", tile: "Productos químicos fiscalizados", drug: "Heroína", start: "entradas cargadas", ph: "p. ej." },
+    ru: { name: "Russian", tabMap: "Карта мира", tabLabel: "Проверка этикетки", tools: "Разведданные", card: ["Используется для изготовления", "Таблица I МККН", "Ацетилирующий агент", "Контроль торговли", "Героин"],
+      known: "Совпадение: компания известна", unknown: "не значится известным производителем", badcas: "неверна", nomatch: "совпадений нет", zero: "0 результатов", count: /^\d+ результат(а|ов)?$/,
+      country: "Соединенные Штаты", panel: ["Источники:", "дополнительн"], mcount: "Стран и территорий", status: "Таблица I МККН", sheet: ["ФОРМА ОТЧЁТА ОБ ИНЦИДЕНТЕ", "Количество: 50 кг"], toolsText: "После пресечения",
+      byteBtn: "Нужна помощь?", q: "как проверить этикетку?", ans: "Проверка этикетки", meta: "веществ в базе", tile: "Вещества в таблицах", drug: "Героин", start: "Загружено записей", ph: "напр." }
+  };
+  for (const code of ["es", "ru"]) {
+    const X = LX[code];
+    const btn = d.querySelector('#lang-switch [data-lang="' + code + '"]');
+    ok(!!btn, X.name + " button is in the switch");
+    d.getElementById("tab-search").click(); type("company", ""); type("q", "108-24-7");
+    btn.click(); await tick();
+    ok(d.documentElement.lang === code && btn.getAttribute("aria-pressed") === "true", "switching to " + X.name + " sets lang and the pressed state");
+    ok(d.getElementById("tab-map").textContent.trim() === X.tabMap && d.getElementById("tab-label").textContent.trim() === X.tabLabel && d.getElementById("tab-tools").textContent.includes(X.tools), X.name + " tabs");
+    ok(d.getElementById("q").getAttribute("placeholder").startsWith(X.ph), X.name + " placeholders");
+    const miss = w.PCI_I18N.missing();
+    ok(miss.length === 0, "every static string has a " + X.name + " translation" + (miss.length ? " - missing: " + JSON.stringify(miss.slice(0, 5)) : ""));
+    const res = txt("results");
+    ok(X.card.every(t => res.includes(t)), X.name + " search result card: " + X.card.filter(t => !res.includes(t)).join(" | "));
+    ok(!/\b(Role|Appearance|Legitimate use|Trade control)\b/.test(res), X.name + ": no English labels left on the result card");
+    type("q", "acetone"); type("company", "INEOS"); await tick();
+    ok(txt("results").includes(X.known), X.name + " company verdict");
+    type("company", "Totally Unknown Chem Co"); await tick();
+    ok(txt("results").includes(X.unknown), X.name + " unknown-company warning");
+    type("company", ""); type("q", "108-24-8"); await tick();
+    ok(txt("results").includes(X.badcas), X.name + " invalid-CAS message");
+    type("q", "zzzzzz"); await tick();
+    ok(txt("results").includes(X.nomatch) && txt("count").includes(X.zero), X.name + " no-match message and count");
+    type("q", "acetone"); await tick();
+    ok(X.count.test(txt("count")), X.name + " result count: " + txt("count"));
+    d.getElementById("tab-label").click();
+    type("l-name", "Acetone"); type("l-cas", "67-64-2"); type("l-un", "UN1170"); type("l-company", "INEOS");
+    d.getElementById("l-run").click(); await tick();
+    ok(!/(does not fit|check digit|disagree|could not be|is not in this database)/.test(txt("l-result")), X.name + " label check has no English message left");
+    d.getElementById("tab-map").click(); d.querySelector('#m-svg [data-i="USA"]').dispatchEvent(new w.MouseEvent("click", { bubbles: true })); await tick();
+    ok(txt("m-panel").includes(X.country), X.name + " country names: " + txt("m-panel").slice(0, 60));
+    const mp = txt("m-panel");
+    ok(X.panel.every(t => mp.includes(t)), X.name + " country panel: " + X.panel.filter(t => !mp.includes(t)).join(" | "));
+    ok(txt("m-count").includes(X.mcount), X.name + " map summary: " + txt("m-count"));
+    d.getElementById("tab-search").click(); type("q", "acetic anhydride"); await tick();
+    d.querySelector("#results [data-report]").click(); await tick();
+    ok(d.getElementById("r-status").value.includes(X.status), X.name + " report status");
+    d.getElementById("r-qty").value = "50"; d.getElementById("r-make").click(); await tick();
+    const sh = txt("r-sheet");
+    ok(X.sheet.every(t => sh.includes(t)), X.name + " report summary: " + X.sheet.filter(t => !sh.includes(t)).join(" | ") + " >> " + JSON.stringify(sh.slice(0, 200)));
+    d.getElementById("tab-tools").click();
+    ok(txt("panel-tools").includes(X.toolsText), X.name + " tools tab");
+    ok(d.getElementById("byteBtn") && d.getElementById("byteBtn").textContent.includes(X.byteBtn), X.name + " Byte button");
+    d.getElementById("byteBtn").click();
+    const bq2 = d.getElementById("byteQ"); bq2.value = X.q; d.getElementById("byteForm").dispatchEvent(new w.Event("submit", { cancelable: true }));
+    await new Promise(r => setTimeout(r, 900));
+    ok(txt("byteLog").includes(X.ans), "Byte answers a " + X.name + " question in " + X.name);
+    d.getElementById("byteClose").click();
+    ok(w.localStorage.getItem("pci-lang") === code, X.name + " choice is remembered");
+    d.getElementById("tab-search").click();
+  }
+  // language to language without passing through English
+  d.querySelector('#lang-switch [data-lang="fr"]').click(); await tick();
+  ok(d.getElementById("tab-map").textContent.trim() === "Carte du monde", "Russian to French directly");
+  enBtn.click(); await tick();
+  ok(d.getElementById("tab-map").textContent.trim() === "World map" && d.querySelectorAll("#byteBtn").length === 1, "back to English after Spanish, Russian and French");
+  for (const [code, label] of [["es", "Control de etiqueta"], ["ru", "Проверка этикетки"]]) {
+    const dom3 = new JSDOM(html, { runScripts: "dangerously", pretendToBeVisual: true, url: "http://localhost/?lang=" + code });
+    await new Promise(r => setTimeout(r, 150));
+    const d3 = dom3.window.document;
+    ok(d3.documentElement.lang === code && d3.getElementById("tab-label").textContent.trim() === label, "?lang=" + code + " opens the page in that language");
+    ok(d3.getElementById("tc-meta").textContent.includes(LX[code].meta) && d3.getElementById("kpis").textContent.includes(LX[code].tile), code + " header counts and tiles on load");
+    ok(d3.getElementById("f-drug").textContent.includes(LX[code].drug) && d3.getElementById("results").textContent.includes(LX[code].start), code + " drug filter and start message on load");
+  }
+
   // opening with ?lang=fr
   const dom2 = new JSDOM(html, { runScripts: "dangerously", pretendToBeVisual: true, url: "http://localhost/?lang=fr" });
   await new Promise(r => setTimeout(r, 150));

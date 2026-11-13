@@ -88,8 +88,8 @@ The **World map** tab shows every country and territory with clear borders and n
 - Coverage is graded *verified* (full national list read), *partial* or *no public list found*. The INCB publishes no per-country list, so missing data is not proof of no controls. To add or correct a country, edit `data/countries.json` and open a pull request.
 - Borders: Natural Earth 1:50m (public domain) via `scripts/build_map.js`, which writes `docs/data/world.js`. Only needed when changing the map; the output is committed.
 
-## Français / French
+## Languages: French, Spanish, Russian
 
-An **EN | FR** switch in the header translates the whole site: page text, search results, label-check messages, chemical descriptions, country names and notes, the incident report sheet and the Byte helper. The choice is remembered on the device; `?lang=fr` opens the French page directly, and a French browser gets French by default.
+An **EN | FR | ES | RU** switch in the header translates the whole site: page text, search results, label-check messages, chemical descriptions, country names and notes, the incident report sheet and the Byte helper. The choice is remembered on the device; `?lang=fr`, `?lang=es` or `?lang=ru` opens that language directly, and a browser set to one of them gets it by default. Chemical names, source titles, exports and example chips stay in English.
 
-The French text lives in `scripts/i18n/` (English text is the key). `python3 scripts/build.py` regenerates `docs/data/i18n-fr.js` and fails with a message if a chemical or country text has no French counterpart. New static text in `index.html` needs an entry in `scripts/i18n/fr_static.json`; the tests report any that is missing.
+The translations live in `scripts/i18n/` (English text is the key). `python3 scripts/build.py` regenerates `docs/data/i18n-<lang>.js` and fails with a message if a chemical or country text has no translation. New static text in `index.html` needs an entry in each language's static file (`fr_static.json`, `es/*.tsv`, `ru/*.tsv`); the tests report any that is missing. The translations are machine-written: have native speakers review official INCB and legal terms.
