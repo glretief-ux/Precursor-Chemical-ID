@@ -17,6 +17,13 @@ setTimeout(async () => {
   ok(titles()[0] === "Acetic anhydride", "CAS 108-24-7 -> acetic anhydride");
   ok(d.getElementById("results").textContent.includes("UN1715"), "acetic anhydride shows UN1715");
 
+  const flds = () => [...d.querySelectorAll("#results .res:first-child details.fld")];
+  ok(flds().length >= 4 && flds().every(x => !x.open), "result fields are expandable rows, closed to start");
+  d.querySelector("#results [data-fields]").click();
+  ok(flds().every(x => x.open) && d.querySelector("#results [data-fields]").textContent === "Collapse all", "Expand all opens every field");
+  d.querySelector("#results [data-fields]").click();
+  ok(flds().every(x => !x.open), "Collapse all closes them again");
+
   type("q", "UN1090");
   ok(titles()[0] === "Acetone", "UN1090 -> acetone");
 

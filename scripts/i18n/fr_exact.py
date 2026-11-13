@@ -6,7 +6,7 @@ EXACT = {
  "Used for making":"Utilisé pour fabriquer","Role":"Rôle","Legitimate use":"Usage légitime","Appearance":"Aspect","Trade control":"Contrôle du commerce",
  "Scheduled":"Inscrit","Notes":"Notes","Nationally controlled in":"Contrôlé au niveau national en","Result":"Résultat","Name":"Nom","Status":"Statut","Category":"Catégorie",
  "UN":"ONU","HS":"SH","none assigned":"aucun attribué","none / not DG":"aucun / hors marchandises dangereuses",
- "copy":"copier","copied":"copié","select & copy":"sélectionner et copier","remove":"retirer","details":"détails","Add to incident report":"Ajouter au rapport d’incident",
+ "copy":"copier","copied":"copié","select & copy":"sélectionner et copier","Expand all":"Tout développer","Collapse all":"Tout réduire","remove":"retirer","details":"détails","Add to incident report":"Ajouter au rapport d’incident",
  "See permits":"Voir les permis","Other":"Autre","not":"pas","precursors area":"espace consacré aux précurseurs",
  "Company not in database":"Entreprise absente de la base de données","not recorded":"non enregistrée",
  "Possible match – verify spelling":"Correspondance possible – vérifiez l’orthographe",
